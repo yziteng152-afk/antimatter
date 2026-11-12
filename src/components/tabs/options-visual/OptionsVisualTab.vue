@@ -3,10 +3,13 @@ import ExpandingControlBox from "@/components/ExpandingControlBox";
 import OpenModalHotkeysButton from "@/components/OpenModalHotkeysButton";
 import OptionsButton from "@/components/OptionsButton";
 import PrimaryToggleButton from "@/components/PrimaryToggleButton";
+import SelectLanguageDropdown from "@/components/tabs/options-visual/SelectLanguageDropdown";
 import SelectNotationDropdown from "@/components/tabs/options-visual/SelectNotationDropdown";
-import SelectThemeDropdown from "@/components/tabs/options-visual/SelectThemeDropdown";
 import SelectSidebarDropdown from "@/components/tabs/options-visual/SelectSidebarDropdown";
+import SelectThemeDropdown from "@/components/tabs/options-visual/SelectThemeDropdown";
 import UpdateRateSlider from "./UpdateRateSlider";
+
+import { LANGUAGES } from "@/core/i18n";
 
 export default {
   name: "OptionsVisualTab",
@@ -17,6 +20,7 @@ export default {
     OptionsButton,
     OpenModalHotkeysButton,
     SelectThemeDropdown,
+    SelectLanguageDropdown,
     SelectNotationDropdown,
     SelectSidebarDropdown
   },
@@ -31,16 +35,22 @@ export default {
   computed: {
     sidebarDB: () => GameDatabase.sidebarResources,
     themeLabel() {
-      return `Theme: ${Themes.find(this.theme).displayName()}`;
+      return this.t("opt.theme", "Theme: {0}", Themes.find(this.theme).displayName());
+    },
+    languageLabel() {
+      const language = LANGUAGES.find(l => l.id === this.$viewModel.language) ?? LANGUAGES[1];
+      return this.t("opt.language", "Language: {0}", language.name);
     },
     notationLabel() {
-      return `Notation: ${this.notation}`;
+      return this.t("opt.notation", "Notation: {0}", this.notation);
     },
     sidebarLabel() {
-      return `Sidebar (Modern UI): ${this.sidebarResource}`;
+      return this.t("opt.sidebar", "Sidebar (Modern UI): {0}", this.sidebarResource);
     },
     UILabel() {
-      return `UI: ${this.$viewModel.newUI ? "Modern" : "Classic"}`;
+      return this.t("opt.uiMode", "UI: {0}", this.$viewModel.newUI
+        ? this.t("opt.uiModern", "Modern")
+        : this.t("opt.uiClassic", "Classic"));
     }
   },
   watch: {
@@ -54,7 +64,7 @@ export default {
       this.theme = Theme.currentName();
       this.notation = options.notation;
       this.sidebarResource = player.options.sidebarResourceID === 0
-        ? "Latest Resource"
+        ? this.t("opt.latestResource", "Latest Resource")
         : this.sidebarDB.find(e => e.id === player.options.sidebarResourceID).optionName;
       this.headerTextColored = options.headerTextColored;
     },
@@ -65,6 +75,17 @@ export default {
 <template>
   <div class="l-options-tab">
     <div class="l-options-grid">
+      <div class="l-options-grid__row">
+        <ExpandingControlBox
+          class="l-options-grid__button c-options-grid__notations"
+          button-class="o-primary-btn o-primary-btn--option l-options-grid__notations-header"
+          :label="languageLabel"
+        >
+          <template #dropdown>
+            <SelectLanguageDropdown />
+          </template>
+        </ExpandingControlBox>
+      </div>
       <div class="l-options-grid__row">
         <OptionsButton
           class="o-primary-btn--option_font-large"
@@ -77,7 +98,7 @@ export default {
           class="o-primary-btn--option"
           onclick="Modal.newsOptions.show();"
         >
-          Open News Options
+          {{ t("opt.newsOptions", "Open News Options") }}
         </OptionsButton>
       </div>
       <div class="l-options-grid__row">
@@ -103,7 +124,7 @@ export default {
           class="o-primary-btn--option"
           onclick="Modal.notation.show();"
         >
-          Open Exponent Notation Options
+          {{ t("opt.notationOptions", "Open Exponent Notation Options") }}
         </OptionsButton>
       </div>
       <div class="l-options-grid__row">
@@ -111,19 +132,19 @@ export default {
           class="o-primary-btn--option"
           onclick="Modal.animationOptions.show();"
         >
-          Open Animation Options
+          {{ t("opt.animationOptions", "Open Animation Options") }}
         </OptionsButton>
         <OptionsButton
           class="o-primary-btn--option"
           onclick="Modal.infoDisplayOptions.show()"
         >
-          Open Info Display Options
+          {{ t("opt.infoDisplayOptions", "Open Info Display Options") }}
         </OptionsButton>
         <OptionsButton
           class="o-primary-btn--option"
           onclick="Modal.awayProgressOptions.show()"
         >
-          Open Away Progress Options
+          {{ t("opt.awayProgressOptions", "Open Away Progress Options") }}
         </OptionsButton>
       </div>
       <div class="l-options-grid__row">
@@ -131,12 +152,12 @@ export default {
           class="o-primary-btn--option"
           onclick="Modal.hiddenTabs.show()"
         >
-          Modify Visible Tabs
+          {{ t("opt.hiddenTabs", "Modify Visible Tabs") }}
         </OptionsButton>
         <PrimaryToggleButton
           v-model="headerTextColored"
           class="o-primary-btn--option l-options-grid__button"
-          label="Relative prestige gain text coloring:"
+          :label="t('opt.headerTextColored', 'Relative prestige gain text coloring:')"
         />
         <ExpandingControlBox
           v-if="$viewModel.newUI"

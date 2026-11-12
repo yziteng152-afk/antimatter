@@ -24,7 +24,7 @@ export default {
       return GameStorage.loadFromBackup(this.slotData.id);
     },
     progressStr() {
-      if (!this.save) return "(Empty)";
+      if (!this.save) return this.t("modal.backup.empty", "(Empty)");
 
       // These will be checked in order; the first nonzero resource will be returned
       const resources = [this.save.celestials.pelle.realityShards,
@@ -34,30 +34,46 @@ export default {
         this.save.infinityPoints,
         this.save.antimatter
       ];
-      const names = ["Reality Shards",
-        "Imaginary Machine Cap",
-        "Reality Machines",
-        "Eternity Points",
-        "Infinity Points",
-        "Antimatter"];
+      const names = [
+        this.t("modal.backup.resource.realityShards", "Reality Shards"),
+        this.t("modal.backup.resource.imaginaryMachineCap", "Imaginary Machine Cap"),
+        this.t("modal.backup.resource.realityMachines", "Reality Machines"),
+        this.t("modal.backup.resource.eternityPoints", "Eternity Points"),
+        this.t("modal.backup.resource.infinityPoints", "Infinity Points"),
+        this.t("modal.backup.resource.antimatter", "Antimatter")
+      ];
 
       for (let index = 0; index < resources.length; index++) {
         const val = new Decimal(resources[index]);
-        if (val.gt(0)) return `${names[index]}: ${formatPostBreak(val, 2)}`;
+        if (val.gt(0)) {
+          return this.t("modal.backup.progress", "{0}: {1}", names[index], formatPostBreak(val, 2));
+        }
       }
 
       // In practice this should never happen, unless a save triggers on the same tick the very first AD1 is bought
-      return "No resources";
+      return this.t("modal.backup.noResources", "No resources");
+    },
+    // Equivalent to slotData.intervalStr(), but built from the raw interval so the unit can be translated
+    intervalText() {
+      const minutes = this.slotData.interval / 60;
+      if (minutes < 60) {
+        return minutes === 1
+          ? this.t("modal.backup.minute", "{0} minute", formatInt(minutes))
+          : this.t("modal.backup.minutes", "{0} minutes", formatInt(minutes));
+      }
+      const hours = minutes / 60;
+      return hours === 1
+        ? this.t("modal.backup.hour", "{0} hour", formatInt(hours))
+        : this.t("modal.backup.hours", "{0} hours", formatInt(hours));
     },
     slotType() {
-      const formattedTime = this.slotData.intervalStr?.();
       switch (this.slotData.type) {
         case BACKUP_SLOT_TYPE.ONLINE:
-          return `Saves every ${formattedTime} online`;
+          return this.t("modal.backup.slotOnline", "Saves every {0} online", this.intervalText);
         case BACKUP_SLOT_TYPE.OFFLINE:
-          return `Saves after ${formattedTime} offline`;
+          return this.t("modal.backup.slotOffline", "Saves after {0} offline", this.intervalText);
         case BACKUP_SLOT_TYPE.RESERVE:
-          return "Pre-loading save";
+          return this.t("modal.backup.slotReserve", "Pre-loading save");
         default:
           throw new Error("Unrecognized backup save type");
       }
@@ -65,8 +81,9 @@ export default {
     lastSaved() {
       const lastSave = GameStorage.lastBackupTimes[this.slotData.id]?.date ?? 0;
       return lastSave
-        ? `Last saved: ${TimeSpan.fromMilliseconds(this.currTime - lastSave)} ago`
-        : "Slot not currently in use";
+        ? this.t("modal.backup.lastSaved", "Last saved: {0} ago",
+          TimeSpan.fromMilliseconds(this.currTime - lastSave))
+        : this.t("modal.backup.notInUse", "Slot not currently in use");
     },
   },
   methods: {
@@ -88,7 +105,8 @@ export default {
       GameStorage.offlineEnabled = player.options.loadBackupWithoutOffline ? false : undefined;
       GameStorage.oldBackupTimer = player.backupTimer;
       GameStorage.loadPlayerObject(toLoad);
-      GameUI.notify.info(`Game loaded from backup slot #${this.slotData.id}`);
+      GameUI.notify.info(this.t("modal.backup.loadedNotify", "Game loaded from backup slot #{0}",
+        this.slotData.id));
       GameStorage.loadBackupTimes();
       GameStorage.ignoreBackupTimer = false;
       GameStorage.offlineEnabled = undefined;
@@ -101,7 +119,7 @@ export default {
 
 <template>
   <div class="c-bordered-entry">
-    <h3>Slot #{{ slotData.id }}:</h3>
+    <h3>{{ t("modal.backup.slotHeader", "Slot #{0}:", slotData.id) }}</h3>
     <span>{{ progressStr }}</span>
     <span>
       {{ slotType }}
@@ -112,7 +130,7 @@ export default {
       :class="{ 'o-primary-btn--disabled' : !save }"
       @click="load()"
     >
-      Load
+      {{ t("modal.backup.load", "Load") }}
     </PrimaryButton>
   </div>
 </template>

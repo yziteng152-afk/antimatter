@@ -34,6 +34,14 @@ export default {
       }
       return sum;
     },
+    boostLabelText() {
+      return this.t("dim.boostLabel", "Dimension Boost ({0}):", this.boostCountText);
+    },
+    requiresText() {
+      const tier = this.requirement.tier;
+      return this.t("dim.requires", "Requires: {0} {1} Antimatter D",
+        formatInt(this.requirement.amount), this.dimName, tier);
+    },
     classObject() {
       return {
         "o-primary-btn o-primary-btn--new o-primary-btn--dimension-reset": true,
@@ -67,8 +75,8 @@ export default {
 
 <template>
   <div class="reset-container dimboost">
-    <h4>Dimension Boost ({{ boostCountText }})</h4>
-    <span>Requires: {{ formatInt(requirement.amount) }} {{ dimName }} Antimatter D</span>
+    <h4>{{ boostLabelText }}</h4>
+    <span>{{ requiresText }}</span>
     <button
       :class="classObject"
       @click.exact="dimensionBoost(true)"

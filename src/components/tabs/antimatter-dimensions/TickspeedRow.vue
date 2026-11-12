@@ -27,22 +27,30 @@ export default {
       };
     },
     multiplierDisplay() {
-      if (InfinityChallenge(3).isRunning) return `Multiply all Antimatter Dimensions by
-        ${formatX(1.05 + this.galaxyCount * 0.005, 3, 3)}`;
+      if (InfinityChallenge(3).isRunning) {
+        return this.t("dim.tickspeedMultIC3", "Multiply all Antimatter Dimensions by {0}",
+          formatX(1.05 + this.galaxyCount * 0.005, 3, 3));
+      }
       const tickmult = this.mult;
-      return `${formatX(tickmult.reciprocal(), 2, 3)} faster / upgrade.`;
+      return this.t("dim.tickspeedFaster", "{0} faster / upgrade.", formatX(tickmult.reciprocal(), 2, 3));
     },
     tickspeedDisplay() {
-      return `Tickspeed: ${format(this.tickspeed, 2, 3)} / sec`;
+      return this.t("dim.tickspeed", "Tickspeed: {0} / sec", format(this.tickspeed, 2, 3));
     },
     continuumString() {
       return formatFloat(this.continuumValue, 2);
     },
     upgradeCount() {
       const purchased = this.purchasedTickspeed;
-      if (!this.freeTickspeed) return quantifyInt("Purchased Upgrade", purchased);
-      if (purchased === 0 || this.isContinuumActive) return `${formatInt(this.freeTickspeed)} Free Upgrades`;
-      return `${formatInt(purchased)} Purchased + ${formatInt(this.freeTickspeed)} Free`;
+      if (!this.freeTickspeed) {
+        return this.t("dim.purchasedUpgrades", "{0} Purchased Upgrades",
+          quantifyInt("Purchased Upgrade", purchased), formatInt(purchased));
+      }
+      if (purchased === 0 || this.isContinuumActive) {
+        return this.t("dim.freeUpgrades", "{0} Free Upgrades", formatInt(this.freeTickspeed));
+      }
+      return this.t("dim.purchasedAndFree", "{0} Purchased + {1} Free",
+        formatInt(purchased), formatInt(this.freeTickspeed));
     }
   },
   methods: {
@@ -85,13 +93,13 @@ export default {
         onclick="buyTickSpeed()"
       >
         <span v-if="isContinuumActive">
-          Tickspeed Continuum: {{ continuumString }}
+          {{ t("dim.tickspeedContinuum", "Tickspeed Continuum: {0}", continuumString) }}
         </span>
         <span v-else-if="isEC9">
-          Tickspeed Unpurchasable (EC 9)
+          {{ t("dim.tickspeedUnpurchasable", "Tickspeed Unpurchasable (EC 9)") }}
         </span>
         <span v-else>
-          Tickspeed Cost: {{ format(cost) }}
+          {{ t("dim.tickspeedCost", "Tickspeed Cost: {0}", format(cost)) }}
         </span>
         <div
           v-if="hasTutorial"
@@ -104,7 +112,7 @@ export default {
         :class="{ 'o-primary-btn--disabled': !isAffordable && !isContinuumActive }"
         onclick="buyMaxTickSpeed()"
       >
-        Buy Max
+        {{ t("dim.maxAllButton", "Buy Max") }}
       </button>
     </div>
     <div

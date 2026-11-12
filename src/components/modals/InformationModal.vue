@@ -16,55 +16,63 @@ export default {
     <ModalCloseButton @click="emitClose" />
     <div class="l-h2p-header">
       <div class="c-h2p-title">
-        About the game
+        {{ t("modal.info.title", "About the game") }}
       </div>
     </div>
     <div class="c-info-body">
-      Antimatter Dimensions is an Idle Incremental game created by Finnish developer Hevipelle. Originating as a solo
-      project in 2016, it was expanded upon by a large team of developers and testers from then on.
+      {{ t("modal.info.p1",
+           "Antimatter Dimensions is an Idle Incremental game created by Finnish developer Hevipelle. " +
+             "Originating as a solo project in 2016, it was expanded upon by a large team of developers and " +
+             "testers from then on.") }}
       <br>
       <br>
-      The game has unfolding gameplay and multiple prestige layers. The "How to Play" button contains useful
-      information about progressing.
+      {{ t("modal.info.p2",
+           'The game has unfolding gameplay and multiple prestige layers. The "How to Play" button contains useful ' +
+             "information about progressing.") }}
+      <br>
+      <br>
+      {{ t("modal.info.p3",
+           "This version was brought to popo by Kong Zeyang, translated into Chinese and further developed by " +
+             "Yang Ziteng. For any bugs or guides, feel free to DM yangziteng01. Enjoy the game!") }}
     </div>
     <div class="l-socials">
       <InformationModalButton
-        name="GitHub repository"
+        :name="t('modal.info.github', 'GitHub repository')"
         icon="fa-brands fa-github"
         link="https://github.com/IvarK/AntimatterDimensionsSourceCode"
       />
       <InformationModalButton
-        name="r/AntimatterDimensions"
+        :name="t('modal.info.reddit', 'r/AntimatterDimensions')"
         icon="fa-brands fa-reddit-alien"
         link="https://www.reddit.com/r/AntimatterDimensions/"
       />
       <InformationModalButton
-        name="Antimatter Dimensions Discord Server"
+        :name="t('modal.info.discord', 'Antimatter Dimensions Discord Server')"
         icon="fa-brands fa-discord"
         link="https://discord.gg/ST9NaXa"
       />
       <InformationModalButton
-        name="Antimatter Dimensions on Google Play"
+        :name="t('modal.info.googlePlay', 'Antimatter Dimensions on Google Play')"
         icon="fa-brands fa-google-play"
         link="https://play.google.com/store/apps/details?id=kajfosz.antimatterdimensions"
       />
       <InformationModalButton
-        name="Antimatter Dimensions on App Store"
+        :name="t('modal.info.appStore', 'Antimatter Dimensions on App Store')"
         icon="fa-brands fa-app-store-ios"
         link="https://apps.apple.com/us/app/antimatter-dimensions/id6738206800"
       />
       <InformationModalButton
-        name="Antimatter Dimensions on Steam"
+        :name="t('modal.info.steam', 'Antimatter Dimensions on Steam')"
         icon="fa-brands fa-steam"
         link="https://store.steampowered.com/app/1399720/Antimatter_Dimensions/"
       />
       <InformationModalButton
-        name="Credits"
+        :name="t('modal.info.credits', 'Credits')"
         icon="fa-solid fa-users"
         show-modal="credits"
       />
       <InformationModalButton
-        name="Game Changelog"
+        :name="t('modal.info.changelog', 'Game Changelog')"
         icon="fa-solid fa-file-lines"
         show-modal="changelog"
       />

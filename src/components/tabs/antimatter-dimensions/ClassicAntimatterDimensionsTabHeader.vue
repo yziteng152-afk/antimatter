@@ -17,7 +17,8 @@ export default {
   },
   computed: {
     sacrificeTooltip() {
-      return `Boosts 8th Antimatter Dimension by ${formatX(this.sacrificeBoost, 2, 2)}`;
+      return this.t("dim.sacrificeTooltip", "Boosts 8th Antimatter Dimension by {0}",
+        formatX(this.sacrificeBoost, 2, 2));
     },
   },
   methods: {
@@ -50,17 +51,17 @@ export default {
       @click="sacrifice"
     >
       <span v-if="isSacrificeAffordable">
-        Dimensional Sacrifice ({{ formatX(sacrificeBoost, 2, 2) }})
+        {{ t("dim.sacrifice", "Dimensional Sacrifice ({0})", formatX(sacrificeBoost, 2, 2)) }}
       </span>
       <span v-else>
-        Dimensional Sacrifice Disabled ({{ disabledCondition }})
+        {{ t("dim.sacrificeDisabled", "Dimensional Sacrifice Disabled ({0})", disabledCondition) }}
       </span>
     </PrimaryButton>
     <PrimaryButton
       class="o-primary-btn--buy-max"
       @click="maxAll"
     >
-      Max all (M)
+      {{ t("dim.maxAll", "Max all (M)") }}
     </PrimaryButton>
   </div>
 </template>

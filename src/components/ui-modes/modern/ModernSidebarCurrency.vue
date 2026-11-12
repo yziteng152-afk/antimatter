@@ -1,4 +1,6 @@
 <script>
+import { sidebarResourceLabel } from "@/core/i18n";
+
 export default {
   name: "ModernSidebarCurrency",
   data() {
@@ -27,7 +29,7 @@ export default {
   methods: {
     update() {
       this.sidebarID = player.options.sidebarResourceID;
-      this.resourceName = this.resource.resourceName ?? this.resource.optionName;
+      this.resourceName = sidebarResourceLabel(this.resource);
       this.resourceValue.copyFrom(this.resource.value());
     },
     cycleResource(dir) {

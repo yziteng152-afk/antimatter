@@ -14,6 +14,6 @@ export default {
     class="c-options-tab__hotkeys-link"
     @click="handleClick"
   >
-    Press <kbd>?</kbd> to open the hotkey list.
+    {{ t("opt.hotkeysLinkPrefix", "Press") }} <kbd>?</kbd> {{ t("opt.hotkeysLinkSuffix", "to open the hotkey list.") }}
   </p>
 </template>

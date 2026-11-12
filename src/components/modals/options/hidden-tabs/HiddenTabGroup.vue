@@ -1,6 +1,8 @@
 <script>
 import HiddenSubtabsButton from "@/components/modals/options/hidden-tabs/HiddenSubtabsButton";
 
+import { tabLabel } from "@/core/i18n";
+
 export default {
   name: "HiddenTabGroup",
   components: {
@@ -26,7 +28,7 @@ export default {
   },
   computed: {
     tabName() {
-      return this.tab.name;
+      return tabLabel(this.tab);
     },
     subtabs() {
       return this.tab.subtabs;
@@ -56,9 +58,9 @@ export default {
       };
     },
     rowVisibleIndicatorTooltip() {
-      if (this.isHidden) return "Click to unhide tab";
-      if (!this.alwaysVisible) return "Click to hide tab";
-      return "This tab cannot be hidden";
+      if (this.isHidden) return this.t("hidden.tooltip.unhide", "Click to unhide tab");
+      if (!this.alwaysVisible) return this.t("hidden.tooltip.hide", "Click to hide tab");
+      return this.t("hidden.tooltip.cannotHide", "This tab cannot be hidden");
     },
   },
   methods: {

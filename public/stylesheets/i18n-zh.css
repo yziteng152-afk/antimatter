@@ -1,0 +1,39 @@
+/* Chinese (Simplified) typography tweaks.
+   The game's Latin text stays in the bundled "Typewriter" font; CJK glyphs fall through to this
+   stack, which is why every font-family declaration in the other stylesheets ends with
+   `var(--cjk-font, serif)` now. */
+
+:root {
+  --cjk-font:
+    "PingFang SC",
+    "Hiragino Sans GB",
+    "Microsoft YaHei",
+    "Noto Sans CJK SC",
+    "Source Han Sans SC",
+    "WenQuanYi Micro Hei",
+    sans-serif;
+}
+
+/* The game body uses font-weight 300, which CJK fonts usually don't have - browsers then
+   synthesize a thin face that renders blurry. 400 gives crisp Chinese glyphs. */
+html[lang="zh-CN"] body {
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+/* Long-form copy (How to Play) needs more leading in Chinese. */
+html[lang="zh-CN"] .c-h2p-body {
+  line-height: 1.75;
+  letter-spacing: 0.02em;
+}
+
+/* Buttons should keep a sane two-line height when a Chinese label wraps. */
+html[lang="zh-CN"] .o-primary-btn {
+  line-height: 1.25;
+}
+
+/* Dimension / upgrade rows read better with slightly looser leading. */
+html[lang="zh-CN"] .c-dimension-row,
+html[lang="zh-CN"] .c-dim-row__label {
+  line-height: 1.35;
+}

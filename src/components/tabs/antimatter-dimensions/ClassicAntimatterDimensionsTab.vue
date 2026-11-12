@@ -38,9 +38,11 @@ export default {
       this.currentSacrifice.copyFrom(Sacrifice.totalBoost);
       this.hasRealityButton = PlayerProgress.realityUnlocked() || TimeStudy.reality.isBought;
       const sacText = this.isSacrificeUnlocked
-        ? ` | Dimensional Sacrifice multiplier: ${formatX(this.currentSacrifice, 2, 2)}`
+        ? this.t("dim.sacrificeMult", " | Dimensional Sacrifice multiplier: {0}",
+          formatX(this.currentSacrifice, 2, 2))
         : "";
-      this.multiplierText = `Buy 10 Dimension purchase multiplier: ${formatX(this.buy10Mult, 2, 2)}${sacText}`;
+      this.multiplierText = this.t("dim.buy10Mult", "Buy 10 Dimension purchase multiplier: {0}",
+        `${formatX(this.buy10Mult, 2, 2)}${sacText}`);
     },
     quickReset() {
       softReset(-1, true, true);
@@ -68,9 +70,9 @@ export default {
       class="o-primary-btn--quick-reset"
       @click="quickReset"
     >
-      Perform a Dimension Boost reset
-      <span v-if="hasDimensionBoosts"> but lose a Dimension Boost</span>
-      <span v-else> for no gain</span>
+      {{ t("dim.boostReset", "Perform a Dimension Boost reset") }}
+      <span v-if="hasDimensionBoosts">{{ t("dim.boostLose", " but lose a Dimension Boost") }}</span>
+      <span v-else>{{ t("dim.boostNoGain", " for no gain") }}</span>
     </PrimaryButton>
     <div class="l-flex" />
     <AntimatterDimensionProgressBar class="l-antimatter-dim-tab__progress_bar" />

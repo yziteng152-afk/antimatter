@@ -1,4 +1,6 @@
 <script>
+import { subtabLabel } from "@/core/i18n";
+
 export default {
   name: "ClassicSubtabButton",
   props: {
@@ -37,9 +39,10 @@ export default {
       this.isAvailable = this.subtab.isAvailable;
       this.hasNotification = this.subtab.hasNotification;
       this.isCurrentSubtab = this.subtab.isOpen && Theme.currentName() !== "S9";
+      const label = subtabLabel(this.subtab);
       this.tabName = Pelle.transitionText(
-        this.subtab.name,
-        this.subtab.name,
+        label,
+        label,
         Math.max(Math.min(GameEnd.endState - (this.subtab.id) % 4 / 10, 1), 0)
       );
     }

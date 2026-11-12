@@ -1,15 +1,24 @@
 import { DC } from "@/core/constants";
 
+import { t } from "@/core/i18n";
+
+// Matter scale labels (units and verbs) are catalogue data written in English; each one is
+// translated by using its own English text as the last part of the dictionary key.
+function matterLabel(type, label) {
+  return t(`stats.matter.${type}.${label}`, label);
+}
+
 export const MatterScale = {
   proton: new Decimal("2.82e-45"),
 
   estimate(matter) {
-    if (!matter) return ["There is no antimatter yet."];
+    if (!matter) return [t("stats.matter.none", "There is no antimatter yet.")];
     if (matter.gt(DC.E100000)) {
       return [
-        `If you wrote ${formatInt(3)} numbers a second, it would take you`,
+        t("stats.matter.writeIntro",
+          "If you wrote {0} numbers a second, it would take you", formatInt(3)),
         TimeSpan.fromSeconds(matter.log10() / 3).toString(),
-        "to write down your antimatter amount."
+        t("stats.matter.writeOutro", "to write down your antimatter amount.")
       ];
     }
     const planck = new Decimal("4.22419e-105");
@@ -17,12 +26,18 @@ export const MatterScale = {
     if (planckedMatter.gt(this.proton)) {
       const scale = this.macroScale(planckedMatter);
       const amount = format(planckedMatter.dividedBy(scale.amount), 2, 1);
-      return [`If every antimatter were a planck volume, you would have
-        enough to ${scale.verb} ${amount} ${scale.name}`];
+      return [
+        t("stats.matter.macro",
+          "If every antimatter were a planck volume, you would have enough to {0} {1} {2}",
+          matterLabel("verb", scale.verb), amount, matterLabel("unit", scale.name))
+      ];
     }
     const scale = this.microScale(matter);
-    return [`If every antimatter were ${format(this.proton.div(scale.amount).div(matter), 2, 1)} ${scale.name},
-      you would have enough to make a proton.`];
+    return [
+      t("stats.matter.micro",
+        "If every antimatter were {0} {1}, you would have enough to make a proton.",
+        format(this.proton.div(scale.amount).div(matter), 2, 1), matterLabel("unit", scale.name))
+    ];
   },
 
   microScale(matter) {

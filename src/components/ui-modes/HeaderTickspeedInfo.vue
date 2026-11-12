@@ -17,12 +17,15 @@ export default {
   },
   computed: {
     tickspeedDisplay() {
-      return `Total Tickspeed: ${format(this.tickspeed, 2, 3)} / sec`;
+      return this.t("header.totalTickspeed", "Total Tickspeed: {0} / sec", format(this.tickspeed, 2, 3));
     },
     perUpgrade() {
-      if (InfinityChallenge(3).isRunning) return `Tickspeed upgrades give
-        ${formatX(1.05 + this.galaxyCount * 0.005, 3, 3)} to all ADs`;
-      return `ADs produce ${formatX(this.mult.reciprocal(), 2, 3)} faster per Tickspeed upgrade`;
+      if (InfinityChallenge(3).isRunning) {
+        return this.t("header.tickspeedGiveIC3", "Tickspeed upgrades give {0} to all ADs",
+          formatX(1.05 + this.galaxyCount * 0.005, 3, 3));
+      }
+      return this.t("header.adsFaster", "ADs produce {0} faster per Tickspeed upgrade",
+        formatX(this.mult.reciprocal(), 2, 3));
     },
   },
   methods: {

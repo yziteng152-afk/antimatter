@@ -1,6 +1,8 @@
 <script>
 import PrimaryButton from "@/components/PrimaryButton";
 
+import { enumerate } from "@/core/i18n";
+
 export default {
   name: "ClassicAntimatterGalaxyRow",
   components: {
@@ -39,11 +41,12 @@ export default {
     buttonText() {
       if (this.lockText !== null) return this.lockText;
       const reset = [];
-      if (!Achievement(111).isUnlocked) reset.push("Dimensions");
-      if (!Achievement(143).isUnlocked) reset.push("Dimension Boosts");
+      if (!Achievement(111).isUnlocked) reset.push(this.t("dim.galaxyResetDims", "Dimensions"));
+      if (!Achievement(143).isUnlocked) reset.push(this.t("dim.galaxyResetBoosts", "Dimension Boosts"));
       return reset.length === 0
-        ? `Increase the power of Tickspeed upgrades`
-        : `Reset your ${makeEnumeration(reset)} to increase the power of Tickspeed upgrades`;
+        ? this.t("dim.galaxyPower", "Increase the power of Tickspeed upgrades")
+        : this.t("dim.galaxyReset", "Reset your {0} to increase the power of Tickspeed upgrades",
+          enumerate(reset));
     },
     sumText() {
       const parts = [Math.max(this.galaxies.normal, 0)];
@@ -57,9 +60,9 @@ export default {
     },
     typeName() {
       switch (this.type) {
-        case GALAXY_TYPE.NORMAL: return "Antimatter Galaxies";
-        case GALAXY_TYPE.DISTANT: return "Distant Antimatter Galaxies";
-        case GALAXY_TYPE.REMOTE: return "Remote Antimatter Galaxies";
+        case GALAXY_TYPE.NORMAL: return this.t("dim.galaxyNormal", "Antimatter Galaxies");
+        case GALAXY_TYPE.DISTANT: return this.t("dim.galaxyDistant", "Distant Antimatter Galaxies");
+        case GALAXY_TYPE.REMOTE: return this.t("dim.galaxyRemote", "Remote Antimatter Galaxies");
       }
       return undefined;
     },
@@ -69,18 +72,31 @@ export default {
     costScalingText() {
       switch (this.type) {
         case GALAXY_TYPE.DISTANT:
-          return `Each Galaxy is more expensive past ${quantifyInt("Galaxy", this.distantStart)}`;
+          return this.t("dim.galaxyScaling", "Each Galaxy is more expensive past {0}",
+            quantifyInt("Galaxy", this.distantStart), formatInt(this.distantStart));
         case GALAXY_TYPE.REMOTE: {
           const scalings = [
             { type: "distant", function: "quadratic", amount: this.distantStart },
             { type: "remote", function: "exponential", amount: this.remoteStart }
           ];
-          return `Increased Galaxy cost scaling: ${scalings.sort((a, b) => a.amount - b.amount)
-            .map(scaling => `${scaling.function} scaling past ${this.formatGalaxies(scaling.amount)} (${scaling.type})`)
-            .join(", ").capitalize()}`;
+          return this.t("dim.galaxyScalingRemote", "Increased Galaxy cost scaling: {0}",
+            scalings.sort((a, b) => a.amount - b.amount)
+              .map(scaling => (scaling.function === "quadratic"
+                ? this.t("dim.scalingQuadratic",
+                  "quadratic scaling past {0} (distant)", this.formatGalaxies(scaling.amount))
+                : this.t("dim.scalingExponential",
+                  "exponential scaling past {0} (remote)", this.formatGalaxies(scaling.amount))))
+              .join(this.t("common.listSeparator", ", ")));
         }
       }
       return undefined;
+    },
+    galaxyText() {
+      const tier = this.requirement.tier;
+      const label = this.t("dim.galaxyLabel", "{0} ({1}):", this.typeName, this.sumText);
+      const requires = this.t("dim.requires", "requires {0} {1} Dimensions",
+        formatInt(this.requirement.amount), this.dimName, tier);
+      return `${label} ${requires}`;
     },
     classObject() {
       return {
@@ -123,8 +139,7 @@ export default {
     <div
       class="l-dim-row__prestige-text c-dim-row__label c-dim-row__label--amount l-text-wrapper"
     >
-      {{ typeName }} ({{ sumText }}):
-      requires {{ formatInt(requirement.amount) }} {{ dimName }} Dimensions
+      {{ galaxyText }}
       <div class="l-scaling-text-wrapper">
         {{ hasIncreasedScaling ? costScalingText : "" }}
       </div>

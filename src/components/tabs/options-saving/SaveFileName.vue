@@ -8,6 +8,12 @@ export default {
       saveFileName: ""
     };
   },
+  computed: {
+    nameTooltip() {
+      return this.t("opt.saveFileNameTooltip",
+        "Set a custom name (up to 16 alphanumeric characters, including space and hyphen)");
+    },
+  },
   methods: {
     update() {
       this.saveFileName = player.options.saveFileName;
@@ -26,13 +32,13 @@ export default {
 
 <template>
   <div class="o-primary-btn o-primary-btn--option o-primary-btn--input l-options-grid__button">
-    <b>Save file name:</b>
-    <span ach-tooltip="Set a custom name (up to 16 alphanumeric characters, including space and hyphen)">
+    <b>{{ t("opt.saveFileName", "Save file name:") }}</b>
+    <span :ach-tooltip="nameTooltip">
       <input
         class="c-custom-save-name__input"
         type="text"
         maxlength="16"
-        placeholder="Custom save name"
+        :placeholder="t('opt.saveFileNamePlaceholder', 'Custom save name')"
         :value="saveFileName"
         @change="handleChange"
       >

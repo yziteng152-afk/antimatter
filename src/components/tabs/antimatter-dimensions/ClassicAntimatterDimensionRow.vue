@@ -39,7 +39,8 @@ export default {
   computed: {
     isDoomed: () => Pelle.isDoomed,
     name() {
-      return `${AntimatterDimension(this.tier).shortDisplayName} Antimatter Dimension`;
+      return this.t("dim.amName", "{1} Antimatter Dimension",
+        this.tier, AntimatterDimension(this.tier).shortDisplayName);
     },
     amountText() {
       if (this.formattedAmount) return this.formattedAmount;
@@ -47,16 +48,18 @@ export default {
       return `${amount} (${formatInt(this.boughtBefore10)})`;
     },
     singleText() {
-      if (this.isCapped) return "Capped";
-      const prefix = this.showCostTitle(this.singleCost) ? "Cost: " : "";
+      if (this.isCapped) return this.t("dim.capped", "Capped");
+      const prefix = this.showCostTitle(this.singleCost) ? this.t("dim.cost", "Cost: ") : "";
       const suffix = this.isCostsAD ? `${this.costUnit}` : "AM";
-      return `${prefix} ${format(this.singleCost)} ${suffix}`;
+      return `${prefix}${format(this.singleCost)} ${suffix}`;
     },
     until10Text() {
-      if (this.isCapped) return "Shattered by Nameless";
-      if (this.isContinuumActive) return `Continuum: ${this.continuumString}`;
+      if (this.isCapped) return this.t("dim.shattered", "Shattered by Nameless");
+      if (this.isContinuumActive) return this.t("dim.continuum", "Continuum: {0}", this.continuumString);
 
-      const prefix = `Until ${formatInt(10)},${this.showCostTitle(this.until10Cost) ? " Cost" : ""}`;
+      const prefix = this.showCostTitle(this.until10Cost)
+        ? this.t("dim.until10WithCost", "Until {0}, Cost", formatInt(10))
+        : this.t("dim.until10", "Until {0}", formatInt(10));
       const suffix = this.isCostsAD ? `${this.costUnit}` : "AM";
       return `${prefix} ${format(this.until10Cost)} ${suffix}`;
     },
@@ -67,12 +70,19 @@ export default {
       return this.isShown || this.isUnlocked || this.amount.gt(0);
     },
     boughtTooltip() {
-      if (this.isCapped) return `Nameless prevents the purchase of more than ${format(1)} 8th Antimatter Dimension`;
-      if (this.isContinuumActive) return "Continuum produces all your Antimatter Dimensions";
-      return `Purchased ${quantifyInt("time", this.bought)}`;
+      if (this.isCapped) {
+        return this.t("dim.namelessPrevents",
+          "Nameless prevents the purchase of more than {0} 8th Antimatter Dimension", format(1));
+      }
+      if (this.isContinuumActive) {
+        return this.t("dim.continuumProduces", "Continuum produces all your Antimatter Dimensions");
+      }
+      return this.t("dim.boughtTimes", "Purchased {0}",
+        quantifyInt("time", this.bought), formatInt(this.bought));
     },
     costUnit() {
-      return `${AntimatterDimension(this.tier - 2).shortDisplayName} AD`;
+      return this.t("dim.costUnit", "{1} AD",
+        this.tier - 2, AntimatterDimension(this.tier - 2).shortDisplayName);
     },
     buySingleClass() {
       return {

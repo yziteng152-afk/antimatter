@@ -1,5 +1,7 @@
 import { DC } from "./constants";
 
+import { t } from "./i18n";
+
 export class Sacrifice {
   // This is tied to the "buying an 8th dimension" achievement in order to hide it from new players before they reach
   // sacrifice for the first time.
@@ -14,13 +16,15 @@ export class Sacrifice {
   }
 
   static get disabledCondition() {
-    if (NormalChallenge(10).isRunning) return "8th Dimensions are disabled";
-    if (EternityChallenge(3).isRunning) return "Eternity Challenge 3";
-    if (DimBoost.purchasedBoosts < 5) return `Requires ${formatInt(5)} Dimension Boosts`;
-    if (AntimatterDimension(8).totalAmount.eq(0)) return "No 8th Antimatter Dimensions";
-    if (this.nextBoost.lte(1)) return `${formatX(1)} multiplier`;
-    if (Player.isInAntimatterChallenge) return "Challenge goal reached";
-    return "Need to Crunch";
+    if (NormalChallenge(10).isRunning) return t("sacrifice.nc10", "8th Dimensions are disabled");
+    if (EternityChallenge(3).isRunning) return t("sacrifice.ec3", "Eternity Challenge 3");
+    if (DimBoost.purchasedBoosts < 5) {
+      return t("sacrifice.requiresBoosts", "Requires {0} Dimension Boosts", formatInt(5));
+    }
+    if (AntimatterDimension(8).totalAmount.eq(0)) return t("sacrifice.no8th", "No 8th Antimatter Dimensions");
+    if (this.nextBoost.lte(1)) return t("sacrifice.multiplier", "{0} multiplier", formatX(1));
+    if (Player.isInAntimatterChallenge) return t("sacrifice.goalReached", "Challenge goal reached");
+    return t("sacrifice.needCrunch", "Need to Crunch");
   }
 
   static getSacrificeDescription(changes) {

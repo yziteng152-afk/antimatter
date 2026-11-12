@@ -108,15 +108,16 @@ export default {
     <template #bottom>
       <div :style="{ visiblity: completions < 5 ? 'visible' : 'hidden' }">
         <div>
-          Completed {{ quantifyInt("time", completions) }}
+          {{ t("challenge.completedTimes", "Completed {0}", quantifyInt("time", completions),
+               formatInt(completions)) }}
         </div>
         {{ goalDisplay }}
       </div>
       <span v-if="showGoalSpan">
-        Goal Span: {{ firstGoal }} IP - {{ lastGoal }} IP
+        {{ t("challenge.goalSpan", "Goal Span: {0} IP - {1} IP", firstGoal, lastGoal) }}
       </span>
       <span>
-        Reward:
+        {{ t("challenge.reward", "Reward:") }}
         <DescriptionDisplay
           :config="config.reward"
           :length="55"

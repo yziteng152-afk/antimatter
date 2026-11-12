@@ -35,14 +35,28 @@ export default {
   },
   computed: {
     modalTooltip() {
-      return `The game will detect certain situations where you might not want to overwrite your cloud save, and show
-        you a modal with more information if this is ON.`;
+      return this.t("opt.optModalTooltip",
+        "The game will detect certain situations where you might not want to overwrite your cloud save, " +
+        "and show you a modal with more information if this is ON.");
+    },
+    loginTooltip() {
+      return this.t("opt.loginTooltip",
+        "This will connect your Google Account to your Antimatter Dimensions savefiles");
+    },
+    hideNameTooltip() {
+      return this.t("opt.hideNameTooltip",
+        "This will hide your Google Account name from the UI for privacy. Saving/loading is unaffected.");
     },
     overwriteTooltip() {
-      if (this.showCloudModal) return "This setting does nothing since the modal is being shown.";
+      if (this.showCloudModal) {
+        return this.t("opt.overwriteTooltipModal",
+          "This setting does nothing since the modal is being shown.");
+      }
       return this.forceCloudOverwrite
-        ? `Your local save will always overwrite your cloud save no matter what.`
-        : `Save conflicts will prevent your local save from being saved to the cloud.`;
+        ? this.t("opt.overwriteTooltipAlways",
+          "Your local save will always overwrite your cloud save no matter what.")
+        : this.t("opt.overwriteTooltipConflict",
+          "Save conflicts will prevent your local save from being saved to the cloud.");
     },
     STEAM() {
       return STEAM;
@@ -107,8 +121,9 @@ export default {
       if (this.canModifySeed) {
         Modal.modifySeed.show();
       } else {
-        Modal.message.show(`You cannot modify your seed any more. Glyph RNG has already been used to generate
-          at least one Glyph on this run.`);
+        Modal.message.show(this.t("opt.seedLocked",
+          "You cannot modify your seed any more. Glyph RNG has already been used to generate " +
+          "at least one Glyph on this run."));
       }
     }
   }
@@ -124,21 +139,21 @@ export default {
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
           onclick="GameStorage.export()"
         >
-          Export save
+          {{ t("opt.exportSave", "Export save") }}
         </OptionsButton>
         <OptionsButton
           class="o-primary-btn--option_font-x-large"
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
           onclick="Modal.import.show()"
         >
-          Import save
+          {{ t("opt.importSave", "Import save") }}
         </OptionsButton>
         <OptionsButton
           class="o-primary-btn--option_font-x-large"
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
           onclick="Modal.hardReset.show()"
         >
-          RESET THE GAME
+          {{ t("opt.resetGame", "RESET THE GAME") }}
         </OptionsButton>
       </div>
       <div class="l-options-grid__row">
@@ -147,14 +162,14 @@ export default {
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
           onclick="GameStorage.save(false, true)"
         >
-          Save game
+          {{ t("opt.saveGame", "Save game") }}
         </OptionsButton>
         <OptionsButton
           class="o-primary-btn--option_font-x-large"
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
           onclick="Modal.loadGame.show()"
         >
-          Choose save
+          {{ t("opt.chooseSave", "Choose save") }}
         </OptionsButton>
         <AutosaveIntervalSlider
           :min="10"
@@ -167,7 +182,7 @@ export default {
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
           onclick="GameStorage.exportAsFile()"
         >
-          Export save as file
+          {{ t("opt.exportFile", "Export save as file") }}
         </OptionsButton>
         <OptionsButton
           class="c-file-import-button"
@@ -179,13 +194,13 @@ export default {
             accept=".txt"
             @change="importAsFile"
           >
-          <label for="file">Import save from file</label>
+          <label for="file">{{ t("opt.importFile", "Import save from file") }}</label>
         </OptionsButton>
         <PrimaryToggleButton
           v-model="showTimeSinceSave"
           class="o-primary-btn--option l-options-grid__button"
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
-          label="Display time since save:"
+          :label="t('opt.displayTimeSinceSave', 'Display time since save:')"
         />
       </div>
       <div class="l-options-grid__row">
@@ -193,7 +208,7 @@ export default {
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
           onclick="Modal.backupWindows.show()"
         >
-          Open Automatic Save Backup Menu
+          {{ t("opt.backupMenu", "Open Automatic Save Backup Menu") }}
         </OptionsButton>
         <SaveFileName />
       </div>
@@ -204,7 +219,7 @@ export default {
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
           onclick="Modal.enterSpeedrun.show()"
         >
-          Start Speedrun
+          {{ t("opt.startSpeedrun", "Start Speedrun") }}
         </OptionsButton>
         <OptionsButton
           v-if="inSpeedrun"
@@ -214,7 +229,7 @@ export default {
           }"
           @click="openSeedModal()"
         >
-          Change Glyph RNG Seed
+          {{ t("opt.changeSeed", "Change Glyph RNG Seed") }}
         </OptionsButton>
       </div>
       <OpenModalHotkeysButton />
@@ -223,13 +238,21 @@ export default {
       v-if="cloudAvailable"
       class="c-cloud-options-header"
     >
-      <span v-if="hideGoogleName">Logged in to Google <i>(name hidden)</i></span>
-      <span v-else-if="loggedIn">Logged in as {{ userName }}</span>
-      <span v-else>Not logged in</span>
+      <span v-if="hideGoogleName">
+        {{ t("opt.loggedInHidden", "Logged in to Google (name hidden)") }}
+      </span>
+      <span v-else-if="loggedIn">
+        {{ t("opt.loggedInAs", "Logged in as {0}", userName) }}
+      </span>
+      <span v-else>{{ t("opt.notLoggedIn", "Not logged in") }}</span>
     </h2>
     <div v-if="loggedIn">
-      <span v-if="cloudEnabled">Cloud Saving will occur automatically every 10 minutes.</span>
-      <span v-else>Cloud Saving has been disabled on this save.</span>
+      <span v-if="cloudEnabled">
+        {{ t("opt.cloudAutoSaveOn", "Cloud Saving will occur automatically every 10 minutes.") }}
+      </span>
+      <span v-else>
+        {{ t("opt.cloudAutoSaveOff", "Cloud Saving has been disabled on this save.") }}
+      </span>
     </div>
     <div
       v-if="cloudAvailable"
@@ -243,23 +266,23 @@ export default {
           v-if="loggedIn"
           onclick="GameOptions.logout()"
         >
-          Disconnect Google Account and disable Cloud Saving
+          {{ t("opt.cloudDisconnect", "Disconnect Google Account and disable Cloud Saving") }}
         </OptionsButton>
         <OptionsButton
           v-else
-          v-tooltip="'This will connect your Google Account to your Antimatter Dimensions savefiles'"
+          :v-tooltip="loginTooltip"
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
           onclick="GameOptions.login()"
         >
-          Login with Google to enable Cloud Saving
+          {{ t("opt.cloudLogin", "Login with Google to enable Cloud Saving") }}
         </OptionsButton>
         <PrimaryToggleButton
           v-if="loggedIn"
           v-model="hideGoogleName"
-          v-tooltip="'This will hide your Google Account name from the UI for privacy. Saving/loading is unaffected.'"
+          :v-tooltip="hideNameTooltip"
           class="o-primary-btn--option l-options-grid__button"
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
-          label="Hide Google Account name:"
+          :label="t('opt.hideGoogleName', 'Hide Google Account name:')"
         />
       </div>
       <div
@@ -270,19 +293,19 @@ export default {
           onclick="GameOptions.cloudSave()"
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
         >
-          Cloud save
+          {{ t("opt.cloudSave", "Cloud save") }}
         </OptionsButton>
         <OptionsButton
           onclick="GameOptions.cloudLoad()"
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
         >
-          Cloud load
+          {{ t("opt.cloudLoad", "Cloud load") }}
         </OptionsButton>
         <PrimaryToggleButton
           v-model="syncSaveIntervals"
           class="o-primary-btn--option l-options-grid__button"
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
-          label="Force local save before cloud saving:"
+          :label="t('opt.forceLocalSave', 'Force local save before cloud saving:')"
         />
       </div>
       <div
@@ -293,21 +316,21 @@ export default {
           v-model="cloudEnabled"
           class="o-primary-btn--option l-options-grid__button"
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
-          label="Automatic cloud saving/loading:"
+          :label="t('opt.autoCloud', 'Automatic cloud saving/loading:')"
         />
         <PrimaryToggleButton
           v-model="showCloudModal"
           v-tooltip="modalTooltip"
           class="o-primary-btn--option l-options-grid__button"
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
-          label="Show modal if possible saving conflict:"
+          :label="t('opt.showConflictModal', 'Show modal if possible saving conflict:')"
         />
         <PrimaryToggleButton
           v-model="forceCloudOverwrite"
           v-tooltip="overwriteTooltip"
           class="o-primary-btn--option l-options-grid__button"
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
-          label="Force cloud saving despite conflicts:"
+          :label="t('opt.forceCloudSaving', 'Force cloud saving despite conflicts:')"
         />
       </div>
     </div>

@@ -37,7 +37,7 @@ export default {
 
 <template>
   <div class="o-primary-btn o-primary-btn--option o-primary-btn--slider l-options-grid__button">
-    <b>Update rate: {{ formatInt(updateRate) }} ms</b>
+    <b>{{ t("opt.updateRate", "Update rate: {0} ms", formatInt(updateRate)) }}</b>
     <SliderComponent
       class="o-primary-btn--slider__slider"
       v-bind="sliderProps"

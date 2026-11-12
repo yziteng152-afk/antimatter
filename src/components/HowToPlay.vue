@@ -46,7 +46,7 @@ export default {
         v-if="hasTutorial"
         class="h2p-tooltip"
       >
-        Click for info
+        {{ t("h2p.clickForInfo", "Click for info") }}
       </div>
     </div>
     <div

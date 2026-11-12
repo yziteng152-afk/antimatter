@@ -1,3 +1,5 @@
+import { isChinese, t } from "./i18n";
+
 window.TimeSpan = class TimeSpan {
   /**
    * @param {Number} value
@@ -196,7 +198,7 @@ window.TimeSpan = class TimeSpan {
    */
   toString() {
     if (this.years > 1e6) {
-      return `${format(this.totalYears, 3, 0)} years`;
+      return t("time.years", "{0} years", format(this.totalYears, 3, 0));
     }
     if (this.totalSeconds >= 10) {
       return this.toStringNoDecimals();
@@ -216,7 +218,7 @@ window.TimeSpan = class TimeSpan {
       addComponent(value, name);
     }
     function addComponent(value, name) {
-      parts.push(value === 1 ? `${formatInt(value)} ${name}` : `${formatInt(value)} ${name}s`);
+      parts.push(t(`time.${name}`, value === 1 ? `{0} ${name}` : `{0} ${name}s`, formatInt(value)));
     }
     addCheckedComponent(this.years, "year");
     addCheckedComponent(this.days, "day");
@@ -224,7 +226,8 @@ window.TimeSpan = class TimeSpan {
     addCheckedComponent(this.minutes, "minute");
     addCheckedComponent(this.seconds, "second");
     // Join with commas and 'and' in the end.
-    if (parts.length === 0) return `${formatInt(0)} seconds`;
+    if (parts.length === 0) return t("time.zeroSeconds", "0 seconds");
+    if (isChinese()) return parts.join(" ");
     return [parts.slice(0, -1).join(", "), parts.slice(-1)[0]].join(parts.length < 2 ? "" : " and ");
   }
 
@@ -256,10 +259,10 @@ window.TimeSpan = class TimeSpan {
       return `${format(1000 * totalSeconds)} ms`;
     }
     if (totalSeconds < 10) {
-      return `${format(totalSeconds, 0, 3)} seconds`;
+      return t("time.seconds", "{0} seconds", format(totalSeconds, 0, 3));
     }
     if (totalSeconds < 60) {
-      return `${format(totalSeconds, 0, 2)} seconds`;
+      return t("time.seconds", "{0} seconds", format(totalSeconds, 0, 2));
     }
     if (this.totalHours < 100 || (isSpeedrun && this.totalHours < 1000)) {
       if (useHMS && !Notations.current.isPainful) {
@@ -268,16 +271,18 @@ window.TimeSpan = class TimeSpan {
         return `${formatHMS(Math.floor(this.totalHours))}:${formatHMS(this.minutes)}:${sec}`;
       }
       if (this.totalMinutes < 60) {
-        return `${format(this.totalMinutes, 0, 2)} minutes`;
+        return t("time.minutes", "{0} minutes", format(this.totalMinutes, 0, 2));
       }
       if (this.totalHours < 24) {
-        return `${format(this.totalHours, 0, 2)} hours`;
+        return t("time.hours", "{0} hours", format(this.totalHours, 0, 2));
       }
     }
     if (this.totalDays < 500) {
-      return `${isSpeedrun ? this.totalDays.toFixed(2) : format(this.totalDays, 0, 2)} days`;
+      return t("time.days", "{0} days",
+        isSpeedrun ? this.totalDays.toFixed(2) : format(this.totalDays, 0, 2));
     }
-    return `${isSpeedrun ? this.totalYears.toFixed(3) : format(this.totalYears, 3, 2)} years`;
+    return t("time.years", "{0} years",
+      isSpeedrun ? this.totalYears.toFixed(3) : format(this.totalYears, 3, 2));
 
     function formatHMS(value) {
       const s = value.toString();
@@ -292,8 +297,8 @@ window.TimeSpan = class TimeSpan {
 
   toTimeEstimate() {
     const seconds = this.totalSeconds;
-    if (seconds < 1) return `< ${formatInt(1)} second`;
-    if (seconds > 86400 * 365.25) return `> ${formatInt(1)} year`;
+    if (seconds < 1) return t("time.lessThanSecond", "< {0} second", formatInt(1));
+    if (seconds > 86400 * 365.25) return t("time.greaterThanYear", "> {0} year", formatInt(1));
     return this.toStringShort();
   }
 

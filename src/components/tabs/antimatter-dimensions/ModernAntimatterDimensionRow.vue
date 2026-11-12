@@ -37,7 +37,8 @@ export default {
   computed: {
     isDoomed: () => Pelle.isDoomed,
     name() {
-      return `${AntimatterDimension(this.tier).shortDisplayName} Antimatter Dimension`;
+      return this.t("dim.amName", "{1} Antimatter Dimension",
+        this.tier, AntimatterDimension(this.tier).shortDisplayName);
     },
     costDisplay() {
       return this.buyUntil10 ? format(this.until10Cost) : format(this.singleCost);
@@ -49,23 +50,32 @@ export default {
       return this.isShown || this.isUnlocked || this.amount.gt(0);
     },
     boughtTooltip() {
-      if (this.isCapped) return `Nameless prevents the purchase of more than ${format(1)} 8th Antimatter Dimension`;
-      if (this.isContinuumActive) return "Continuum produces all your Antimatter Dimensions";
-      return `Purchased ${quantifyInt("time", this.bought)}`;
+      if (this.isCapped) {
+        return this.t("dim.namelessPrevents",
+          "Nameless prevents the purchase of more than {0} 8th Antimatter Dimension", format(1));
+      }
+      if (this.isContinuumActive) {
+        return this.t("dim.continuumProduces", "Continuum produces all your Antimatter Dimensions");
+      }
+      return this.t("dim.boughtTimes", "Purchased {0}",
+        quantifyInt("time", this.bought), formatInt(this.bought));
     },
     costUnit() {
-      return `${AntimatterDimension(this.tier - 2).shortDisplayName} AD`;
+      return this.t("dim.costUnit", "{1} AD",
+        this.tier - 2, AntimatterDimension(this.tier - 2).shortDisplayName);
     },
     buttonPrefix() {
-      if (!this.isUnlocked) return "Locked";
-      if (this.isCapped) return "Shattered by Nameless";
-      if (this.isContinuumActive) return "Continuum: ";
-      return `Buy ${formatInt(this.howManyCanBuy)}`;
+      if (!this.isUnlocked) return this.t("dim.locked", "Locked");
+      if (this.isCapped) return this.t("dim.shattered", "Shattered by Nameless");
+      if (this.isContinuumActive) return this.t("dim.continuumPrefix", "Continuum: ");
+      return this.t("dim.buyN", "Buy {0}", formatInt(this.howManyCanBuy));
     },
     buttonValue() {
       if (this.isCapped) return "";
       if (this.isContinuumActive) return this.continuumString;
-      const prefix = this.showCostTitle(this.buyUntil10 ? this.until10Cost : this.singleCost) ? "Cost: " : "";
+      const prefix = this.showCostTitle(this.buyUntil10 ? this.until10Cost : this.singleCost)
+        ? this.t("dim.cost", "Cost: ")
+        : "";
       const suffix = this.isCostsAD ? this.costUnit : "AM";
       return `${prefix}${this.costDisplay} ${suffix}`;
     },

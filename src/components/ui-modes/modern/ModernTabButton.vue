@@ -1,4 +1,6 @@
 <script>
+import { subtabLabel, tabLabel } from "@/core/i18n";
+
 export default {
   name: "ModernTabButton",
   props: {
@@ -35,6 +37,7 @@ export default {
     }
   },
   methods: {
+    subtabLabel,
     update() {
       this.isAvailable = this.tab.isAvailable;
       this.isHidden = this.tab.isHidden;
@@ -43,12 +46,12 @@ export default {
       this.hasNotification = this.tab.hasNotification;
       if (this.tabPosition < Pelle.endTabNames.length) {
         this.tabName = Pelle.transitionText(
-          this.tab.name,
+          tabLabel(this.tab),
           Pelle.endTabNames[this.tabPosition],
           Math.clamp(GameEnd.endState - (this.tab.id % 4) / 10, 0, 1)
         );
       } else {
-        this.tabName = this.tab.name;
+        this.tabName = tabLabel(this.tab);
       }
     },
     isCurrentSubtab(id) {
@@ -96,7 +99,7 @@ export default {
             class="fas fa-circle-exclamation l-notification-icon"
           />
           <div class="o-subtab__tooltip">
-            {{ subtab.name }}
+            {{ subtabLabel(subtab) }}
           </div>
         </div>
       </template>

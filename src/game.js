@@ -5,6 +5,7 @@ import { ElectronRuntime, SteamRuntime } from "@/steam";
 import { DC } from "./core/constants";
 import { deepmergeAll } from "@/utility/deepmerge";
 import { DEV } from "@/env";
+import { getLanguage } from "./core/i18n";
 import { SpeedrunMilestones } from "./core/speedrun";
 import { Cloud } from "./core/storage";
 import { supportedBrowsers } from "./supported-browsers";
@@ -1093,6 +1094,7 @@ export function init() {
   SteamRuntime.initialize();
   Cloud.init();
   GameStorage.load();
+  document.documentElement.setAttribute("lang", getLanguage() === "zh" ? "zh-CN" : "en");
   Tabs.all.find(t => t.config.id === player.options.lastOpenTab).show(true);
   Payments.init();
 }

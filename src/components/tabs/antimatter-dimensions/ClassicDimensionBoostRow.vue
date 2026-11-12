@@ -39,6 +39,13 @@ export default {
       }
       return sum;
     },
+    prestigeText() {
+      const tier = this.requirement.tier;
+      const label = this.t("dim.boostLabel", "Dimension Boost ({0}):", this.boostCountText);
+      const requires = this.t("dim.requires", "requires {0} {1} Dimensions",
+        formatInt(this.requirement.amount), this.dimName, tier);
+      return `${label} ${requires}`;
+    },
     classObject() {
       return {
         "o-primary-btn--dimboost l-dim-row__prestige-button": true,
@@ -72,8 +79,7 @@ export default {
 <template>
   <div class="c-dimension-row c-antimatter-dim-row c-antimatter-prestige-row">
     <div class="l-dim-row__prestige-text c-dim-row__label c-dim-row__label--amount">
-      Dimension Boost ({{ boostCountText }}):
-      requires {{ formatInt(requirement.amount) }} {{ dimName }} Dimensions
+      {{ prestigeText }}
     </div>
     <PrimaryButton
       :enabled="isBuyable"

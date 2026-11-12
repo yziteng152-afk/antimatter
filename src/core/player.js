@@ -772,6 +772,7 @@ window.player = {
       speed: 1,
       includeAnimated: true,
     },
+    language: "zh",
     notation: "Mixed scientific",
     notationDigits: {
       comma: 5,

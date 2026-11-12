@@ -3,6 +3,8 @@ import VueGtag from "vue-gtag";
 
 import { DEV } from "@/env";
 
+import * as i18n from "./i18n";
+
 import { useLongPress, useRepeatingClick } from "./longpress";
 import { notify } from "./notify";
 import { state } from "./ui.init";
@@ -39,6 +41,8 @@ Vue.mixin({
     EventHub.ui.offAll(this);
   },
   methods: {
+    t: i18n.t,
+    tr: i18n.tr,
     emitClick() {
       this.$emit("click");
     },

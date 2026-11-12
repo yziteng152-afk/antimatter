@@ -1,6 +1,8 @@
 <script>
 import ModalCloseButton from "@/components/modals/ModalCloseButton";
 
+import { h2pBody, h2pTitle } from "@/core/i18n";
+
 export default {
   name: "H2PModal",
   components: {
@@ -42,6 +44,8 @@ export default {
     this.$refs.input.select();
   },
   methods: {
+    h2pTitle,
+    h2pBody,
     setActiveTab(tab) {
       this.activeTab = tab;
       document.getElementById("h2p-body").scrollTop = 0;
@@ -64,7 +68,7 @@ export default {
     <ModalCloseButton @click="emitClose" />
     <div class="l-h2p-header">
       <div class="c-h2p-title">
-        How To Play
+        {{ t("h2p.title", "How To Play") }}
       </div>
     </div>
     <div class="l-h2p-container">
@@ -72,7 +76,7 @@ export default {
         <input
           ref="input"
           v-model="searchValue"
-          placeholder="Type to search..."
+          :placeholder="t('h2p.searchPlaceholder', 'Type to search...')"
           class="c-h2p-search-bar"
           @keyup.esc="emitClose"
         >
@@ -88,18 +92,18 @@ export default {
             }"
             @click="setActiveTab(searchObj.tab)"
           >
-            {{ searchObj.tab.alias }}
+            {{ h2pTitle(searchObj.tab) }}
           </div>
         </div>
       </div>
       <div class="l-h2p-info">
         <div class="c-h2p-body--title">
-          {{ activeTab.name }}
+          {{ h2pTitle(activeTab) }}
         </div>
         <div
           id="h2p-body"
           class="l-h2p-body c-h2p-body"
-          v-html="activeTab.info()"
+          v-html="h2pBody(activeTab)"
         />
       </div>
     </div>

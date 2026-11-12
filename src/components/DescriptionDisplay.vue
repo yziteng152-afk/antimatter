@@ -3,6 +3,8 @@ import wordShift from "@/core/word-shift";
 
 import { isFunction, isString } from "@/utility";
 
+import { tr } from "@/core/i18n";
+
 /* eslint-disable no-empty-function */
 export default {
   name: "DescriptionDisplay",
@@ -61,7 +63,7 @@ export default {
         if (!this.isVisible) return;
 
         if (isString(description)) {
-          this.description = capitalize(description);
+          this.description = capitalize(tr(description));
           return;
         }
 
@@ -81,8 +83,8 @@ export default {
                 .replace("*", wordShift.wordCycle(this.config.scrambleText, true));
             return;
           }
-          this.description = capitalize(value);
-          this.updateFunction = () => this.description = capitalize(description());
+          this.description = capitalize(tr(value));
+          this.updateFunction = () => this.description = capitalize(tr(description()));
           return;
 
 

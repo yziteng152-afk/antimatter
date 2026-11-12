@@ -23,7 +23,7 @@ export default {
       return AwayProgressTypes.all[this.name];
     },
     text() {
-      return `${this.type.formatName}:`;
+      return this.t(`modal.away.${this.name}`, `${this.type.formatName}:`);
     }
   },
   watch: {

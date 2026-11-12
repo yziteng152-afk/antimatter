@@ -91,13 +91,13 @@ export default {
     <div class="o-achievement__tooltip">
       <template v-if="isMouseOver">
         <div class="o-achievement__tooltip__name">
-          {{ config.name }} (S{{ id }})
+          {{ tr(config.name) }} (S{{ id }})
         </div>
         <div
           v-if="isUnlocked"
           class="o-achievement__tooltip__description"
         >
-          {{ config.description }}
+          {{ tr(config.description) }}
         </div>
       </template>
     </div>

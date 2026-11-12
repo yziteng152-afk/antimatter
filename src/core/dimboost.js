@@ -1,5 +1,7 @@
 import { DC } from "./constants";
 
+import { t } from "./i18n";
+
 class DimBoostRequirement {
   constructor(tier, amount) {
     this.tier = tier;
@@ -85,9 +87,9 @@ export class DimBoost {
 
   static get lockText() {
     if (DimBoost.purchasedBoosts >= this.maxBoosts) {
-      if (Ra.isRunning) return "Locked (Ra's Reality)";
-      if (InfinityChallenge(1).isRunning) return "Locked (Infinity Challenge 1)";
-      if (NormalChallenge(8).isRunning) return "Locked (8th Antimatter Dimension Autobuyer Challenge)";
+      if (Ra.isRunning) return t("lock.ra", "Locked (Ra's Reality)");
+      if (InfinityChallenge(1).isRunning) return t("lock.ic1", "Locked (Infinity Challenge 1)");
+      if (NormalChallenge(8).isRunning) return t("lock.nc8", "Locked (8th Antimatter Dimension Autobuyer Challenge)");
     }
     return null;
   }
@@ -130,26 +132,31 @@ export class DimBoost {
 
     let newUnlock = "";
     if (!allNDUnlocked && boosts < DimBoost.maxDimensionsUnlockable - 4) {
-      newUnlock = `unlock the ${boosts + 5}th Dimension`;
+      newUnlock = t("dimboost.unlockDimension", "unlock the {0}th Dimension", boosts + 5);
     } else if (boosts === 4 && !NormalChallenge(10).isRunning && !EternityChallenge(3).isRunning) {
-      newUnlock = "unlock Sacrifice";
+      newUnlock = t("dimboost.unlockSacrifice", "unlock Sacrifice");
     }
 
-    const formattedMultText = `give a ${formatX(DimBoost.power, 2, 1)} multiplier `;
-    let dimensionRange = `to the 1st Dimension`;
-    if (boosts > 0) dimensionRange = `to Dimensions 1-${Math.min(boosts + 1, 8)}`;
-    if (boosts >= DimBoost.maxDimensionsUnlockable - 1) dimensionRange = `to all Dimensions`;
+    const formattedMult = t("dimboost.giveMult", "give a {0} multiplier", formatX(DimBoost.power, 2, 1));
+    let dimensionRange = t("dimboost.toFirst", "to the 1st Dimension");
+    if (boosts > 0) {
+      dimensionRange = t("dimboost.toRange", "to Dimensions 1-{0}", Math.min(boosts + 1, 8));
+    }
+    if (boosts >= DimBoost.maxDimensionsUnlockable - 1) {
+      dimensionRange = t("dimboost.toAll", "to all Dimensions");
+    }
 
+    const multEffect = t("dimboost.multEffect", "{0} {1}", formattedMult, dimensionRange);
     let boostEffects;
     if (NormalChallenge(8).isRunning) boostEffects = newUnlock;
-    else if (newUnlock === "") boostEffects = `${formattedMultText} ${dimensionRange}`;
-    else boostEffects = `${newUnlock} and ${formattedMultText} ${dimensionRange}`;
+    else if (newUnlock === "") boostEffects = multEffect;
+    else boostEffects = t("dimboost.andJoin", "{0} and {1}", newUnlock, multEffect);
 
-    if (boostEffects === "") return "Dimension Boosts are currently useless";
+    if (boostEffects === "") return t("dimboost.useless", "Dimension Boosts are currently useless");
     const areDimensionsKept = (Perk.antimatterNoReset.isBought || Achievement(111).canBeApplied) &&
       (!Pelle.isDoomed || PelleUpgrade.dimBoostResetsNothing.isBought);
     if (areDimensionsKept) return boostEffects[0].toUpperCase() + boostEffects.substring(1);
-    return `Reset your Dimensions to ${boostEffects}`;
+    return t("dimboost.resetTo", "Reset your Dimensions to {0}", boostEffects);
   }
 
   static get purchasedBoosts() {

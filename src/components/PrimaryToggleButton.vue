@@ -15,12 +15,12 @@ export default {
     on: {
       type: String,
       required: false,
-      default: "ON"
+      default: ""
     },
     off: {
       type: String,
       required: false,
-      default: "OFF"
+      default: ""
     },
     value: {
       type: Boolean,
@@ -29,7 +29,9 @@ export default {
   },
   computed: {
     displayText() {
-      return `${this.label} ${this.value ? this.on : this.off}`.trim();
+      const on = this.on || this.t("common.on", "ON");
+      const off = this.off || this.t("common.off", "OFF");
+      return `${this.label} ${this.value ? on : off}`.trim();
     }
   },
 };

@@ -1,4 +1,6 @@
 <script>
+import { tabLabel } from "@/core/i18n";
+
 export default {
   name: "ClassicTabButton",
   props: {
@@ -29,12 +31,12 @@ export default {
       this.hasNotification = this.tab.hasNotification;
       if (this.tabPosition < Pelle.endTabNames.length) {
         this.tabName = Pelle.transitionText(
-          this.tab.name,
+          tabLabel(this.tab),
           Pelle.endTabNames[this.tabPosition],
           Math.max(Math.min(GameEnd.endState - (this.tab.id) % 4 / 10, 1), 0)
         );
       } else {
-        this.tabName = this.tab.name;
+        this.tabName = tabLabel(this.tab);
       }
     }
   },

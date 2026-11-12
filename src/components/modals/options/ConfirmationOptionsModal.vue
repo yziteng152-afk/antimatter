@@ -22,12 +22,12 @@ export default {
 <template>
   <ModalWrapperOptions class="c-modal-options__large">
     <template #header>
-      Confirmation Options
+      {{ t("modal.confirm.title", "Confirmation Options") }}
     </template>
     <div class="c-modal-options__button-container">
       <span v-if="noConfirmations">
-        You do not have anything that requires confirmation,
-        but if you did it would appear here.
+        {{ t("modal.confirm.empty",
+             "You do not have anything that requires confirmation, but if you did it would appear here.") }}
       </span>
       <ConfirmationOptionsEntry
         v-for="entryNumber in count"

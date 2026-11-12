@@ -19,7 +19,7 @@ export default {
 <template>
   <ModalWrapperOptions class="l-wrapper">
     <template #header>
-      Away Progress Options
+      {{ t("modal.away.title", "Away Progress Options") }}
     </template>
     <div class="c-modal-options__button-container">
       <AwayProgressOptionsEntry
@@ -28,7 +28,7 @@ export default {
         :name="name"
       />
     </div>
-    Note: Selected resources will only show if they've increased.
+    {{ t("modal.away.note", "Note: Selected resources will only show if they've increased.") }}
   </ModalWrapperOptions>
 </template>
 

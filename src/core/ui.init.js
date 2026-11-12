@@ -37,6 +37,7 @@ export const state = {
       },
     },
     shiftDown: false,
+    language: "zh",
     theme: "Normal",
     bigCrunch: false,
     scrollWindow: 0,

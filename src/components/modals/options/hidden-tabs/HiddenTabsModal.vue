@@ -38,29 +38,29 @@ export default {
 <template>
   <ModalWrapperOptions class="l-wrapper">
     <template #header>
-      Modify Visible Tabs
+      {{ t("hidden.title", "Modify Visible Tabs") }}
     </template>
     <div class="c-modal--short">
-      Click a button to toggle showing a tab on/off.
+      {{ t("hidden.instruction1", "Click a button to toggle showing a tab on/off.") }}
       <br>
-      Some tabs cannot be hidden, and you cannot hide your current tab.
+      {{ t("hidden.instruction2", "Some tabs cannot be hidden, and you cannot hide your current tab.") }}
       <br>
-      Unhiding a tab in which all subtabs are hidden will also unhide all subtabs,
-      and hiding all subtabs will also hide the tab.
+      <!-- eslint-disable-next-line max-len -->
+      {{ t("hidden.instruction3", "Unhiding a tab in which all subtabs are hidden will also unhide all subtabs, and hiding all subtabs will also hide the tab.") }}
       <br>
       <div v-if="isAlmostEnd">
-        You cannot hide your tabs after unlocking the Galaxy Generator.
+        {{ t("hidden.galaxyGenerator", "You cannot hide your tabs after unlocking the Galaxy Generator.") }}
       </div>
       <div v-if="isEnslaved">
         <br>
-        <i>You must... see everywhere...</i>
+        <i>{{ t("hidden.enslaved", "You must... see everywhere...") }}</i>
         <br>
-        (You cannot hide your tabs within this Reality)
+        {{ t("hidden.enslavedNote", "(You cannot hide your tabs within this Reality)") }}
       </div>
       <PrimaryButton
         @click="showAllTabs"
       >
-        Show all tabs
+        {{ t("hidden.showAllTabs", "Show all tabs") }}
       </PrimaryButton>
       <HiddenTabGroup
         v-for="(tab, index) in tabs"

@@ -23,7 +23,9 @@ export default {
   },
   computed: {
     newsOnOffLabel() {
-      return `News: ${this.enabled ? "On" : "Off"}`;
+      return this.enabled
+        ? this.t("modal.news.on", "News: On")
+        : this.t("modal.news.off", "News: Off");
     },
     sliderPropsRepeatBuffer() {
       return {
@@ -98,7 +100,7 @@ export default {
 <template>
   <ModalWrapperOptions>
     <template #header>
-      News Options
+      {{ t("modal.news.title", "News Options") }}
     </template>
     <PrimaryButton
       class="o-primary-btn o-primary-btn--option-wide"
@@ -107,7 +109,7 @@ export default {
       {{ newsOnOffLabel }}
     </PrimaryButton>
     <div class="o-primary-btn o-primary-btn--option-wide o-primary-btn--slider">
-      <b>{{ formatInt(parseInt(repeatBuffer)) }} message repeat buffer</b>
+      <b>{{ t("modal.news.repeatBuffer", "{0} message repeat buffer", formatInt(parseInt(repeatBuffer))) }}</b>
       <SliderComponent
         class="o-primary-btn--slider__slider"
         v-bind="sliderPropsRepeatBuffer"
@@ -116,7 +118,7 @@ export default {
       />
     </div>
     <div class="o-primary-btn o-primary-btn--option-wide o-primary-btn--slider">
-      <b>{{ formatPercents(parseFloat(AIChance)) }} AI messages</b>
+      <b>{{ t("modal.news.aiChance", "{0} AI messages", formatPercents(parseFloat(AIChance))) }}</b>
       <SliderComponent
         class="o-primary-btn--slider__slider"
         v-bind="sliderPropsAIChance"
@@ -125,7 +127,7 @@ export default {
       />
     </div>
     <div class="o-primary-btn o-primary-btn--option-wide o-primary-btn--slider">
-      <b>{{ formatPercents(parseFloat(speed)) }} scroll speed</b>
+      <b>{{ t("modal.news.scrollSpeed", "{0} scroll speed", formatPercents(parseFloat(speed))) }}</b>
       <SliderComponent
         class="o-primary-btn--slider__slider"
         v-bind="sliderPropsSpeed"
@@ -136,7 +138,7 @@ export default {
     <ModalOptionsToggleButton
       v-model="includeAnimated"
       class="o-primary-btn o-primary-btn--option-wide"
-      text="Animation Effects:"
+      :text="t('modal.news.animationEffects', 'Animation Effects:')"
     />
   </ModalWrapperOptions>
 </template>

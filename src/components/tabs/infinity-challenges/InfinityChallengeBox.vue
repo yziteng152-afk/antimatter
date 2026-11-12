@@ -60,10 +60,10 @@ export default {
     </template>
     <template #bottom>
       <div class="l-challenge-box__bottom--infinity">
-        <span>Goal: {{ format(config.goal) }} antimatter</span>
+        <span>{{ t("challenge.goal", "Goal: {0} antimatter", format(config.goal)) }}</span>
         <DescriptionDisplay
           :config="config.reward"
-          title="Reward:"
+          :title="t('challenge.reward', 'Reward:')"
         />
         <EffectDisplay
           :config="config.reward"

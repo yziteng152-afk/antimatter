@@ -22,7 +22,11 @@ export default {
   },
   computed: {
     backupSlots: () => AutoBackupSlots,
-    deleteText: () => (STEAM ? "fully uninstalling the game" : "clearing your browser cookies"),
+    deleteText() {
+      return STEAM
+        ? this.t("modal.backup.deleteSteam", "fully uninstalling the game")
+        : this.t("modal.backup.deleteCookies", "clearing your browser cookies");
+    },
   },
   watch: {
     ignoreOffline(newValue) {
@@ -60,13 +64,15 @@ export default {
 <template>
   <ModalWrapper>
     <template #header>
-      Automatic Backup Saves
+      {{ t("modal.backup.title", "Automatic Backup Saves") }}
     </template>
     <div class="c-info c-modal--short">
-      The game makes automatic backups based on time you have spent online or offline.
-      Timers for online backups only run when the game is open, and offline backups only save to the slot
-      with the longest applicable timer.
-      Additionally, your current save is saved into the last slot any time a backup from here is loaded.
+      {{ t("modal.backup.desc1", "The game makes automatic backups based on time you have spent online or offline.") }}
+      {{ t("modal.backup.desc2",
+           "Timers for online backups only run when the game is open, and offline backups only save to the slot " +
+             "with the longest applicable timer.") }}
+      {{ t("modal.backup.desc3",
+           "Additionally, your current save is saved into the last slot any time a backup from here is loaded.") }}
       <div
         class="c-modal__confirmation-toggle"
         @click="toggleOffline"
@@ -78,7 +84,7 @@ export default {
           />
         </div>
         <span class="c-modal__confirmation-toggle__text">
-          Load with offline progress disabled
+          {{ t("modal.backup.loadOffline", "Load with offline progress disabled") }}
         </span>
       </div>
       <div class="c-entry-container">
@@ -89,15 +95,17 @@ export default {
           :slot-data="slot"
         />
       </div>
-      These backups are still stored in the same place as your game save and can still be lost if you do anything
-      external to the game which would delete your save itself, such as {{ deleteText }}. You can import/export
-      all backups at once as files, using these buttons:
+      {{ t("modal.backup.warning",
+           "These backups are still stored in the same place as your game save and can still be lost if you do " +
+             "anything external to the game which would delete your save itself, such as {0}. You can import/export " +
+             "all backups at once as files, using these buttons:",
+           deleteText) }}
       <div class="c-backup-file-ops">
         <PrimaryButton
           class="o-btn-file-ops"
           onclick="GameStorage.exportBackupsAsFile()"
         >
-          Export as file
+          {{ t("modal.backup.exportFile", "Export as file") }}
         </PrimaryButton>
         <PrimaryButton class="o-btn-file-ops">
           <input
@@ -106,10 +114,10 @@ export default {
             accept=".txt"
             @change="importAsFile"
           >
-          <label for="file">Import from file</label>
+          <label for="file">{{ t("modal.backup.importFile", "Import from file") }}</label>
         </PrimaryButton>
       </div>
-      Each of your three save slots has its own separate set of backups.
+      {{ t("modal.backup.slots", "Each of your three save slots has its own separate set of backups.") }}
     </div>
   </ModalWrapper>
 </template>

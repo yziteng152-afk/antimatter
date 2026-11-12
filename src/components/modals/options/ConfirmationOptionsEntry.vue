@@ -23,7 +23,7 @@ export default {
       return ConfirmationTypes.index[this.index];
     },
     name() {
-      return `${this.entry.name}:`;
+      return this.t(`modal.confirm.${this.entry.name}`, `${this.entry.name}:`);
     },
     styleObject() {
       return {

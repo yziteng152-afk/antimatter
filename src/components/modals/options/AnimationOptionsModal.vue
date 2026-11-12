@@ -106,45 +106,45 @@ export default {
 <template>
   <ModalWrapperOptions class="c-modal-options__large">
     <template #header>
-      Animation Options
+      {{ t("anim.title", "Animation Options") }}
     </template>
     <div class="c-modal-options__button-container">
       <ModalOptionsToggleButton
         v-if="infinityUnlocked"
         v-model="bigCrunch"
-        text="Big Crunch:"
+        :text="t('anim.bigCrunch', 'Big Crunch:')"
       />
       <ModalOptionsToggleButton
         v-if="eternityUnlocked"
         v-model="eternity"
-        text="Eternity:"
+        :text="t('anim.eternity', 'Eternity:')"
       />
       <ModalOptionsToggleButton
         v-if="dilationUnlocked"
         v-model="dilation"
-        text="Dilation:"
+        :text="t('anim.dilation', 'Dilation:')"
       />
       <ModalOptionsToggleButton
         v-if="tachyonsUnlocked"
         v-model="tachyonParticles"
-        text="Tachyon particles:"
+        :text="t('anim.tachyonParticles', 'Tachyon particles:')"
       />
       <ModalOptionsToggleButton
         v-if="realityUnlocked"
         v-model="reality"
-        text="Reality:"
+        :text="t('anim.reality', 'Reality:')"
       />
       <ModalOptionsToggleButton
         v-if="isS11Unlocked && isBlackHoleUnlocked"
         v-model="blobHole"
-        text="Always use Blobhole:"
+        :text="t('anim.blobHole', 'Always use Blobhole:')"
       />
       <div v-if="!isS11Active">
         <ModalOptionsToggleButton
           v-if="animatedThemeUnlocked"
           v-model="background"
           onclick="Themes.find(Theme.currentName()).set();"
-          text="Background:"
+          :text="t('anim.background', 'Background:')"
         />
       </div>
       <div v-else>
@@ -152,14 +152,17 @@ export default {
           v-if="animatedThemeUnlocked"
           v-model="background"
           onclick="Themes.find(Theme.currentName()).set();"
-          text="Blobsnow:"
+          :text="t('anim.blobsnow', 'Blobsnow:')"
         />
       </div>
       <div
         v-if="isS11Active"
         class="c-blobflake-slider o-primary-btn o-primary-btn--modal-option o-primary-btn--slider"
       >
-        <b>{{ quantifyInt("Blobflake", parseInt(blobSnowflakes)) }}</b>
+        <b>{{
+          t("anim.blobflakeCount", quantifyInt("Blobflake", parseInt(blobSnowflakes)),
+            formatInt(parseInt(blobSnowflakes)))
+        }}</b>
         <SliderComponent
           class="o-primary-btn--slider__slider"
           v-bind="sliderProps"

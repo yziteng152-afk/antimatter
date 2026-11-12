@@ -3,6 +3,8 @@ import NormalAchievementRow from "./NormalAchievementRow";
 import PrimaryToggleButton from "@/components/PrimaryToggleButton";
 import SwapAchievementImagesButton from "./SwapAchievementImagesButton";
 
+import { enumerate } from "@/core/i18n";
+
 export default {
   name: "NormalAchievementsTab",
   components: {
@@ -42,14 +44,21 @@ export default {
       const boostList = [];
 
       const dimMultList = [];
-      dimMultList.push("Antimatter");
-      if (this.achMultToIDS) dimMultList.push("Infinity");
-      if (this.achMultToTDS) dimMultList.push("Time");
-      boostList.push(`${makeEnumeration(dimMultList)} Dimensions: ${achievementPower}`);
+      dimMultList.push(this.t("dim.antimatterShort", "Antimatter"));
+      if (this.achMultToIDS) dimMultList.push(this.t("dim.infinityShort", "Infinity"));
+      if (this.achMultToTDS) dimMultList.push(this.t("dim.timeShort", "Time"));
+      boostList.push(this.t("ach.dimMult", "{0} Dimensions: {1}",
+        enumerate(dimMultList), achievementPower));
 
-      if (this.achMultToTP) boostList.push(`Tachyon Particles: ${achTPEffect}`);
-      if (this.achMultToBH) boostList.push(`Black Hole Power: ${achievementPower}`);
-      if (this.achMultToTT) boostList.push(`Time Theorem production: ${achievementPower}`);
+      if (this.achMultToTP) {
+        boostList.push(this.t("ach.tpMult", "Tachyon Particles: {0}", achTPEffect));
+      }
+      if (this.achMultToBH) {
+        boostList.push(this.t("ach.bhMult", "Black Hole Power: {0}", achievementPower));
+      }
+      if (this.achMultToTT) {
+        boostList.push(this.t("ach.ttMult", "Time Theorem production: {0}", achievementPower));
+      }
       return `${boostList.join("<br>")}`;
     },
   },
@@ -134,26 +143,27 @@ export default {
       <PrimaryToggleButton
         v-model="hideCompletedRows"
         class="o-primary-btn--subtab-option"
-        label="Hide completed rows:"
+        :label="t('ach.hideCompleted', 'Hide completed rows:')"
       />
       <PrimaryToggleButton
         v-if="showAutoAchieve"
         v-model="isAutoAchieveActive"
         class="o-primary-btn--subtab-option"
-        label="Auto Achievements:"
+        :label="t('ach.autoLabel', 'Auto Achievements:')"
       />
     </div>
     <div class="c-achievements-tab__header c-achievements-tab__header--multipliers">
       <span v-if="isDoomed">
-        All Achievement multipliers have been disabled<SwapAchievementImagesButton />
+        {{ t("ach.disabled", "All Achievement multipliers have been disabled") }}<SwapAchievementImagesButton />
       </span>
       <span v-else>
-        Achievements provide a multiplier to<SwapAchievementImagesButton />
+        {{ t("ach.provideMult", "Achievements provide a multiplier to") }}<SwapAchievementImagesButton />
         <div v-html="boostText" />
       </span>
     </div>
     <div class="c-achievements-tab__header">
-      Achievements with a <i class="fas fa-star" /> icon also give an additional reward.
+      {{ t("ach.starRewardPart1", "Achievements with a") }} <i class="fas fa-star" />
+      {{ t("ach.starRewardPart2", "icon also give an additional reward.") }}
     </div>
     <div
       v-if="showAutoAchieve"

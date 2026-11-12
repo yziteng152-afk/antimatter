@@ -1,6 +1,8 @@
 <script>
 import ModalWrapper from "@/components/modals/ModalWrapper";
 
+import { enumerate } from "@/core/i18n";
+
 export default {
   name: "HotkeysModal",
   components: {
@@ -19,22 +21,23 @@ export default {
     moreShiftKeyInfo() {
       const shiftKeyFunctions = [];
       if (this.timeStudyUnlocked) {
-        shiftKeyFunctions.push("while buying Time Studies to buy all up until that point");
-        shiftKeyFunctions.push("to save Time Study Trees");
+        shiftKeyFunctions.push(this.t("hotkey.shift.buyAllStudies",
+          "while buying Time Studies to buy all up until that point"));
+        shiftKeyFunctions.push(this.t("hotkey.shift.saveTrees", "to save Time Study Trees"));
       }
       if (this.glyphSacUnlocked) {
-        shiftKeyFunctions.push("to purge Glyphs");
+        shiftKeyFunctions.push(this.t("hotkey.shift.purgeGlyphs", "to purge Glyphs"));
       }
-      const shiftKeyInfo = makeEnumeration(shiftKeyFunctions);
+      const shiftKeyInfo = enumerate(shiftKeyFunctions);
       return (shiftKeyInfo === "")
         ? ""
-        : `You can hold Shift ${shiftKeyInfo}.`;
+        : this.t("hotkey.shift.info", "You can hold Shift {0}.", shiftKeyInfo);
     },
     hotkeyCount() {
       return shortcuts.length;
     },
     shortcutNames() {
-      return shortcuts.map(x => x.name);
+      return shortcuts.map(x => this.t(`hotkey.name.${x.name}`, x.name));
     },
     shortcutKeys() {
       return shortcuts.map(x => x.keys.map(key => this.format(key)));
@@ -81,16 +84,20 @@ export default {
 <template>
   <ModalWrapper>
     <template #header>
-      Hotkey List
+      {{ t("hotkey.title", "Hotkey List") }}
     </template>
     <span class="c-modal-hotkeys l-modal-hotkeys">
       <div class="l-modal-hotkeys__column">
         <div class="l-modal-hotkeys-row">
-          <span class="c-modal-hotkeys-row__name l-modal-hotkeys-row__name">Buy 1 Dimension</span>
+          <span class="c-modal-hotkeys-row__name l-modal-hotkeys-row__name">
+            {{ t("hotkey.buyOneDimension", "Buy 1 Dimension") }}
+          </span>
           <kbd>SHIFT</kbd><kbd>1</kbd>-<kbd>SHIFT</kbd><kbd>8</kbd>
         </div>
         <div class="l-modal-hotkeys-row">
-          <span class="c-modal-hotkeys-row__name l-modal-hotkeys-row__name">Buy 10 Dimensions</span>
+          <span class="c-modal-hotkeys-row__name l-modal-hotkeys-row__name">
+            {{ t("hotkey.buyTenDimensions", "Buy 10 Dimensions") }}
+          </span>
           <kbd>1</kbd>-<kbd>8</kbd>
         </div>
         <div
@@ -113,65 +120,76 @@ export default {
       </div>
       <div class="l-modal-hotkeys__column l-modal-hotkeys__column--right">
         <div class="l-modal-hotkeys-row">
-          <span class="c-modal-hotkeys-row__name l-modal-hotkeys-row__name">Modifier Key</span>
+          <span class="c-modal-hotkeys-row__name l-modal-hotkeys-row__name">
+            {{ t("hotkey.modifierKey", "Modifier Key") }}
+          </span>
           <kbd>SHIFT</kbd>
         </div>
         <span class="c-modal-hotkeys__shift-description">
-          Shift is a modifier key that shows additional information on certain things
-          and adjusts the function of certain buttons.
+          <!-- eslint-disable-next-line max-len -->
+          {{ t("hotkey.shift.description", "Shift is a modifier key that shows additional information on certain things and adjusts the function of certain buttons.") }}
           <br>
           {{ moreShiftKeyInfo }}
         </span>
         <br>
         <div class="l-modal-hotkeys-row">
-          <span class="c-modal-hotkeys-row__name l-modal-hotkeys-row__name">Autobuyer Controls</span>
+          <span class="c-modal-hotkeys-row__name l-modal-hotkeys-row__name">
+            {{ t("hotkey.autobuyerControls", "Autobuyer Controls") }}
+          </span>
           <kbd>ALT</kbd>
         </div>
         <span class="c-modal-hotkeys__shift-description">
-          Alt is a modifier key that, when pressed in conjunction with any key that has a corresponding autobuyer,
-          will toggle said autobuyer.
+          <!-- eslint-disable-next-line max-len -->
+          {{ t("hotkey.alt.description1", "Alt is a modifier key that, when pressed in conjunction with any key that has a corresponding autobuyer, will toggle said autobuyer.") }}
           <br>
-          When pressing both Alt and Shift, you can toggle buying singles or buying max for the Antimatter Dimension
-          and Tickspeed Autobuyers instead.
+          <!-- eslint-disable-next-line max-len -->
+          {{ t("hotkey.alt.description2", "When pressing both Alt and Shift, you can toggle buying singles or buying max for the Antimatter Dimension and Tickspeed Autobuyers instead.") }}
         </span>
         <br>
         <div class="l-modal-hotkeys-row">
-          <span class="c-modal-hotkeys-row__name l-modal-hotkeys-row__name">Tab Movement</span>
+          <span class="c-modal-hotkeys-row__name l-modal-hotkeys-row__name">
+            {{ t("hotkey.tabMovement", "Tab Movement") }}
+          </span>
           <div>
             <kbd>←</kbd><kbd>↓</kbd><kbd>↑</kbd><kbd>→</kbd>
           </div>
         </div>
         <span class="c-modal-hotkeys__shift-description">
-          Using the Arrow Keys will cycle you through the game's pages.
-          The Up and Down arrows cycle you through tabs,
-          and the Left and Right arrows cycle you through that tab's subtabs.
+          <!-- eslint-disable-next-line max-len -->
+          {{ t("hotkey.tabMovement.description", "Using the Arrow Keys will cycle you through the game's pages. The Up and Down arrows cycle you through tabs, and the Left and Right arrows cycle you through that tab's subtabs.") }}
         </span>
         <br>
         <div class="l-modal-hotkeys-row">
-          <span class="c-modal-hotkeys-row__name l-modal-hotkeys-row__name">Numpad Support</span>
+          <span class="c-modal-hotkeys-row__name l-modal-hotkeys-row__name">
+            {{ t("hotkey.numpadSupport", "Numpad Support") }}
+          </span>
         </div>
         <span class="c-modal-hotkeys__shift-description">
-          Due to technical reasons, pressing a numpad key will purchase 10 of a Dimension if possible, but pressing
-          a numpad key with <kbd>SHIFT</kbd> will not buy a single Dimension. It may instead, depending on your device,
-          cause the page to scroll or change game tabs. <kbd>ALT</kbd> will still work as expected.
+          <!-- eslint-disable-next-line max-len -->
+          {{ t("hotkey.numpad.part1", "Due to technical reasons, pressing a numpad key will purchase 10 of a Dimension if possible, but pressing a numpad key with ") }}<kbd>SHIFT</kbd>{{ t("hotkey.numpad.part2", " will not buy a single Dimension. It may instead, depending on your device, cause the page to scroll or change game tabs. ") }}<kbd>ALT</kbd>{{ t("hotkey.numpad.part3", " will still work as expected.") }}
         </span>
         <template v-if="isElectron">
           <br>
           <div class="l-modal-hotkeys-row">
-            <span class="c-modal-hotkeys-row__name l-modal-hotkeys-row__name">Window Zoom</span>
+            <span class="c-modal-hotkeys-row__name l-modal-hotkeys-row__name">
+              {{ t("hotkey.windowZoom", "Window Zoom") }}
+            </span>
             <kbd>-</kbd><kbd>0</kbd><kbd>+</kbd>
           </div>
           <span class="c-modal-hotkeys__shift-description">
-            To adjust zoom level, hold <kbd>ctrl</kbd> and press either <kbd>-</kbd> or <kbd>+</kbd> to decrease or
-            increase zoom. <kbd>ctrl</kbd><kbd>0</kbd> will reset zoom to 100%.
+            <!-- eslint-disable-next-line max-len -->
+            {{ t("hotkey.zoom.part1", "To adjust zoom level, hold ") }}<kbd>ctrl</kbd>{{ t("hotkey.zoom.part2", " and press either ") }}<kbd>-</kbd>{{ t("hotkey.zoom.part3", " or ") }}<kbd>+</kbd>{{ t("hotkey.zoom.part4", " to decrease or increase zoom. ") }}<kbd>ctrl</kbd><kbd>0</kbd>{{ t("hotkey.zoom.part5", " will reset zoom to 100%.") }}
           </span>
           <br>
           <div class="l-modal-hotkeys-row">
-            <span class="c-modal-hotkeys-row__name l-modal-hotkeys-row__name">Fullscreen</span>
+            <span class="c-modal-hotkeys-row__name l-modal-hotkeys-row__name">
+              {{ t("hotkey.fullscreen", "Fullscreen") }}
+            </span>
             <kbd>F10</kbd>
           </div>
           <span class="c-modal-hotkeys__shift-description">
-            To enter or exit fullscreen, press <kbd>F10</kbd>.
+            <!-- eslint-disable-next-line max-len -->
+            {{ t("hotkey.fullscreen.part1", "To enter or exit fullscreen, press ") }}<kbd>F10</kbd>{{ t("hotkey.fullscreen.part2", ".") }}
           </span>
         </template>
       </div>

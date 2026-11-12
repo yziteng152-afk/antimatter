@@ -1,4 +1,5 @@
 <script>
+import { tr } from "@/core/i18n";
 import wordShift from "@/core/word-shift";
 
 import EffectDisplay from "@/components/EffectDisplay";
@@ -117,9 +118,9 @@ export default {
       this.showUnlockState = player.options.showHintText.achievementUnlockStates;
       this.realityUnlocked = PlayerProgress.realityUnlocked();
 
-      this.processedName = this.processText(this.config.name, this.garbledNameTemplate);
+      this.processedName = this.processText(tr(this.config.name), this.garbledNameTemplate);
       this.processedId = this.processText(this.displayId, this.garbledIDTemplate);
-      this.processedDescription = this.processText(this.config.description, this.garbledDescriptionTemplate);
+      this.processedDescription = this.processText(tr(this.config.description), this.garbledDescriptionTemplate);
 
       // This uses key-swapping to force the garbled achievements to re-render their text, because otherwise they
       // would remain static. Keys for non-garbled achievements won't change, and all keys remain unique.
@@ -203,7 +204,7 @@ export default {
             v-if="!isObscured"
             :class="{ 'o-pelle-disabled': isDisabled }"
           >
-            Reward: {{ config.reward }}
+            {{ t("achievement.reward", "Reward:") }} {{ tr(config.reward) }}
             <EffectDisplay
               v-if="config.formatEffect"
               br

@@ -1,4 +1,6 @@
 <script>
+import { subtabLabel } from "@/core/i18n";
+
 export default {
   name: "HiddenSubtabsButton",
   props: {
@@ -38,8 +40,14 @@ export default {
     isModernUI() {
       return this.$viewModel.newUI;
     },
+    subtabTooltip() {
+      if (!this.hidable) return this.t("hidden.tooltip.optionsTabs", "Options tabs cannot be hidden");
+      if (this.isCurrentSubtab) return this.t("hidden.tooltip.currentTab", "You cannot hide the tab you are on");
+      return "";
+    },
   },
   methods: {
+    subtabLabel,
     update() {
       this.hidable = this.subtab.hidable;
       this.hidden = this.subtab.isHidden && this.hidable;
@@ -54,7 +62,7 @@ export default {
 
 <template>
   <div
-    v-tooltip="hidable ? isCurrentSubtab ? 'You cannot hide the tab you are on' : '' : 'Options tabs cannot be hidden'"
+    v-tooltip="subtabTooltip"
     :class="classObject"
     @click="toggleVisibility"
   >
@@ -65,7 +73,7 @@ export default {
         v-html="subtab.symbol"
       />
       <div class="l-hide-modal-button__subtab-name">
-        {{ subtab.name }}
+        {{ subtabLabel(subtab) }}
       </div>
     </div>
   </div>
