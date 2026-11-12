@@ -43,7 +43,7 @@ export default {
       };
     },
     formattedName() {
-      return this.item.formatName;
+      return this.t(`away.${this.item.name}`, this.item.formatName);
     },
     increased() {
       // If they would visually display as the same number, they shouldn't be treated as if they increased
@@ -69,7 +69,7 @@ export default {
     },
     formatBlackHoleActivations() {
       const activations = this.after - this.before;
-      return quantifyInt("time", activations);
+      return this.t("away.times", "{0}", quantifyInt("time", activations), formatInt(activations));
     },
     isVeryLarge() {
       return this.isBlackHole
@@ -108,16 +108,16 @@ export default {
     @click="hideEntry"
   >
     <span v-if="isBlackHole">
-      Your
+      {{ t("away.bhPrefix", "Your") }}
       <b>{{ formattedName }}</b>
-      activated
+      {{ t("away.bhActivated", "activated") }}
       {{ formatBlackHoleActivations }}
     </span>
     <span v-else>
       <b>{{ formattedName }}</b>
-      <i v-if="isVeryLarge"> exponent</i>
-      increased from
-      {{ formatBefore }} to {{ formatAfter }}
+      <i v-if="isVeryLarge"> {{ t("away.exponent", "exponent") }}</i>
+      {{ t("away.increasedFrom", "increased from") }}
+      {{ formatBefore }} {{ t("away.to", "to") }} {{ formatAfter }}
     </span>
   </div>
 </template>

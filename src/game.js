@@ -1,3 +1,4 @@
+/* eslint-disable sort-imports */
 import TWEEN from "tween.js";
 
 import { ElectronRuntime, SteamRuntime } from "@/steam";
@@ -5,7 +6,7 @@ import { ElectronRuntime, SteamRuntime } from "@/steam";
 import { DC } from "./core/constants";
 import { deepmergeAll } from "@/utility/deepmerge";
 import { DEV } from "@/env";
-import { getLanguage } from "./core/i18n";
+import { getLanguage, t as translate } from "./core/i18n";
 import { SpeedrunMilestones } from "./core/speedrun";
 import { Cloud } from "./core/storage";
 import { supportedBrowsers } from "./supported-browsers";
@@ -995,19 +996,20 @@ export function simulateTime(seconds, real, fast) {
         asyncEntry: doneSoFar => {
           GameIntervals.stop();
           ui.$viewModel.modal.progressBar = {
-            label: "Offline Progress Simulation",
-            info: () => `The game is being run at a lower accuracy in order to quickly calculate the resources you
-              gained while you were away. See the How To Play entry on "Offline Progress" for technical details. If
-              you are impatient and want to get back to the game sooner, you can click the "Speed up" button to
-              simulate the rest of the time with half as many ticks (down to a minimum of ${formatInt(500)} ticks
-              remaining). The "SKIP" button will instead use all the remaining offline time in ${formatInt(10)}
-              ticks.`,
-            progressName: "Ticks",
+            label: translate("offline.label", "Offline Progress Simulation"),
+            info: () => translate("offline.info",
+              "The game is being run at a lower accuracy in order to quickly calculate the resources you gained " +
+              "while you were away. See the How To Play entry on \"Offline Progress\" for technical details. If you " +
+              "are impatient and want to get back to the game sooner, you can click the \"Speed up\" button to " +
+              "simulate the rest of the time with half as many ticks (down to a minimum of {0} ticks remaining). " +
+              "The \"SKIP\" button will instead use all the remaining offline time in {1} ticks.",
+              formatInt(500), formatInt(10)),
+            progressName: translate("offline.ticks", "Ticks"),
             current: doneSoFar,
             max: ticks,
             startTime: Date.now(),
             buttons: [{
-              text: "Speed up",
+              text: translate("offline.speedUp", "Speed up"),
               condition: (current, max) => max - current > 500,
               click: () => {
                 const newRemaining = Math.clampMin(Math.floor(progress.remaining / 2), 500);
@@ -1021,7 +1023,7 @@ export function simulateTime(seconds, real, fast) {
               }
             },
             {
-              text: "SKIP",
+              text: translate("offline.skip", "SKIP"),
               condition: (current, max) => max - current > 10,
               click: () => {
                 // We jump to 10 from the end (condition guarantees there are at least 10 left).

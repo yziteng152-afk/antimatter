@@ -37,9 +37,9 @@ export default {
     headerText() {
       const timeDisplay = TimeSpan.fromSeconds(this.seconds).toString();
       if (this.nothingHappened || !this.somethingHappened) {
-        return `While you were away for ${timeDisplay}... Nothing happened.`;
+        return this.t("away.nothingHappened", "While you were away for {0}... Nothing happened.", timeDisplay);
       }
-      return `While you were away for ${timeDisplay}: `;
+      return this.t("away.header", "While you were away for {0}: ", timeDisplay);
     },
   },
   mounted() {
@@ -69,7 +69,9 @@ export default {
         @something-happened="somethingHappened = true"
       />
     </div>
-    <span v-if="!nothingHappened && somethingHappened">Note: Click an entry to hide it in the future.</span>
+    <span v-if="!nothingHappened && somethingHappened">
+      {{ t("away.clickToHide", "Note: Click an entry to hide it in the future.") }}
+    </span>
   </ModalWrapper>
 </template>
 
