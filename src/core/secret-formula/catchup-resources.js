@@ -1,4 +1,6 @@
+/* eslint-disable max-len */
 import { DC } from "../constants";
+import { t } from "../i18n";
 
 export const catchupResources = [
   {
@@ -42,8 +44,9 @@ export const catchupResources = [
     name: "Infinity",
     id: 5,
     requiredStage: PROGRESS_STAGE.EARLY_INFINITY,
-    description: () => `Infinity is the first main reset layer. Reaching ${format(Number.MAX_VALUE, 2)} antimatter
-      allows you to reset everything up to this point in exchange for unlocking new content and resources.`
+    description: () => t("catchup.desc.infinity",
+      "Infinity is the first main reset layer. Reaching {0} antimatter allows you to reset everything up to this point in exchange for unlocking new content and resources.",
+      format(Number.MAX_VALUE, 2))
   },
   {
     name: "Infinity Points",
@@ -58,15 +61,17 @@ export const catchupResources = [
     id: 7,
     openH2pEntry: "Normal Challenges",
     requiredStage: PROGRESS_STAGE.EARLY_INFINITY,
-    description: () => `Challenges require you to reach ${format(Number.MAX_VALUE, 2)} antimatter under more difficult
-      conditions. Completing challenges allows you to upgrade your Autobuyers.`
+    description: () => t("catchup.desc.normalChallenges",
+      "Challenges require you to reach {0} antimatter under more difficult conditions. Completing challenges allows you to upgrade your Autobuyers.",
+      format(Number.MAX_VALUE, 2))
   },
   {
     name: "Break Infinity",
     id: 8,
     requiredStage: PROGRESS_STAGE.BREAK_INFINITY,
-    description: () => `Upgrading your Big Crunch Autobuyer to the maximum allows you to surpass
-      ${format(Number.MAX_VALUE, 2)} antimatter, giving increasing amounts of Infinity Points with more antimatter.`
+    description: () => t("catchup.desc.breakInfinity",
+      "Upgrading your Big Crunch Autobuyer to the maximum allows you to surpass {0} antimatter, giving increasing amounts of Infinity Points with more antimatter.",
+      format(Number.MAX_VALUE, 2))
   },
   {
     name: "Infinity Dimensions",
@@ -79,23 +84,25 @@ export const catchupResources = [
     name: "Infinity Challenges",
     id: 10,
     requiredStage: PROGRESS_STAGE.BREAK_INFINITY,
-    description: () => `Infinity Challenges are new challenges with an antimatter goal above
-      ${format(Number.MAX_VALUE, 2)}. Completing them rewards upgrades and production boosts.`
+    description: () => t("catchup.desc.infinityChallenges",
+      "Infinity Challenges are new challenges with an antimatter goal above {0}. Completing them rewards upgrades and production boosts.",
+      format(Number.MAX_VALUE, 2))
   },
   {
     name: "Replicanti",
     id: 11,
     requiredStage: PROGRESS_STAGE.REPLICANTI,
-    description: () => `Replicanti is a resource which produces itself over time, giving a multiplier to all
-      Infinity Dimensions. At ${format(Number.MAX_VALUE, 2)} Replicanti, they can be reset to ${formatInt(1)} for an
-      additional Galaxy which does not increase the cost of Antimatter Galaxies. They also reset after every Infinity.`
+    description: () => t("catchup.desc.replicanti",
+      "Replicanti is a resource which produces itself over time, giving a multiplier to all Infinity Dimensions. At {0} Replicanti, they can be reset to {1} for an additional Galaxy which does not increase the cost of Antimatter Galaxies. They also reset after every Infinity.",
+      format(Number.MAX_VALUE, 2), formatInt(1))
   },
   {
     name: "Eternity",
     id: 12,
     requiredStage: PROGRESS_STAGE.EARLY_ETERNITY,
-    description: () => `Eternity is the second main reset layer. Reaching ${format(Number.MAX_VALUE, 2)} Infinity Points
-      allows you to reset everything up to this point for access to new content and resources.`
+    description: () => t("catchup.desc.eternity",
+      "Eternity is the second main reset layer. Reaching {0} Infinity Points allows you to reset everything up to this point for access to new content and resources.",
+      format(Number.MAX_VALUE, 2))
   },
   {
     name: "Eternity Points",
@@ -140,24 +147,24 @@ export const catchupResources = [
     name: "Time Dilation",
     id: 18,
     requiredStage: PROGRESS_STAGE.EARLY_DILATION,
-    description: () => `Time Dilation is a modified Eternity where tickspeed and all Dimension multipliers are
-      severely reduced. Completing Dilated Eternities gives Tachyon Particles.`
+    description: () => t("catchup.desc.timeDilation",
+      "Time Dilation is a modified Eternity where tickspeed and all Dimension multipliers are severely reduced. Completing Dilated Eternities gives Tachyon Particles.")
   },
   {
     name: "Tachyon Particles",
     id: 19,
     openH2pEntry: "Time Dilation",
     requiredStage: PROGRESS_STAGE.EARLY_DILATION,
-    description: () => `Tachyon Particles are a resource which cannot be farmed and require you to get a higher amount
-      of antimatter in a Dilated Eternity in order to increase your amount. Tachyon Particles produce Dilated Time.`
+    description: () => t("catchup.desc.tachyonParticles",
+      "Tachyon Particles are a resource which cannot be farmed and require you to get a higher amount of antimatter in a Dilated Eternity in order to increase your amount. Tachyon Particles produce Dilated Time.")
   },
   {
     name: "Reality",
     id: 20,
     requiredStage: PROGRESS_STAGE.EARLY_REALITY,
-    description: () => `Reality is the third and final main reset layer. Reaching ${format(DC.E4000)} Eternity Points
-      gives you the option to reset everything up to this point in exchange for unlocking new content and gaining
-      access to new resources.`
+    description: () => t("catchup.desc.reality",
+      "Reality is the third and final main reset layer. Reaching {0} Eternity Points gives you the option to reset everything up to this point in exchange for unlocking new content and gaining access to new resources.",
+      format(DC.E4000))
   },
   {
     name: "Reality Machines",
@@ -300,9 +307,9 @@ export const catchupResources = [
     name: "Imaginary Machines",
     id: 38,
     requiredStage: PROGRESS_STAGE.IMAGINARY_MACHINES,
-    description: () => `Imaginary Machines are a new resource unlocked when reaching ${format(DC.E1000)} Reality
-      Machines. They are produced passively up to a cap determined by how many Reality Machines you would have gotten
-      in your farthest Reality ever.`
+    description: () => t("catchup.desc.imaginaryMachines",
+      "Imaginary Machines are a new resource unlocked when reaching {0} Reality Machines. They are produced passively up to a cap determined by how many Reality Machines you would have gotten in your farthest Reality ever.",
+      format(DC.E1000))
   },
   {
     name: "Lai'tela",

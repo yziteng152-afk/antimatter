@@ -24,10 +24,13 @@ export default {
     timeString() {
       // If diff is zero, that means we opened it up via the button and don't need the text for last opening
       if (!this.diff) return null;
-      return `It has been ${TimeSpan.fromMilliseconds(this.diff).toString()} since you last loaded up the game.`;
+      return this.t("catchup.timeSince", "It has been {0} since you last loaded up the game.",
+        TimeSpan.fromMilliseconds(this.diff).toString());
     },
     titleText() {
-      return this.diff ? "Content Catch-up" : "Content Summary";
+      return this.diff
+        ? this.t("catchup.titleCatchup", "Content Catch-up")
+        : this.t("catchup.titleSummary", "Content Summary");
     }
   },
   methods: {
@@ -45,10 +48,11 @@ export default {
     </div>
     <div>
       {{ timeString }}
-      If you need a refresher, here is a quick summary of all the content you have unlocked so far from the beginning of
-      the game, separated into different stages of progression. These are only very brief descriptions; you can check
-      the related How To Play entries by clicking the contents title or <i class="fas fa-question-circle" /> icons
-      to view more detailed information.
+      {{ t("catchup.intro", "If you need a refresher, here is a quick summary of all the content you have " +
+        "unlocked so far from the beginning of the game, separated into different stages of progression. " +
+        "These are only very brief descriptions; you can check the related How To Play entries by clicking the " +
+        "contents title or") }} <i class="fas fa-question-circle" />
+      {{ t("catchup.introTail", "icons to view more detailed information.") }}
     </div>
     <div
       class="l-catchup-group-container"
@@ -62,13 +66,14 @@ export default {
       />
     </div>
     <span class="c-suggestion-text">
-      Based on your current progression, it will probably be useful to try to increase your {{ suggestedResource }}.
+      {{ t("catchup.suggestion", "Based on your current progression, it will probably be useful to try to " +
+        "increase your {0}.", trNorm(suggestedResource)) }}
     </span>
     <div class="l-confirm-padding">
       <PrimaryButton
         @click="emitClose"
       >
-        Confirm
+        {{ t("catchup.confirm", "Confirm") }}
       </PrimaryButton>
     </div>
   </div>

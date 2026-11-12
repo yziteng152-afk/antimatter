@@ -43,6 +43,7 @@ Vue.mixin({
   methods: {
     t: i18n.t,
     tr: i18n.tr,
+    trNorm: i18n.trNorm,
     emitClick() {
       this.$emit("click");
     },

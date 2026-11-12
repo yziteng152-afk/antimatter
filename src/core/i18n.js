@@ -46,6 +46,14 @@ export function tr(text) {
   return dictionary?.[text] ?? text;
 }
 
+// Same as tr(), but normalizes whitespace first. Data descriptions written as template
+// literals carry their source indentation/newlines with them, which would never match a
+// hand-written dictionary key; this collapses them to single spaces.
+export function trNorm(text) {
+  if (typeof text !== "string") return text;
+  return tr(text.replace(/\s+/gu, " ").trim());
+}
+
 export function isChinese() {
   return getLanguage() === "zh";
 }
