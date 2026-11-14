@@ -66,13 +66,13 @@ export default {
 <template>
   <ModalWrapperOptions class="c-modal-options__large">
     <template #header>
-      Modifying Single Glyph Appearance
+      {{ t("glyph.singleAppearance.header", "Modifying Single Glyph Appearance") }}
     </template>
     <PrimaryButton
       class="o-primary-btn--subtab-option"
       @click="setType(undefined)"
     >
-      Reset this Glyph's appearance
+      {{ t("glyph.singleAppearance.reset", "Reset this Glyph's appearance") }}
     </PrimaryButton>
     <GlyphCustomizationSingleType
       :key="defaultKeySwap"
@@ -80,13 +80,13 @@ export default {
       :glyph-id="glyphId"
     />
     <div v-if="cosmeticTypes && glyph.fixedCosmetic">
-      This Glyph's Cosmetic Type cannot be changed!
+      {{ t("glyph.singleAppearance.fixedCosmetic", "This Glyph's Cosmetic Type cannot be changed!") }}
     </div>
     <div
       v-else-if="cosmeticTypes"
       class="c-special-type"
     >
-      Apply Special Cosmetic Type:
+      {{ t("glyph.singleAppearance.applySpecial", "Apply Special Cosmetic Type:") }}
       <PrimaryButton
         v-for="type in cosmeticTypes"
         :key="type"

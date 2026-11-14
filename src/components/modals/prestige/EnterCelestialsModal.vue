@@ -38,31 +38,37 @@ export default {
       return description ? description() : "";
     },
     topLabel() {
-      return `${this.name} Reality`;
+      return this.t("pres.celestials.header", "{0} Reality", this.name);
     },
     message() {
-      return `Perform a Reality reset and enter ${this.name} Reality, in which:`;
+      return this.t("pres.celestials.message", "Perform a Reality reset and enter {0} Reality, in which:", this.name);
     },
     extraLine() {
       switch (this.number) {
         case 0:
           return this.teresaBestAM.eq(1)
-            ? `You have not unlocked the reward for Teresa's Reality yet. Unlocking the reward requires
-              purchasing the Reality study and completing the Reality for the first time.`
-            : `Your highest Teresa completion was for ${format(this.teresaBestAM, 2, 2)} antimatter,
-              gaining you a ${formatX(this.teresaRunMult, 2)} multiplier to Glyph Sacrifice power.`;
+            ? this.t("pres.celestials.teresaNoReward",
+              `You have not unlocked the reward for Teresa's Reality yet. Unlocking the reward requires
+              purchasing the Reality study and completing the Reality for the first time.`)
+            : this.t("pres.celestials.teresaBest",
+              `Your highest Teresa completion was for {0} antimatter,
+              gaining you a {1} multiplier to Glyph Sacrifice power.`,
+              format(this.teresaBestAM, 2, 2), formatX(this.teresaRunMult, 2));
         case 1: return this.effarigDone
-          ? "Effarig is completed!"
-          : `You are currently on the ${this.effarigLayer} Layer.`;
+          ? this.t("pres.celestials.effarigDone", "Effarig is completed!")
+          : this.t("pres.celestials.effarigLayer", "You are currently on the {0} Layer.",
+            this.t(`pres.layer.${this.effarigLayer}`, this.effarigLayer));
         case 2: return this.enslavedDone
-          ? "Have... we... not helped enough..."
-          : "We... can help... Let us... help...";
+          ? this.t("pres.celestials.enslavedDone", "Have... we... not helped enough...")
+          : this.t("pres.celestials.enslavedHelp", "We... can help... Let us... help...");
         case 3: return "";
-        case 4: return `Within Ra's Reality, some resources will generate Memory Chunks
-          for Celestial Memories based on their amounts:`;
+        case 4: return this.t("pres.celestials.raChunks",
+          `Within Ra's Reality, some resources will generate Memory Chunks
+          for Celestial Memories based on their amounts:`);
         case 5: return this.laitelaFastest >= 300
-          ? "You have not completed Lai'tela at this tier."
-          : `Your fastest completion on this tier is ${this.laitelaTime}.`;
+          ? this.t("pres.celestials.laitelaIncomplete", "You have not completed Lai'tela at this tier.")
+          : this.t("pres.celestials.laitelaFastest", "Your fastest completion on this tier is {0}.",
+            this.laitelaTime);
         case 6: return "";
         default: throw new Error(`Attempted to start an Unknown Celestial in Celestial Modal Confirmation.`);
       }
@@ -136,7 +142,7 @@ export default {
       </span>
     </div>
     <template #confirm-text>
-      Begin
+      {{ t("pres.celestials.confirm", "Begin") }}
     </template>
   </ModalWrapperChoice>
 </template>

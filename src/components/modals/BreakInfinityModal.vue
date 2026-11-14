@@ -9,12 +9,23 @@ export default {
   computed: {
     message() {
       const infinity = formatPostBreak(Number.MAX_VALUE, 2);
-      return `Breaking Infinity will allow you to gain antimatter past ${infinity}${PlayerProgress.eternityUnlocked()
-        ? "." : `, and allow you to read numbers past ${infinity}.`}
-        Dimensions and Tickspeed Upgrades will scale in cost faster after ${infinity} antimatter.
-        You will gain additional Infinity Points on Big Crunch based on antimatter produced over ${infinity}.\
-        ${EternityMilestone.keepAutobuyers.isReached ? "" : `\nIt will also unlock Break Infinity Upgrades and max\
-        all Normal Challenge Autobuyers.`}`.split("\n");
+      const lines = [
+        PlayerProgress.eternityUnlocked()
+          ? this.t("pres.breakInfinity.intro",
+            "Breaking Infinity will allow you to gain antimatter past {0}.", infinity)
+          : this.t("pres.breakInfinity.introRead",
+            "Breaking Infinity will allow you to gain antimatter past {0}, and allow you to read numbers past {0}.",
+            infinity),
+        this.t("pres.breakInfinity.scaling",
+          "Dimensions and Tickspeed Upgrades will scale in cost faster after {0} antimatter.", infinity),
+        this.t("pres.breakInfinity.ip",
+          "You will gain additional Infinity Points on Big Crunch based on antimatter produced over {0}.", infinity),
+      ];
+      if (!EternityMilestone.keepAutobuyers.isReached) {
+        lines.push(this.t("pres.breakInfinity.upgrades",
+          "It will also unlock Break Infinity Upgrades and max all Normal Challenge Autobuyers."));
+      }
+      return lines;
     },
   },
   methods: {
@@ -31,7 +42,7 @@ export default {
     @confirm="handleYesClick"
   >
     <template #header>
-      You are Breaking Infinity
+      {{ t("pres.breakInfinity.header", "You are Breaking Infinity") }}
     </template>
     <div class="c-modal-message__text">
       <span
@@ -42,7 +53,7 @@ export default {
       </span>
     </div>
     <template #confirm-text>
-      Break
+      {{ t("pres.breakInfinity.confirm", "Break") }}
     </template>
   </ModalWrapperChoice>
 </template>

@@ -14,12 +14,18 @@ export default {
   computed: {
     message() {
       switch (this.messageIndex) {
-        case 0: return "Are you sure you want to get rid of your Companion Glyph?";
-        case 1: return "You will not receive any cake.";
-        case 2: return "This is permanent! You will not get another Companion Glyph!";
-        case 3: return `You deleted your faithful Companion Glyph more quickly than any
-                        other test subject on record. Congratulations.`;
-        default: return "Invalid message index";
+        case 0:
+          return this.t("glyph.deleteCompanion.confirm", "Are you sure you want to get rid of your Companion Glyph?");
+        case 1:
+          return this.t("glyph.deleteCompanion.noCake", "You will not receive any cake.");
+        case 2:
+          return this.t("glyph.deleteCompanion.permanent",
+            "This is permanent! You will not get another Companion Glyph!");
+        case 3:
+          return this.t("glyph.deleteCompanion.quick",
+            "You deleted your faithful Companion Glyph more quickly than any other test subject on record. " +
+            "Congratulations.");
+        default: return this.t("glyph.deleteCompanion.invalid", "Invalid message index");
       }
     }
   },
@@ -66,13 +72,13 @@ export default {
         class="o-primary-btn--width-medium c-modal-message__okay-btn"
         @click="handleLeftButtonClick"
       >
-        {{ messageIndex < 2 ? "Delete" : "Cancel" }}
+        {{ messageIndex < 2 ? t("glyph.common.delete", "Delete") : t("glyph.common.cancel", "Cancel") }}
       </PrimaryButton>
       <PrimaryButton
         class="o-primary-btn--width-medium c-modal-message__okay-btn"
         @click="handleRightButtonClick"
       >
-        {{ messageIndex >= 2 ? "Delete" : "Cancel" }}
+        {{ messageIndex >= 2 ? t("glyph.common.delete", "Delete") : t("glyph.common.cancel", "Cancel") }}
       </PrimaryButton>
     </div>
     <div v-else>
@@ -80,7 +86,7 @@ export default {
         class="o-primary-btn--width-medium c-modal-message__okay-btn"
         @click="handleNoClick"
       >
-        Thank you
+        {{ t("glyph.deleteCompanion.thankYou", "Thank you") }}
       </PrimaryButton>
     </div>
   </div>

@@ -64,12 +64,13 @@ export default {
     @confirm="importConstants"
   >
     <template #header>
-      Importing Time Study Presets as Constants
+      {{ t("save.importConstants.title", "Importing Time Study Presets as Constants") }}
     </template>
     <div class="c-modal-message__text">
-      Confirming this modal will import all of your saved Time Study presets as new Automator constants.
-      Below are all the valid presets which will be imported, with the beginning and end of their contained
-      studies shown. Some names may be changed due to restrictions on constant name formatting.
+      {{ t("save.importConstants.intro",
+           "Confirming this modal will import all of your saved Time Study presets as new Automator constants. " +
+             "Below are all the valid presets which will be imported, with the beginning and end of their contained " +
+             "studies shown. Some names may be changed due to restrictions on constant name formatting.") }}
       <br>
       <br>
       <div
@@ -77,7 +78,8 @@ export default {
         :key="i"
         :class="{ 'l-not-imported' : !willImport[i-1] }"
       >
-        Name: {{ presets[i-1].name }} ➜ <b>{{ names[i-1] }}</b>
+        {{ t("save.importConstants.name", "Name:") }}
+        {{ presets[i-1].name }} ➜ <b>{{ names[i-1] }}</b>
         <br>
         {{ shortenString(presets[i-1].studies) }}
         <span
@@ -85,7 +87,7 @@ export default {
           class="l-warn-text"
         >
           <br>
-          This will overwrite an existing constant!
+          {{ t("save.importConstants.overwrite", "This will overwrite an existing constant!") }}
         </span>
         <br>
         <br>
@@ -94,12 +96,16 @@ export default {
         v-if="missedImports() > 0"
         class="l-warn-text"
       >
-        {{ quantify("preset", missedImports()) }} in this list cannot be imported
-        due to the limit on constant count.
+        {{ missedImports() === 1
+          ? t("save.importConstants.presetLimitOne",
+              "1 preset in this list cannot be imported due to the limit on constant count.")
+          : t("save.importConstants.presetLimitMany",
+              "{0} presets in this list cannot be imported due to the limit on constant count.",
+              formatInt(missedImports())) }}
       </div>
     </div>
     <template #confirm-text>
-      Import All
+      {{ t("save.importConstants.importAll", "Import All") }}
     </template>
   </ModalWrapperChoice>
 </template>

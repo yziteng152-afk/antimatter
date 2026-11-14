@@ -9,11 +9,14 @@ export default {
   computed: {
     listEntries() {
       return [
-        `Many more game events now have animations. If these impact your performance or gameplay, they can be
-        disabled in the Visual Options tab.`,
-        `New confirmation windows have replaced the default Javascript alert windows. These can be disabled in the
-        Gameplay Options tab.`,
-        "The game now also has a new sleek layout which was designed with more Modern design practices in mind."
+        this.t("save.uiChanges.animations",
+          "Many more game events now have animations. If these impact your performance or gameplay, they can be " +
+          "disabled in the Visual Options tab."),
+        this.t("save.uiChanges.confirmations",
+          "New confirmation windows have replaced the default Javascript alert windows. These can be disabled in " +
+          "the Gameplay Options tab."),
+        this.t("save.uiChanges.layout",
+          "The game now also has a new sleek layout which was designed with more Modern design practices in mind.")
       ];
     }
   },
@@ -28,10 +31,12 @@ export default {
 <template>
   <ModalWrapperChoice @confirm="handleYesClick">
     <template #header>
-      Visual Changes
+      {{ t("save.uiChanges.title", "Visual Changes") }}
     </template>
     <div class="c-modal-message__text">
-      We noticed that you've loaded an old save; a few visual changes have been made since older versions of the game:
+      {{ t("save.uiChanges.intro",
+           "We noticed that you've loaded an old save; a few visual changes have been made since older versions of " +
+             "the game:") }}
       <br>
       <br>
       <div class="c-visual-change-list">
@@ -46,14 +51,15 @@ export default {
       </div>
       <br>
       <br>
-      You can change between the Classic UI which older versions of the game used and the newer Modern UI in the Visual
-      Options tab at any time. Would you like to swap to the Modern UI now?
+      {{ t("save.uiChanges.outro",
+           "You can change between the Classic UI which older versions of the game used and the newer Modern UI in " +
+             "the Visual Options tab at any time. Would you like to swap to the Modern UI now?") }}
     </div>
     <template #cancel-text>
-      Remain
+      {{ t("save.uiChanges.remain", "Remain") }}
     </template>
     <template #confirm-text>
-      Swap
+      {{ t("save.uiChanges.swap", "Swap") }}
     </template>
   </ModalWrapperChoice>
 </template>

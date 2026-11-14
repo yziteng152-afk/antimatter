@@ -39,13 +39,13 @@ export default {
 <template>
   <ModalWrapperChoice @confirm="handleYesClick">
     <template #header>
-      Delete this script
+      {{ t("misc.automatorDelete.header", "Delete this script") }}
     </template>
     <div class="c-modal-message__text">
-      Please confirm your desire to delete this Automator script.
+      {{ t("misc.automatorDelete.message", "Please confirm your desire to delete this Automator script.") }}
     </div>
     <template #confirm-text>
-      Delete
+      {{ t("misc.automatorDelete.confirm", "Delete") }}
     </template>
   </ModalWrapperChoice>
 </template>

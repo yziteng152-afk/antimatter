@@ -47,22 +47,29 @@ export default {
     @confirm="handleYesClick"
   >
     <template #header>
-      You are about to {{ isRestarting ? "restart" : "exit" }} {{ challengeName }}
+      {{ isRestarting
+        ? t("pres.exitChallenge.headerRestart", "You are about to restart {0}", tr(challengeName))
+        : t("pres.exitChallenge.headerExit", "You are about to exit {0}", tr(challengeName)) }}
     </template>
 
     <div class="c-modal-message__text">
       <span v-if="isRestarting">
-        You will immediately re-enter {{ challengeName }} again after confirming this modal.
+        {{ t("pres.exitChallenge.restartBody",
+             "You will immediately re-enter {0} again after confirming this modal.", tr(challengeName)) }}
       </span>
       <span v-else>
-        This will place you back into a regular {{ normalName }} without any restrictions.
+        {{ t("pres.exitChallenge.exitBody",
+             "This will place you back into a regular {0} without any restrictions.", tr(normalName)) }}
       </span>
       <span v-if="hasHigherLayers">
-        Other effects coming from higher-layer restrictions will still continue to apply.
+        {{ t("pres.exitChallenge.higherLayers",
+             "Other effects coming from higher-layer restrictions will still continue to apply.") }}
       </span>
     </div>
     <template #confirm-text>
-      {{ isRestarting ? "Restart" : "Exit" }}
+      {{ isRestarting
+        ? t("pres.exitChallenge.confirmRestart", "Restart")
+        : t("pres.exitChallenge.confirmExit", "Exit") }}
     </template>
   </ModalWrapperChoice>
 </template>

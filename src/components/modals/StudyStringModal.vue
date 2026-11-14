@@ -99,8 +99,13 @@ export default {
       return combinedTree;
     },
     modalTitle() {
-      if (this.deleting) return `Deleting Study Preset "${this.name}"`;
-      return this.isImporting ? "Input your tree" : `Editing Study Preset "${this.name}"`;
+      if (this.deleting) {
+        return this.t("glyph.studyString.titleDeletingPreset",
+          'Deleting Study Preset "{0}"', this.name);
+      }
+      return this.isImporting
+        ? this.t("glyph.studyString.titleInput", "Input your tree")
+        : this.t("glyph.studyString.titleEditingPreset", 'Editing Study Preset "{0}"', this.name);
     },
     invalidMessage() {
       if (!this.inputIsValidTree || this.importedTree.invalidStudies.length === 0) return null;
@@ -123,8 +128,9 @@ export default {
             break;
         }
       }
-      return `Your import string has invalid study IDs: ${coloredString.replaceAll("#", "").replaceAll(",", ", ")}
-        <br><br>`;
+      return this.t("glyph.studyString.invalidIds",
+        "Your import string has invalid study IDs: {0} <br><br>",
+        coloredString.replaceAll("#", "").replaceAll(",", ", "));
     },
     truncatedInput() {
       return TimeStudyTree.truncateInput(this.input);
@@ -148,8 +154,10 @@ export default {
       return secretStrings.includes(sha512_256(this.input.toLowerCase()));
     },
     confirmText() {
-      if (this.deleting) return "Delete";
-      return this.isImporting ? "Import" : "Save";
+      if (this.deleting) return this.t("glyph.common.delete", "Delete");
+      return this.isImporting
+        ? this.t("glyph.common.import", "Import")
+        : this.t("glyph.common.save", "Save");
     }
   },
   watch: {
@@ -200,16 +208,20 @@ export default {
     savePreset() {
       if (this.inputIsValid) {
         player.timestudy.presets[this.id].studies = this.input;
-        GameUI.notify.eternity(`Study Tree ${this.name} successfully edited.`);
+        GameUI.notify.eternity(this.t("glyph.studyString.treeEdited",
+          "Study Tree {0} successfully edited.", this.name));
         this.emitClose();
       }
     },
     deletePreset() {
       const name = player.timestudy.presets[this.id].name;
-      const presetName = name ? `Study preset "${name}"` : "Study preset";
+      const presetName = name
+        ? this.t("glyph.studyString.presetNamed", 'Study preset "{0}"', name)
+        : this.t("glyph.studyString.presetUnnamed", "Study preset");
       player.timestudy.presets[this.id].studies = "";
       player.timestudy.presets[this.id].name = "";
-      GameUI.notify.eternity(`${presetName} deleted from slot ${this.id + 1}`);
+      GameUI.notify.eternity(this.t("glyph.studyString.presetDeleted",
+        "{0} deleted from slot {1}", presetName, this.id + 1));
     },
     studyString(study) {
       return study instanceof ECTimeStudyState ? `EC${study.id}` : `${study.id}`;
@@ -261,22 +273,24 @@ export default {
           />
           <StudyTreeInfo
             v-if="deleting && importedTree.hasInfo"
-            header-text="Study Preset contains:"
+            :header-text="t('glyph.studyString.presetContains', 'Study Preset contains:')"
             :tree-status="importedTree"
           />
           <StudyTreeInfo
             v-if="!deleting && !isImporting && importedTree.hasInfo"
-            header-text="Status after loading with <b>no studies</b>:"
+            :header-text="t('glyph.studyString.statusNoStudies',
+                            'Status after loading with <b>no studies</b>:')"
             :tree-status="importedTree"
           />
           <StudyTreeInfo
             v-if="!deleting && combinedTree.hasInfo"
-            header-text="Status after loading with <b>current tree</b>:"
+            :header-text="t('glyph.studyString.statusCurrentTree',
+                            'Status after loading with <b>current tree</b>:')"
             :tree-status="combinedTree"
           />
         </template>
         <div v-if="!deleting && !inputIsValidTree && hasInput">
-          Not a valid tree
+          {{ t("glyph.studyString.invalidTree", "Not a valid tree") }}
         </div>
       </div>
       <div class="c-study-preview">
@@ -292,16 +306,19 @@ export default {
       <br>
       <PrimaryButton
         v-if="!deleting"
-        v-tooltip="'This will format the study preset text, for example, changing \'a,b,c|d\' to \'a, b, c | d\'.'"
+        v-tooltip="t('glyph.studyString.formatTooltip',
+                     'This will format the study preset text, for example, changing \'a,b,c|d\' to ' +
+                       '\'a, b, c | d\'.')"
         @click="convertInputShorthands"
       >
-        Format Preset Text
+        {{ t("glyph.studyString.formatButton", "Format Preset Text") }}
       </PrimaryButton>
     </div>
     <span v-if="isImporting">
       <br>
       <div
-        v-tooltip="canEternity ? '' : 'You are currently unable to eternity, so this will only do a normal load.'"
+        v-tooltip="canEternity ? '' : t('glyph.studyString.eternityTooltip',
+                                        'You are currently unable to eternity, so this will only do a normal load.')"
         class="c-modal__confirmation-toggle"
         @click="respecAndLoad = !respecAndLoad"
       >
@@ -317,7 +334,7 @@ export default {
           />
         </div>
         <span class="c-modal__confirmation-toggle__text">
-          Also respec tree and eternity
+          {{ t("glyph.studyString.alsoRespec", "Also respec tree and eternity") }}
           <span
             v-if="!canEternity"
             class="c-modal__confirmation-toggle__warning"

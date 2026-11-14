@@ -34,7 +34,14 @@ export default {
       }
     },
     otherMode() {
-      return this.isCurrentlyBlocks ? "Text" : "Block";
+      return this.isCurrentlyBlocks
+        ? this.t("misc.automatorSwitch.mode.Text", "Text")
+        : this.t("misc.automatorSwitch.mode.Block", "Block");
+    },
+    lostLinesLabel() {
+      return this.t("misc.automatorSwitch.lostLines",
+        quantifyInt("line", this.lostBlocks),
+        formatInt(this.lostBlocks));
     }
   },
   methods: {
@@ -56,38 +63,42 @@ export default {
     @confirm="toggleAutomatorMode"
   >
     <template #header>
-      Change Automator to {{ otherMode }} editor
+      {{ t("misc.automatorSwitch.header", "Change Automator to {0} editor", otherMode) }}
     </template>
     <div class="c-modal-message__text">
-      This will stop your current script if it is running!
+      {{ t("misc.automatorSwitch.stopNotice", "This will stop your current script if it is running!") }}
       <div v-if="errorCount">
         <br>
-        Your script has some errors which may not get converted properly to {{ otherMode }} mode. Continuing on will
-        make the Automator attempt to parse these lines anyway, although some information may get lost or not be
-        converted properly.
+        {{ t("misc.automatorSwitch.errors",
+             "Your script has some errors which may not get converted properly to {0} mode. Continuing on will " +
+               "make the Automator attempt to parse these lines anyway, although some information may get lost or " +
+               "not be converted properly.", otherMode) }}
       </div>
       <!-- Note: this can only ever appear on text-to-block -->
       <b v-if="lostBlocks">
         <br>
-        Warning: Your script also currently has some lines which cannot interpreted as particular commands. These
-        lines will end up being deleted since there is no block they can be converted into.
-        If an error occurs at the start of a loop or IF, this may end up deleting large portions of your script!
+        {{ t("misc.automatorSwitch.lostBlocksWarning",
+             "Warning: Your script also currently has some lines which cannot interpreted as particular commands. " +
+               "These lines will end up being deleted since there is no block they can be converted into. " +
+               "If an error occurs at the start of a loop or IF, this may end up deleting large portions of your " +
+               "script!") }}
         <span class="l-lost-text">
-          Changing editor modes right now will cause {{ quantifyInt("line", lostBlocks) }} of code to be irreversibly
-          lost!
+          {{ t("misc.automatorSwitch.irreversibleLoss",
+               "Changing editor modes right now will cause {0} of code to be irreversibly lost!", lostLinesLabel) }}
         </span>
       </b>
       <br>
       <span class="l-lost-text">
-        Hiding this confirmation is not recommended, as it may cause parts of scripts to be immediately and irreversibly
-        lost if your script has errors when attempting to switch modes.
+        {{ t("misc.automatorSwitch.hideWarning",
+             "Hiding this confirmation is not recommended, as it may cause parts of scripts to be immediately and " +
+               "irreversibly lost if your script has errors when attempting to switch modes.") }}
       </span>
       <br>
       <br>
-      Are you sure you want to change to the {{ otherMode }} editor?
+      {{ t("misc.automatorSwitch.question", "Are you sure you want to change to the {0} editor?", otherMode) }}
     </div>
     <template #confirm-text>
-      Change Modes
+      {{ t("misc.automatorSwitch.confirmText", "Change Modes") }}
     </template>
   </ModalWrapperChoice>
 </template>

@@ -17,7 +17,7 @@ export default {
       return Ra.pets.all[this.petId];
     },
     name() {
-      return this.pet.name;
+      return this.tr(this.pet.name);
     },
     color() {
       return `color: ${this.pet.color}`;
@@ -28,11 +28,11 @@ export default {
       const gain = isPlural ? "gain" : "gains";
       const has = isPlural ? "have" : "has";
       return this.pet.level === 25
-        ? `${has} regained all Memories`
-        : `${gain} Memory Chunks based on ${this.chunkGain}`;
+        ? this.t("pres.raPet.allMemories", `${has} regained all Memories`)
+        : this.t("pres.raPet.memoryChunks", `${gain} Memory Chunks based on {0}`, this.chunkGain);
     },
     chunkGain() {
-      return this.pet.chunkGain;
+      return this.tr(this.pet.chunkGain);
     },
   },
   methods: {

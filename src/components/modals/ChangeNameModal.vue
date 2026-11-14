@@ -34,7 +34,7 @@ export default {
 <template>
   <ModalWrapperChoice @confirm="confirmChange">
     <template #header>
-      Change your Speedrun Player Name
+      {{ t("save.name.title", "Change your Speedrun Player Name") }}
     </template>
     <input
       ref="input"
@@ -46,13 +46,15 @@ export default {
       @keyup.esc="emitClose"
     >
     <i>
-      This can no longer be changed once the timer starts, and there is a limit of {{ formatInt(40) }} characters.
+      {{ t("save.name.note",
+           "This can no longer be changed once the timer starts, and there is a limit of {0} characters.",
+           formatInt(40)) }}
     </i>
     <div>
-      Your new name will be {{ actualName }}
+      {{ t("save.name.newName", "Your new name will be {0}", actualName) }}
     </div>
     <template #confirm-text>
-      Change Name
+      {{ t("save.name.confirm", "Change Name") }}
     </template>
   </ModalWrapperChoice>
 </template>

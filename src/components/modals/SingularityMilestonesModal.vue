@@ -20,20 +20,37 @@ export default {
   },
   computed: {
     resourceStr() {
-      const states = ["Singularity Count", "Condense Count", "Manual Time", "Auto Time"];
+      const states = [
+        this.t("misc.singularityMilestones.resource.singularityCount", "Singularity Count"),
+        this.t("misc.singularityMilestones.resource.condenseCount", "Condense Count"),
+        this.t("misc.singularityMilestones.resource.manualTime", "Manual Time"),
+        this.t("misc.singularityMilestones.resource.autoTime", "Auto Time"),
+      ];
       return states[this.resourceVal];
     },
     sortStr() {
-      const states = ["Singularities needed", "Current Completions", "Progress to full completion",
-        "Final Singularities", "Most Recent"];
+      const states = [
+        this.t("misc.singularityMilestones.sort.singularitiesNeeded", "Singularities needed"),
+        this.t("misc.singularityMilestones.sort.currentCompletions", "Current Completions"),
+        this.t("misc.singularityMilestones.sort.progressToFull", "Progress to full completion"),
+        this.t("misc.singularityMilestones.sort.finalSingularities", "Final Singularities"),
+        this.t("misc.singularityMilestones.sort.mostRecent", "Most Recent"),
+      ];
       return states[this.sortVal];
     },
     completedStr() {
-      const states = ["First", "Last", "Don't move"];
+      const states = [
+        this.t("misc.singularityMilestones.completed.first", "First"),
+        this.t("misc.singularityMilestones.completed.last", "Last"),
+        this.t("misc.singularityMilestones.completed.dontMove", "Don't move"),
+      ];
       return states[this.completedVal];
     },
     orderStr() {
-      const states = ["Ascending", "Descending"];
+      const states = [
+        this.t("misc.singularityMilestones.order.ascending", "Ascending"),
+        this.t("misc.singularityMilestones.order.descending", "Descending"),
+      ];
       return states[this.orderVal];
     },
   },
@@ -107,7 +124,7 @@ export default {
 <template>
   <ModalWrapper>
     <template #header>
-      Singularity Milestones
+      {{ t("misc.singularityMilestones.header", "Singularity Milestones") }}
     </template>
     <div
       class="c-modal__confirmation-toggle"
@@ -120,7 +137,7 @@ export default {
         />
       </div>
       <span class="c-modal__confirmation-toggle__text">
-        Make button glow when new milestones have been reached
+        {{ t("misc.singularityMilestones.glow", "Make button glow when new milestones have been reached") }}
       </span>
     </div>
     <div class="l-singularity-milestone-modal-container-outer">
@@ -137,7 +154,7 @@ export default {
         class="c-singularity-milestone-modal-sort-button"
         @click="cycleButton(0)"
       >
-        To Milestone:
+        {{ t("misc.singularityMilestones.toMilestone", "To Milestone:") }}
         <br>
         {{ resourceStr }}
       </button>
@@ -145,7 +162,7 @@ export default {
         class="c-singularity-milestone-modal-sort-button"
         @click="cycleButton(1)"
       >
-        Sort by:
+        {{ t("misc.singularityMilestones.sortBy", "Sort by:") }}
         <br>
         {{ sortStr }}
       </button>
@@ -153,7 +170,7 @@ export default {
         class="c-singularity-milestone-modal-sort-button"
         @click="cycleButton(2)"
       >
-        Completed Milestones:
+        {{ t("misc.singularityMilestones.completedMilestones", "Completed Milestones:") }}
         <br>
         {{ completedStr }}
       </button>
@@ -161,7 +178,7 @@ export default {
         class="c-singularity-milestone-modal-sort-button"
         @click="cycleButton(3)"
       >
-        Sort Order:
+        {{ t("misc.singularityMilestones.sortOrder", "Sort Order:") }}
         <br>
         {{ orderStr }}
       </button>

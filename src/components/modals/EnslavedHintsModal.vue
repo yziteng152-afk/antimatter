@@ -94,11 +94,12 @@ export default {
 <template>
   <ModalWrapper>
     <template #header>
-      Cracks in The Nameless Ones' Reality
+      {{ t("misc.enslavedHints.header", "Cracks in The Nameless Ones' Reality") }}
     </template>
     <div class="c-enslaved-hint-modal c-modal--short">
       <div>
-        This Reality seems to be resisting your efforts to complete it. So far you have done the following:
+        {{ t("misc.enslavedHints.intro",
+             "This Reality seems to be resisting your efforts to complete it. So far you have done the following:") }}
       </div>
       <br>
       <div
@@ -108,11 +109,11 @@ export default {
         <div v-if="!entry[0]">
           <span v-if="entry[1].hasHint && !entry[1].hasProgress">
             <i class="c-icon-wrapper fas fa-question-circle" />
-            <b>You have not figured out what this hint means yet.</b>
+            <b>{{ t("misc.enslavedHints.unknownHint", "You have not figured out what this hint means yet.") }}</b>
           </span>
           <span v-else>
             <i class="c-icon-wrapper fa-solid fa-house-crack" />
-            <b>You have exposed a crack in the Reality:</b>
+            <b>{{ t("misc.enslavedHints.exposedCrack", "You have exposed a crack in the Reality:") }}</b>
           </span>
           <br>
           - {{ entry[1].hintInfo }}
@@ -120,21 +121,25 @@ export default {
           - {{ entry[1].hasProgress ? entry[1].completedInfo : "?????" }}
         </div>
         <div v-else>
-          <i class="fa-solid fa-shapes" /> <b>Glyph hint:</b>
+          <i class="fa-solid fa-shapes" /> <b>{{ t("misc.enslavedHints.glyphHint", "Glyph hint:") }}</b>
           <br>
           {{ entry[1] }}
         </div>
         <br>
       </div>
       <div v-if="realityHintsLeft + glyphHintsLeft > 0">
-        You can spend some time looking for some more cracks in the Reality, but every hint you spend Stored Time on
-        will increase the Stored Time needed for the next by a factor of {{ formatInt(3) }}. This cost bump will
-        gradually go away over {{ formatInt(24) }} hours and figuring out what the hint means will immediately
-        divide the cost by {{ formatInt(2) }}. The cost can't be reduced below {{ format(1e40) }} years.
+        {{ t("misc.enslavedHints.moreInfo",
+             "You can spend some time looking for some more cracks in the Reality, but every hint you spend " +
+               "Stored Time on will increase the Stored Time needed for the next by a factor of {0}. " +
+               "This cost bump will gradually go away over {1} hours and figuring out what the hint means will " +
+               "immediately divide the cost by {2}. The cost can't be reduced below {3} years.",
+             formatInt(3), formatInt(24), formatInt(2), format(1e40)) }}
         <br><br>
-        The next hint will cost {{ hintCost }} of Stored Time. You currently have {{ formattedStored }}.
+        {{ t("misc.enslavedHints.nextCost",
+             "The next hint will cost {0} of Stored Time. You currently have {1}.", hintCost, formattedStored) }}
         <span v-if="currentStored < nextHintCost">
-          You will reach this if you charge your Black Hole for {{ timeEstimate }}.
+          {{ t("misc.enslavedHints.chargeEstimate",
+               "You will reach this if you charge your Black Hole for {0}.", timeEstimate) }}
         </span>
         <br><br>
         <PrimaryButton
@@ -142,7 +147,8 @@ export default {
           class="l-enslaved-hint-button"
           @click="giveRealityHint(realityHintsLeft)"
         >
-          Get a hint about the Reality itself ({{ formatInt(realityHintsLeft) }} left)
+          {{ t("misc.enslavedHints.realityButton",
+               "Get a hint about the Reality itself ({0} left)", formatInt(realityHintsLeft)) }}
         </PrimaryButton>
         <br>
         <PrimaryButton
@@ -150,11 +156,12 @@ export default {
           class="l-enslaved-hint-button"
           @click="giveGlyphHint(glyphHintsLeft)"
         >
-          Get a hint on what Glyphs to use ({{ formatInt(glyphHintsLeft) }} left)
+          {{ t("misc.enslavedHints.glyphButton",
+               "Get a hint on what Glyphs to use ({0} left)", formatInt(glyphHintsLeft)) }}
         </PrimaryButton>
       </div>
       <div v-else>
-        <b>There are no more hints left!</b>
+        <b>{{ t("misc.enslavedHints.noneLeft", "There are no more hints left!") }}</b>
       </div>
     </div>
   </ModalWrapper>

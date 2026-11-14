@@ -20,24 +20,30 @@ export default {
       return this.challenge.isCompleted;
     },
     message() {
-      return `You will Big Crunch (if possible) and start a new Infinity within the Challenge with all the
-        Challenge-specific restrictions and modifiers active.
-        To complete the Challenge${this.challengeIsCompleted ? "" : " and gain its reward"},
-        you must reach Infinity again.
-        You do not start with any Dimension Boosts or Galaxies, regardless of upgrades.`;
+      const rewardClause = this.challengeIsCompleted
+        ? ""
+        : this.t("misc.challenge.rewardClause", " and gain its reward");
+      return this.t("misc.challenge.normal.message",
+        "You will Big Crunch (if possible) and start a new Infinity within the Challenge with all the " +
+          "Challenge-specific restrictions and modifiers active. To complete the Challenge{0}, you must reach " +
+          "Infinity again. You do not start with any Dimension Boosts or Galaxies, regardless of upgrades.",
+        rewardClause);
     },
     entranceLabel() {
-      return `You are about to enter Challenge ${this.id}`;
+      return this.t("misc.challenge.normal.header", "You are about to enter Challenge {0}", this.id);
     },
     reward() {
-      return `The reward for completing this challenge is: ${this.challenge._config.reward}`;
+      return this.t("misc.challenge.reward",
+        "The reward for completing this challenge is: {0}",
+        this.tr(this.challenge._config.reward));
     },
     condition() {
       let conditionOfChallenge = this.challenge._config.description;
       if (typeof conditionOfChallenge === "function") {
         conditionOfChallenge = conditionOfChallenge();
       }
-      return `Inside this Challenge, ${conditionOfChallenge}`;
+      conditionOfChallenge = this.tr(conditionOfChallenge);
+      return this.t("misc.challenge.normal.condition", "Inside this Challenge, {0}", conditionOfChallenge);
     }
   },
   created() {
@@ -73,7 +79,7 @@ export default {
       {{ reward }}
     </div>
     <template #confirm-text>
-      Begin
+      {{ t("misc.challenge.begin", "Begin") }}
     </template>
   </ModalWrapperChoice>
 </template>

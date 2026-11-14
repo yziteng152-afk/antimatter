@@ -24,7 +24,11 @@ export default {
     };
   },
   computed: {
-    resetTerm() { return this.isDoomed ? "Armageddon" : "Reality"; },
+    resetTerm() {
+      return this.isDoomed
+        ? this.t("glyph.replace.armageddon", "Armageddon")
+        : this.t("glyph.replace.reality", "Reality");
+    },
   },
   methods: {
     update() {
@@ -46,8 +50,8 @@ export default {
     @confirm="handleYesClick"
   >
     <template #header>
-      You are about to replace a Glyph
+      {{ t("glyph.replace.header", "You are about to replace a Glyph") }}
     </template>
-    Replacing a Glyph will restart this {{ resetTerm }}.
+    {{ t("glyph.replace.body", "Replacing a Glyph will restart this {0}.", resetTerm) }}
   </ModalWrapperChoice>
 </template>

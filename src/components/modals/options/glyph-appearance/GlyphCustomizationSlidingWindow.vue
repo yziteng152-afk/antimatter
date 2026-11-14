@@ -213,7 +213,9 @@ export default {
       v-else
       class="c-no-options"
     >
-      You have no custom options for changing Glyph {{ attrString }}s.
+      {{ isSymbol
+        ? t("glyph.custom.noSymbolOptions", "You have no custom options for changing Glyph symbols.")
+        : t("glyph.custom.noColorOptions", "You have no custom options for changing Glyph colors.") }}
     </div>
   </div>
 </template>

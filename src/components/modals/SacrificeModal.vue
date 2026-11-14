@@ -15,16 +15,19 @@ export default {
   computed: {
     message() {
       if (Achievement(118).isUnlocked && !Pelle.isDoomed) {
-        return `Dimensional Sacrifice will give you a boost to the 8th Antimatter Dimension based on the amount of
-          1st Antimatter Dimensions you had at the time of Sacrificing.`;
+        return this.t("pres.sacrifice.rewardOnly",
+          `Dimensional Sacrifice will give you a boost to the 8th Antimatter Dimension based on the amount of
+          1st Antimatter Dimensions you had at the time of Sacrificing.`);
       }
-      return `Dimensional Sacrifice will remove all of your 1st through 7th Antimatter Dimensions
+      return this.t("pres.sacrifice.message",
+        `Dimensional Sacrifice will remove all of your 1st through 7th Antimatter Dimensions
         (with the cost and multiplier unchanged), for a boost to the 8th Antimatter Dimension based on the total
-        amount of 1st Antimatter Dimensions sacrificed. It will take time to regain production.`;
+        amount of 1st Antimatter Dimensions sacrificed. It will take time to regain production.`);
     },
     multiplierText() {
-      return `Multiplier is currently ${formatX(this.currentMultiplier, 2, 2)} and will increase to
-        ${formatX(this.nextMultiplier, 2, 2)} on Dimensional Sacrifice.`;
+      return this.t("pres.sacrifice.multiplier", `Multiplier is currently {0} and will increase to
+        {1} on Dimensional Sacrifice.`,
+      formatX(this.currentMultiplier, 2, 2), formatX(this.nextMultiplier, 2, 2));
     },
   },
   methods: {
@@ -45,7 +48,7 @@ export default {
     @confirm="handleYesClick"
   >
     <template #header>
-      Dimensional Sacrifice
+      {{ t("pres.sacrifice.header", "Dimensional Sacrifice") }}
     </template>
     <div class="c-modal-message__text">
       {{ message }}

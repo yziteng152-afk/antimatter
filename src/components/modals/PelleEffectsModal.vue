@@ -12,50 +12,68 @@ export default {
     nerfs() {
       return [
         // Numerical nerfs and disabled boosts
-        "Anything unlocked through a Pelle upgrade cannot be unlocked normally",
-        "All pre-Doomed IP and EP multipliers are disabled",
-        "IP generation based on fastest infinity speed is disabled",
-        "All pre-Doomed Replicanti speed multipliers are disabled",
-        `Replicanti slows down more drastically above ${format(Number.MAX_VALUE, 2)}`,
-        "Most Eternity Challenges are harder",
-        `All Galaxies are only ${formatPercents(0.5)} as effective`,
-        `Antimatter Dimension multiplier is divided by ${formatInt(10)}`,
-        "Achievement multiplier and many achievement rewards are disabled",
-        "All Infinity and Eternity multipliers and generation are disabled",
-        "Black Holes are disabled",
-        `Reality Upgrade "Temporal Transcendence" is disabled`,
+        this.t("misc.pelle.nerf.noUpgradeUnlock",
+          "Anything unlocked through a Pelle upgrade cannot be unlocked normally"),
+        this.t("misc.pelle.nerf.preDoomedMult", "All pre-Doomed IP and EP multipliers are disabled"),
+        this.t("misc.pelle.nerf.ipGen", "IP generation based on fastest infinity speed is disabled"),
+        this.t("misc.pelle.nerf.replicantiMult", "All pre-Doomed Replicanti speed multipliers are disabled"),
+        this.t("misc.pelle.nerf.replicantiSlow",
+          "Replicanti slows down more drastically above {0}", format(Number.MAX_VALUE, 2)),
+        this.t("misc.pelle.nerf.ecHarder", "Most Eternity Challenges are harder"),
+        this.t("misc.pelle.nerf.galaxy",
+          "All Galaxies are only {0} as effective", formatPercents(0.5)),
+        this.t("misc.pelle.nerf.adMult",
+          "Antimatter Dimension multiplier is divided by {0}", formatInt(10)),
+        this.t("misc.pelle.nerf.achievement",
+          "Achievement multiplier and many achievement rewards are disabled"),
+        this.t("misc.pelle.nerf.infEter",
+          "All Infinity and Eternity multipliers and generation are disabled"),
+        this.t("misc.pelle.nerf.blackHole", "Black Holes are disabled"),
+        this.t("misc.pelle.nerf.temporalTranscendence",
+          "Reality Upgrade \"Temporal Transcendence\" is disabled"),
 
         // Initial QoL and automation
-        "All rewards which increase your starting resources except Achievement 21 are disabled",
-        "All rewards which prevent resources from being reset are disabled",
-        "Perk rewards which reduce unlock costs have been disabled, excluding the ECR group",
-        "Automatic Infinity and Eternity Challenges are disabled",
-        "All Dimension and pre-Infinity Autobuyers are disabled until reacquired through Pelle",
-        "The Time Theorem Autobuyer is disabled",
-        "All Automation related to Time Dilation or later is disabled",
+        this.t("misc.pelle.nerf.startingResources",
+          "All rewards which increase your starting resources except Achievement 21 are disabled"),
+        this.t("misc.pelle.nerf.preventReset",
+          "All rewards which prevent resources from being reset are disabled"),
+        this.t("misc.pelle.nerf.perkCost",
+          "Perk rewards which reduce unlock costs have been disabled, excluding the ECR group"),
+        this.t("misc.pelle.nerf.autoChallenges", "Automatic Infinity and Eternity Challenges are disabled"),
+        this.t("misc.pelle.nerf.autobuyers",
+          "All Dimension and pre-Infinity Autobuyers are disabled until reacquired through Pelle"),
+        this.t("misc.pelle.nerf.ttAutobuyer", "The Time Theorem Autobuyer is disabled"),
+        this.t("misc.pelle.nerf.automation", "All Automation related to Time Dilation or later is disabled"),
 
         // Time studies + Dilation
-        "Eternity Upgrade to Time Dimensions based on days played is based on this Armageddon time",
-        `All pre-Doomed Dilated Time multipliers are disabled except the ${formatX(2)} buyable`,
-        "All Tachyon Particle multipliers are disabled",
-        "All pre-Doomed Time Theorem generation effects are disabled except the Dilation upgrade",
+        this.t("misc.pelle.nerf.tdUpgrade",
+          "Eternity Upgrade to Time Dimensions based on days played is based on this Armageddon time"),
+        this.t("misc.pelle.nerf.dilatedTimeMult",
+          "All pre-Doomed Dilated Time multipliers are disabled except the {0} buyable", formatX(2)),
+        this.t("misc.pelle.nerf.tachyonMult", "All Tachyon Particle multipliers are disabled"),
+        this.t("misc.pelle.nerf.ttGen",
+          "All pre-Doomed Time Theorem generation effects are disabled except the Dilation upgrade"),
 
         // Glyphs
-        "Glyph equipping is disabled until reacquired",
-        `Glyph levels are lowered and rarity is set to ${formatPercents(0)}`,
-        "Effects from Glyph Sacrifice, Alteration, and Alchemy are all disabled",
+        this.t("misc.pelle.nerf.glyphEquip", "Glyph equipping is disabled until reacquired"),
+        this.t("misc.pelle.nerf.glyphLevel",
+          "Glyph levels are lowered and rarity is set to {0}", formatPercents(0)),
+        this.t("misc.pelle.nerf.glyphEffects",
+          "Effects from Glyph Sacrifice, Alteration, and Alchemy are all disabled"),
 
         // Celestial features
-        "You cannot enter any other Celestial Realities",
-        "Music Glyphs cannot be bought",
-        "All rewards from Effarig are disabled",
-        "All features related to storing time are disabled",
-        "All rewards from V are disabled",
-        `The Teresa Level ${formatInt(1)} effect from Ra is disabled`,
-        "Infinity Upgrades cannot be charged",
-        "Triad Studies and Space Theorems are disabled",
-        "Imaginary Upgrades are disabled excluding those relating to DMD's and Celestial unlocks",
-        "Continuum and Singularity rewards are disabled"
+        this.t("misc.pelle.nerf.otherCelestials", "You cannot enter any other Celestial Realities"),
+        this.t("misc.pelle.nerf.musicGlyph", "Music Glyphs cannot be bought"),
+        this.t("misc.pelle.nerf.effarig", "All rewards from Effarig are disabled"),
+        this.t("misc.pelle.nerf.storing", "All features related to storing time are disabled"),
+        this.t("misc.pelle.nerf.v", "All rewards from V are disabled"),
+        this.t("misc.pelle.nerf.raTeresa",
+          "The Teresa Level {0} effect from Ra is disabled", formatInt(1)),
+        this.t("misc.pelle.nerf.charge", "Infinity Upgrades cannot be charged"),
+        this.t("misc.pelle.nerf.triad", "Triad Studies and Space Theorems are disabled"),
+        this.t("misc.pelle.nerf.imaginary",
+          "Imaginary Upgrades are disabled excluding those relating to DMD's and Celestial unlocks"),
+        this.t("misc.pelle.nerf.continuum", "Continuum and Singularity rewards are disabled")
       ];
     }
   }
@@ -65,7 +83,7 @@ export default {
 <template>
   <ModalWrapper>
     <template #header>
-      List of disabled and nerfed effects in Doomed
+      {{ t("misc.pelle.header", "List of disabled and nerfed effects in Doomed") }}
     </template>
     <div class="pelle-effects-container">
       <p
@@ -79,7 +97,7 @@ export default {
       class="o-primary-btn--width-medium c-modal-message__okay-btn c-modal__confirm-btn"
       @click="emitClose"
     >
-      Okay
+      {{ t("misc.pelle.okay", "Okay") }}
     </PrimaryButton>
   </ModalWrapper>
 </template>

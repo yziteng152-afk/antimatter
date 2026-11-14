@@ -1,3 +1,5 @@
+import { isChinese, t } from "./i18n";
+
 function isEND() {
   const threshold = GameEnd.endState > END_STATE_MARKERS.END_NUMBERS
     ? 1
@@ -184,8 +186,10 @@ window.quantify = function quantify(name, value, places, placesUnder1000, format
   if (name === undefined || value === undefined) throw "Arguments must be defined";
 
   const number = formatType(value, places, placesUnder1000);
-  const plural = pluralize(name, value);
-  return `${number} ${plural}`;
+  // In Chinese there is no plural form; translate the unit as a whole instead
+  // (a missing unit key simply falls back to the English word).
+  const unit = isChinese() ? t(`unit.${name}`, name) : pluralize(name, value);
+  return `${number} ${unit}`;
 };
 
 /**
@@ -198,8 +202,8 @@ window.quantifyInt = function quantifyInt(name, value) {
   if (name === undefined || value === undefined) throw "Arguments must be defined";
 
   const number = formatInt(value);
-  const plural = pluralize(name, value);
-  return `${number} ${plural}`;
+  const unit = isChinese() ? t(`unit.${name}`, name) : pluralize(name, value);
+  return `${number} ${unit}`;
 };
 
 /**

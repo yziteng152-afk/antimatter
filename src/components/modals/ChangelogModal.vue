@@ -41,7 +41,7 @@ export default {
     <ModalCloseButton @click="emitClose" />
     <div class="l-changelog-header">
       <div class="c-changelog-title">
-        Changelog
+        {{ t("save.changelog.title", "Changelog") }}
       </div>
     </div>
     <div class="l-changelog-container">
@@ -62,7 +62,9 @@ export default {
       </div>
       <div class="l-changelog-info">
         <div class="c-changelog-body--title">
-          {{ formatDate(shownEntry.date) }}<span v-if="shownEntry.name">: "{{ shownEntry.name }}" update</span>
+          {{ formatDate(shownEntry.date) }}<span v-if="shownEntry.name">{{
+            t("save.changelog.updateSuffix", ": \"{0}\" update", shownEntry.name)
+          }}</span>
         </div>
         <div
           ref="changelogBody"

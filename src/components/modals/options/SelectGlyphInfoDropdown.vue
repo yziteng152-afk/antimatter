@@ -35,7 +35,7 @@ export default {
       EventHub.dispatch(GAME_EVENT.GLYPH_VISUAL_CHANGE);
     },
     getType(type) {
-      return GlyphInfo.labels[type];
+      return this.t(`misc.glyphInfo.${type}`, GlyphInfo.labels[type]);
     }
   }
 };

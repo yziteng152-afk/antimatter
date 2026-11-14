@@ -20,29 +20,38 @@ export default {
       return this.challenge.isFullyCompleted;
     },
     message() {
-      return `You will Eternity (if possible) and start a new Eternity within the Challenge, with all the
-        Challenge-specific restrictions and modifiers active.
-        To complete the Challenge${this.challengeIsCompleted ? "" : " and gain its reward"},
-        you must reach the Challenge goal of
-        ${format(this.challenge.currentGoal)} Infinity Points. You can complete Eternity Challenges up to
-        ${formatInt(5)} times, with increasing goals and bonuses.`;
+      const rewardClause = this.challengeIsCompleted
+        ? ""
+        : this.t("misc.challenge.rewardClause", " and gain its reward");
+      return this.t("misc.challenge.eternity.message",
+        "You will Eternity (if possible) and start a new Eternity within the Challenge, with all the " +
+          "Challenge-specific restrictions and modifiers active. To complete the Challenge{0}, you must reach the " +
+          "Challenge goal of {1} Infinity Points. You can complete Eternity Challenges up to {2} times, with " +
+          "increasing goals and bonuses.",
+        rewardClause,
+        format(this.challenge.currentGoal),
+        formatInt(5));
     },
     entranceLabel() {
-      return `You are about to enter Eternity Challenge ${this.id}`;
+      return this.t("misc.challenge.eternity.header", "You are about to enter Eternity Challenge {0}", this.id);
     },
     reward() {
       let rewardDescription = this.challenge._config.reward.description;
       if (typeof rewardDescription === "function") {
         rewardDescription = rewardDescription();
       }
-      return `The reward for completing this challenge is: ${rewardDescription}`;
+      rewardDescription = this.tr(rewardDescription);
+      return this.t("misc.challenge.reward",
+        "The reward for completing this challenge is: {0}",
+        rewardDescription);
     },
     condition() {
       let conditionOfChallenge = this.challenge._config.description;
       if (typeof conditionOfChallenge === "function") {
         conditionOfChallenge = conditionOfChallenge();
       }
-      return `Inside this Eternity Challenge, ${conditionOfChallenge}`;
+      conditionOfChallenge = this.tr(conditionOfChallenge);
+      return this.t("misc.challenge.eternity.condition", "Inside this Eternity Challenge, {0}", conditionOfChallenge);
     }
   },
   created() {
@@ -79,7 +88,7 @@ export default {
       {{ reward }}
     </div>
     <template #confirm-text>
-      Begin
+      {{ t("misc.challenge.begin", "Begin") }}
     </template>
   </ModalWrapperChoice>
 </template>

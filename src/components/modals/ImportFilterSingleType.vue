@@ -78,7 +78,9 @@ export default {
       };
     },
     getEffectDesc(effectEntry) {
-      return GlyphEffects.all.find(e => e.bitmaskIndex === effectEntry.bitmaskIndex && e.isGenerated).genericDesc;
+      const desc = GlyphEffects.all
+        .find(e => e.bitmaskIndex === effectEntry.bitmaskIndex && e.isGenerated).genericDesc;
+      return this.tr(desc);
     }
   },
 };
@@ -92,23 +94,25 @@ export default {
         <span
           class="c-rarity"
           :class="topLevelClassObject('rarity')"
-          ach-tooltip="Setting for Rarity Threshold and Specified Effect"
+          :ach-tooltip="t('save.filter.rarityTooltip',
+                          'Setting for Rarity Threshold and Specified Effect')"
         >
           {{ rarityStr }}
         </span>
         <span
           class="c-effects-count"
           :class="topLevelClassObject('effectCount')"
-          ach-tooltip="Number of effects in Specified Effect"
+          :ach-tooltip="t('save.filter.effectsTooltip',
+                          'Number of effects in Specified Effect')"
         >
-          Minimum Effects: {{ effectStr }}
+          {{ t("save.filter.minimumEffects", "Minimum Effects: {0}", effectStr) }}
         </span>
         <span
           class="c-target-score"
           :class="topLevelClassObject('score')"
-          ach-tooltip="Threshold for Effect Score"
+          :ach-tooltip="t('save.filter.scoreTooltip', 'Threshold for Effect Score')"
         >
-          Score: {{ scoreStr }}
+          {{ t("save.filter.score", "Score: {0}", scoreStr) }}
         </span>
       </span>
       <br>
@@ -140,7 +144,7 @@ export default {
       </span>
     </span>
     <span v-else>
-      (No changes)
+      {{ t("save.filter.noChanges", "(No changes)") }}
     </span>
   </div>
 </template>

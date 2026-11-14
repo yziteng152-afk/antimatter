@@ -28,11 +28,16 @@ export default {
 <template>
   <ModalWrapper class="c-shop-modal">
     <template #header>
-      Support The Developer - coins
+      {{ t("save.store.title", "Support The Developer - coins") }}
     </template>
     <span v-if="macPurchaser">
-      <button class="o-shop-button-button" @click="macConfirm()">Confirm Purchase to Receive STDs</button>
-      <br><span>(Required on Mac)</span><br>
+      <button
+        class="o-shop-button-button"
+        @click="macConfirm()"
+      >
+        {{ t("save.store.confirmPurchase", "Confirm Purchase to Receive STDs") }}
+      </button>
+      <br><span>{{ t("save.store.macRequired", "(Required on Mac)") }}</span><br>
     </span>
     <div class="l-modal-store-content">
       <img src="images/std_coin.png">

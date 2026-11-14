@@ -30,7 +30,8 @@ export default {
         // Why is confirmedDelete here: refer to SacrificeGlyphModal.vue
 
         this.emitClose();
-        Modal.message.show("The selected Glyph changed position or was otherwise changed!");
+        Modal.message.show(this.t("glyph.common.changedPosition",
+          "The selected Glyph changed position or was otherwise changed!"));
       }
     },
     handleYesClick() {
@@ -44,12 +45,13 @@ export default {
 <template>
   <ModalWrapperChoice @confirm="handleYesClick">
     <template #header>
-      You are about to delete a Glyph
+      {{ t("glyph.deleteGlyph.header", "You are about to delete a Glyph") }}
     </template>
     <div class="c-modal-message__text">
-      Deleting a Glyph will remove the Glyph from your inventory!
+      {{ t("glyph.deleteGlyph.body", "Deleting a Glyph will remove the Glyph from your inventory!") }}
       <div class="c-modal-hard-reset-danger">
-        There is no benefit in deleting a Glyph before you have unlocked Glyph Sacrifice!
+        {{ t("glyph.deleteGlyph.warning",
+             "There is no benefit in deleting a Glyph before you have unlocked Glyph Sacrifice!") }}
       </div>
     </div>
   </ModalWrapperChoice>

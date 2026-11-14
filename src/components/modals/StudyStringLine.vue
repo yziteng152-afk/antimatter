@@ -13,13 +13,15 @@ export default {
   },
   computed: {
     importDestString() {
-      return this.intoEmpty ? "into an empty Tree" : "with your current Tree";
+      return this.intoEmpty
+        ? this.t("glyph.studyString.intoEmptyTree", "into an empty Tree")
+        : this.t("glyph.studyString.withCurrentTree", "with your current Tree");
     }
   },
   methods: {
     formatTheoremCost(tt, st) {
-      const strTT = `${formatWithCommas(tt)} TT`;
-      const strST = `${formatWithCommas(st)} ST`;
+      const strTT = `${formatWithCommas(tt)} ${this.t("glyph.studyString.ttUnit", "TT")}`;
+      const strST = `${formatWithCommas(st)} ${this.t("glyph.studyString.stUnit", "ST")}`;
       return st === 0 ? strTT : `${strTT} + ${strST}`;
     }
   },
@@ -29,13 +31,15 @@ export default {
 <template>
   <div class="l-modal-import-tree__tree-info-line">
     <div v-if="tree.timeTheorems === 0 && tree.spaceTheorems === 0">
-      <i>Importing this {{ importDestString }} will not purchase any new Time Studies.</i>
+      <i>{{ t("glyph.studyString.noNewStudies",
+              "Importing this {0} will not purchase any new Time Studies.", importDestString) }}</i>
     </div>
     <div v-else>
-      Importing {{ importDestString }} will purchase:
+      {{ t("glyph.studyString.purchaseHeader", "Importing {0} will purchase:", importDestString) }}
       <br>
       {{ tree.newStudies }}
-      (Cost: {{ formatTheoremCost(tree.timeTheorems, tree.spaceTheorems) }})
+      {{ t("glyph.studyString.cost",
+           "(Cost: {0})", formatTheoremCost(tree.timeTheorems, tree.spaceTheorems)) }}
     </div>
     <br>
   </div>

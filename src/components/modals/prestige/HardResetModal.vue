@@ -42,21 +42,26 @@ export default {
     @confirm="hardReset"
   >
     <template #header>
-      HARD RESET
+      {{ t("pres.hardReset.header", "HARD RESET") }}
     </template>
     <div class="c-modal-message__text">
-      Please confirm your desire to hard reset this save slot.
-      <span class="c-modal-hard-reset-danger">Deleting your save will not unlock anything secret.</span>
-      Type in "Shrek is love, Shrek is life" to confirm.
+      {{ t("pres.hardReset.request", "Please confirm your desire to hard reset this save slot.") }}
+      <span class="c-modal-hard-reset-danger">
+        {{ t("pres.hardReset.noSecret", "Deleting your save will not unlock anything secret.") }}
+      </span>
+      {{ t("pres.hardReset.typePhrase", 'Type in "Shrek is love, Shrek is life" to confirm.') }}
       <div class="c-modal-hard-reset-danger">
-        THIS WILL WIPE YOUR SAVE.
+        {{ t("pres.hardReset.wipe", "THIS WILL WIPE YOUR SAVE.") }}
         <span v-if="hasExtraNG">
           <br>
-          This will also remove any Glyph cosmetics you have unlocked from completing the game!
+          {{ t("pres.hardReset.wipeCosmetics",
+               "This will also remove any Glyph cosmetics you have unlocked from completing the game!") }}
         </span>
         <span v-if="hasSpeedrun">
           <br>
-          You will lose the ability to do a Speedrun. To restart your run, use the "Start Speedrun" button instead.
+          {{ t("pres.hardReset.wipeSpeedrun",
+               'You will lose the ability to do a Speedrun. To restart your run, ' +
+                 'use the "Start Speedrun" button instead.') }}
         </span>
       </div>
     </div>
@@ -72,14 +77,14 @@ export default {
         v-if="willHardReset"
         class="c-modal-hard-reset-danger"
       >
-        Phrase confirmed - continuing will irreversibly delete your save!
+        {{ t("pres.hardReset.confirmed", "Phrase confirmed - continuing will irreversibly delete your save!") }}
       </div>
       <div v-else>
-        Type in the correct phrase to hard reset.
+        {{ t("pres.hardReset.typeCorrect", "Type in the correct phrase to hard reset.") }}
       </div>
     </div>
     <template #confirm-text>
-      HARD RESET
+      {{ t("pres.hardReset.header", "HARD RESET") }}
     </template>
   </ModalWrapperChoice>
 </template>

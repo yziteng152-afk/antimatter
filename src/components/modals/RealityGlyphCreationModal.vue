@@ -29,8 +29,9 @@ export default {
     },
     createRealityGlyph() {
       if (GameCache.glyphInventorySpace.value === 0) {
-        Modal.message.show("No available inventory space; Sacrifice some Glyphs to free up space.",
-          { closeEvent: GAME_EVENT.GLYPHS_CHANGED });
+        const message = this.t("glyph.reality.noSpace",
+          "No available inventory space; Sacrifice some Glyphs to free up space.");
+        Modal.message.show(message, { closeEvent: GAME_EVENT.GLYPHS_CHANGED });
         return;
       }
       Glyphs.addToInventory(GlyphGenerator.realityGlyph(this.realityGlyphLevel));
@@ -39,7 +40,9 @@ export default {
       this.emitClose();
     },
     formatGlyphEffect(effect) {
-      if (this.realityGlyphLevel < effect[0]) return `(Requires Glyph level ${formatInt(effect[0])})`;
+      if (this.realityGlyphLevel < effect[0]) {
+        return this.t("glyph.reality.requiresLevel", "(Requires Glyph level {0})", formatInt(effect[0]));
+      }
       const config = GlyphEffects[effect[1]];
       const value = config.effect(this.realityGlyphLevel, rarityToStrength(100));
       const effectTemplate = config.singleDesc;
@@ -52,20 +55,21 @@ export default {
 <template>
   <ModalWrapper>
     <template #header>
-      Reality Glyph Creation
+      {{ t("glyph.reality.header", "Reality Glyph Creation") }}
     </template>
     <div class="c-reality-glyph-creation">
       <div>
-        Create a level {{ formatInt(realityGlyphLevel) }} Reality Glyph.
-        Rarity will always be {{ formatPercents(1) }} and
-        level scales on your current Reality Resource amount (which is all consumed). All other Alchemy Resources will
-        be unaffected. Reality Glyphs have unique effects, some of which are only available with higher level Glyphs.
-        Reality Glyphs can also be sacrificed to increase all Memory Chunk gain. Like Effarig Glyphs,
-        you cannot equip more than one at the same time.
+        {{ t("glyph.reality.body",
+             "Create a level {0} Reality Glyph. Rarity will always be {1} and level scales on your current " +
+               "Reality Resource amount (which is all consumed). All other Alchemy Resources will be unaffected. " +
+               "Reality Glyphs have unique effects, some of which are only available with higher level Glyphs. " +
+               "Reality Glyphs can also be sacrificed to increase all Memory Chunk gain. Like Effarig Glyphs, " +
+               "you cannot equip more than one at the same time.",
+             formatInt(realityGlyphLevel), formatPercents(1)) }}
       </div>
       <div class="o-available-effects-container">
         <div class="o-available-effects">
-          Available Effects:
+          {{ t("glyph.reality.availableEffects", "Available Effects:") }}
         </div>
         <div
           v-for="(effect, index) in possibleEffects"
@@ -78,19 +82,20 @@ export default {
         v-if="isDoomed"
         :enabled="false"
       >
-        You cannot create Reality Glyphs while Doomed
+        {{ t("glyph.reality.doomed", "You cannot create Reality Glyphs while Doomed") }}
       </PrimaryButton>
       <PrimaryButton
         v-else-if="realityGlyphLevel !== 0"
         @click="createRealityGlyph"
       >
-        Create a Reality Glyph!
+        {{ t("glyph.reality.create", "Create a Reality Glyph!") }}
       </PrimaryButton>
       <PrimaryButton
         v-else
         :enabled="false"
       >
-        Reality Glyph level must be higher than {{ formatInt(0) }}
+        {{ t("glyph.reality.levelTooLow",
+             "Reality Glyph level must be higher than {0}", formatInt(0)) }}
       </PrimaryButton>
     </div>
   </ModalWrapper>

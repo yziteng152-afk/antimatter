@@ -13,7 +13,11 @@ export default {
     };
   },
   computed: {
-    resetTerm() { return this.isDoomed ? "Armageddon" : "Reality"; },
+    resetTerm() {
+      return this.isDoomed
+        ? this.t("pres.resetReality.armageddon", "Armageddon")
+        : this.t("pres.resetReality.reality", "Reality");
+    },
   },
   methods: {
     update() {
@@ -34,26 +38,28 @@ export default {
     @confirm="handleYesClick"
   >
     <template #header>
-      You are about to reset your {{ resetTerm }}
+      {{ t("pres.resetReality.header", "You are about to reset your {0}", resetTerm) }}
     </template>
     <div class="c-modal-message__text">
-      This will reset you to the start of your {{ resetTerm }},
-      giving you no rewards from your progress in your current {{ resetTerm }}.
+      {{ t("pres.resetReality.message",
+           "This will reset you to the start of your {0}, giving you no rewards from your progress in your " +
+             "current {0}.", resetTerm) }}
       <br>
       <br>
-      Are you sure you want to do this?
+      {{ t("pres.resetReality.areYouSure", "Are you sure you want to do this?") }}
       <div
         v-if="canReality"
         class="c-has-rewards"
       >
         <br>
-        You can currently complete a Reality for all its normal rewards, which you will not receive if you
-        Reset here. To get rewards, use the "Make a new Reality" button.
+        {{ t("pres.resetReality.canReality",
+             "You can currently complete a Reality for all its normal rewards, which you will not receive if you " +
+               'Reset here. To get rewards, use the "Make a new Reality" button.') }}
       </div>
       <br>
     </div>
     <template #confirm-text>
-      Reset
+      {{ t("pres.resetReality.confirm", "Reset") }}
     </template>
   </ModalWrapperChoice>
 </template>

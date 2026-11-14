@@ -46,7 +46,15 @@ export default {
     templateScript() {
       if (this.invalidInputCount !== 0) return null;
       return new ScriptTemplate(this.templateProps, this.name);
-    }
+    },
+    templateDisplayName() {
+      return this.t(`automator.templateName.${this.name}`, this.name);
+    },
+    invalidInputsLabel() {
+      return this.t("misc.automatorTemplate.invalidInputCount",
+        quantifyInt("invalid input", this.invalidInputCount),
+        formatInt(this.invalidInputCount));
+    },
   },
   // Many props in this component are generated dynamically from a GameDB entry, but Vue can only give reactive
   // behavior to props that exist on declaration. We need all the dynamically generated inputs to be reactive, so we
@@ -128,10 +136,10 @@ export default {
           blocks: blockifyTextAutomator(this.templateScript.script).blocks
         };
         AutomatorData.blockTemplates.push(newTemplateBlock);
-        GameUI.notify.info("Custom template block created");
+        GameUI.notify.info(this.t("misc.automatorTemplate.blockCreated", "Custom template block created"));
       } else {
         copyToClipboard(this.templateScript.script);
-        GameUI.notify.info("Template copied to clipboard");
+        GameUI.notify.info(this.t("misc.automatorTemplate.copied", "Template copied to clipboard"));
       }
       this.emitClose();
     }
@@ -142,15 +150,15 @@ export default {
 <template>
   <ModalWrapper class="c-automator-template-container">
     <template #header>
-      {{ name }} Template
+      {{ t("misc.automatorTemplate.header", "{0} Template", templateDisplayName) }}
     </template>
     <div class="c-automator-template-description">
       {{ description }}
     </div>
     <div class="c-automator-template-inputs">
-      <b>Required Information:</b>
+      <b>{{ t("misc.automatorTemplate.requiredInfo", "Required Information:") }}</b>
       <br>
-      Use a preset Study Tree:
+      {{ t("misc.automatorTemplate.usePreset", "Use a preset Study Tree:") }}
       <button
         v-for="(preset, presetNumber) in presets"
         :key="preset.name"
@@ -163,7 +171,7 @@ export default {
         class="o-primary-btn o-load-preset-button-margin"
         @click="loadCurrent"
       >
-        <i>Current Tree</i>
+        <i>{{ t("misc.automatorTemplate.currentTree", "Current Tree") }}</i>
       </button>
       <div
         v-for="input in inputs"
@@ -192,7 +200,7 @@ export default {
       </div>
     </div>
     <div class="c-automator-template-warnings">
-      <b>Possible things to consider:</b>
+      <b>{{ t("misc.automatorTemplate.considerations", "Possible things to consider:") }}</b>
       <div v-if="validWarnings.length !== 0">
         <div
           v-for="warning in validWarnings"
@@ -203,7 +211,8 @@ export default {
         </div>
       </div>
       <div v-else>
-        (If something seems wrong with the template inputs, it will show up here)
+        {{ t("misc.automatorTemplate.noWarnings",
+             "(If something seems wrong with the template inputs, it will show up here)") }}
       </div>
       <br>
       <br>
@@ -213,13 +222,16 @@ export default {
       class="o-primary-btn"
       @click="copyAndClose"
     >
-      {{ isBlock ? "Create custom template block" : "Copy this template to your clipboard" }} and close this modal
+      {{ t("misc.automatorTemplate.action", "{0} and close this modal", isBlock
+        ? t("misc.automatorTemplate.createBlockAction", "Create custom template block")
+        : t("misc.automatorTemplate.copyAction", "Copy this template to your clipboard")) }}
     </button>
     <button
       v-else
       class="o-primary-btn o-primary-btn--disabled"
     >
-      Cannot generate template (You have {{ quantifyInt("invalid input", invalidInputCount) }})
+      {{ t("misc.automatorTemplate.cannotGenerate",
+           "Cannot generate template (You have {0})", invalidInputsLabel) }}
     </button>
   </ModalWrapper>
 </template>

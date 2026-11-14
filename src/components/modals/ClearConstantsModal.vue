@@ -29,17 +29,21 @@ export default {
     @confirm="deleteConstants"
   >
     <template #header>
-      Deleting Automator Constants
+      {{ t("save.clearConstants.title", "Deleting Automator Constants") }}
     </template>
     <div class="c-modal-message__text">
-      Are you sure you wish to delete all of your currently-defined automator constants?
+      {{ t("save.clearConstants.confirm",
+           "Are you sure you wish to delete all of your currently-defined automator constants?") }}
       <br>
       <span class="l-lost-text">
-        This will irreversibly delete {{ quantify("constant", constantCount) }}!
+        {{ constantCount === 1
+          ? t("save.clearConstants.deleteOne", "This will irreversibly delete {0} constant!", formatInt(constantCount))
+          : t("save.clearConstants.deleteMany", "This will irreversibly delete {0} constants!",
+              formatInt(constantCount)) }}
       </span>
     </div>
     <template #confirm-text>
-      Delete All
+      {{ t("save.clearConstants.deleteAll", "Delete All") }}
     </template>
   </ModalWrapperChoice>
 </template>

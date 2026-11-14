@@ -24,9 +24,11 @@ export default {
       return Glyphs.findByInventoryIndex(this.idx);
     },
     message() {
-      return `Do you really want to sacrifice this Glyph? Your total power of sacrificed ${this.glyph.type}
-      Glyphs will increase from ${format(this.currentGlyphSacrifice, 2, 2)} to
-      ${format(this.currentGlyphSacrifice + this.gain, 2, 2)}.`;
+      return this.t("glyph.sacrifice.message",
+        "Do you really want to sacrifice this Glyph? Your total power of sacrificed {0} Glyphs will increase " +
+        "from {1} to {2}.",
+        this.glyph.type, format(this.currentGlyphSacrifice, 2, 2),
+        format(this.currentGlyphSacrifice + this.gain, 2, 2));
     }
   },
   methods: {
@@ -43,7 +45,8 @@ export default {
         // the sac will break things so this is the best I could do. - Scar
 
         this.emitClose();
-        Modal.message.show("The selected Glyph changed position or was otherwise changed!");
+        Modal.message.show(this.t("glyph.common.changedPosition",
+          "The selected Glyph changed position or was otherwise changed!"));
       }
     },
     handleYesClick() {
@@ -60,7 +63,7 @@ export default {
     @confirm="handleYesClick"
   >
     <template #header>
-      You are about to sacrifice a Glyph
+      {{ t("glyph.sacrifice.header", "You are about to sacrifice a Glyph") }}
     </template>
     <div class="c-modal-message__text">
       {{ message }}

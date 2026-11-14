@@ -14,24 +14,31 @@ export default {
   },
   computed: {
     refiningSacrificingOrDeleting() {
-      if (this.isRefining) return `Refine`;
-      if (this.isSacrificing) return `Sacrifice`;
-      return `delete`;
+      if (this.isRefining) return this.t("glyph.common.refine", "Refine");
+      if (this.isSacrificing) return this.t("glyph.common.sacrifice", "Sacrifice");
+      return this.t("glyph.common.deleteVerb", "delete");
     },
     topLabel() {
-      return `You are about to ${this.refiningSacrificingOrDeleting} all unprotected Glyphs`;
+      return this.t("glyph.purgeUnprotected.topLabel",
+        "You are about to {0} all unprotected Glyphs",
+        this.refiningSacrificingOrDeleting);
     },
     message() {
-      return `Are you sure you want to ${this.refiningSacrificingOrDeleting} all unprotected Glyphs
-        in your inventory?`;
+      return this.t("glyph.purgeUnprotected.message",
+        "Are you sure you want to {0} all unprotected Glyphs in your inventory?",
+        this.refiningSacrificingOrDeleting);
     },
     extraMessage() {
-      if (this.glyphsDeleted === 0) return `This will ${this.refiningSacrificingOrDeleting} no Glyphs.`;
-      if (this.glyphsDeleted === this.glyphsTotal) {
-        return `This will ${this.refiningSacrificingOrDeleting} all your Glyphs.`;
+      const action = this.refiningSacrificingOrDeleting;
+      if (this.glyphsDeleted === 0) {
+        return this.t("glyph.purgeUnprotected.extraNone", "This will {0} no Glyphs.", action);
       }
-      return `This will ${this.refiningSacrificingOrDeleting} 
-        ${formatInt(this.glyphsDeleted)}/${formatInt(this.glyphsTotal)} of your Glyphs.`;
+      if (this.glyphsDeleted === this.glyphsTotal) {
+        return this.t("glyph.purgeUnprotected.extraAll", "This will {0} all your Glyphs.", action);
+      }
+      return this.t("glyph.purgeUnprotected.extraSome",
+        "This will {0} {1}/{2} of your Glyphs.",
+        action, formatInt(this.glyphsDeleted), formatInt(this.glyphsTotal));
     },
 
     // These two don't need to be reactive since the modal force-closes itself whenever glyphs change

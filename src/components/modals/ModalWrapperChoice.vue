@@ -99,7 +99,7 @@ export default {
         @click="doCancel"
       >
         <slot name="cancel-text">
-          Cancel
+          {{ t("common.cancel", "Cancel") }}
         </slot>
       </PrimaryButton>
 
@@ -111,7 +111,7 @@ export default {
         @click="doConfirm"
       >
         <slot name="confirm-text">
-          Confirm
+          {{ t("common.confirm", "Confirm") }}
         </slot>
       </PrimaryButton>
     </div>

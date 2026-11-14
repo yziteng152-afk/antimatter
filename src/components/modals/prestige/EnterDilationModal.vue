@@ -10,23 +10,26 @@ export default {
   },
   computed: {
     message() {
-      return `Dilating time will start a new Eternity, and all Dimension multiplier's exponents and
-        tickspeed multiplier's exponent will be reduced to ${formatPow(0.75, 2, 2)}. If you can Eternity while Dilated,
+      return this.t("pres.enterDilation.message",
+        `Dilating time will start a new Eternity, and all Dimension multiplier's exponents and
+        tickspeed multiplier's exponent will be reduced to {0}. If you can Eternity while Dilated,
         your Tachyon Particles will be increased to a value based on your highest antimatter and any Tachyon Particle
-        multipliers you have.`;
+        multipliers you have.`, formatPow(0.75, 2, 2));
     },
     entranceLabel() {
-      return `You are about to enter Dilation`;
+      return this.t("pres.enterDilation.header", "You are about to enter Dilation");
     },
     EPSinceLabel() {
       if (player.dilation.lastEP.eq(-1)) {
-        return "This is your first Dilation";
+        return this.t("pres.enterDilation.first", "This is your first Dilation");
       }
       if (!isInCelestialReality() && Ra.unlocks.unlockDilationStartingTP.canBeApplied) {
-        return `You already have the maximum feasible amount of Tachyon Particles you can attain due to
-          Teresa's Level ${formatInt(25)} reward.`;
+        return this.t("pres.enterDilation.maxTP",
+          `You already have the maximum feasible amount of Tachyon Particles you can attain due to
+          Teresa's Level {0} reward.`, formatInt(25));
       }
-      return `You last completed Dilation at ${format(player.dilation.lastEP, 2, 2)} Eternity Points.`;
+      return this.t("pres.enterDilation.lastEP",
+        "You last completed Dilation at {0} Eternity Points.", format(player.dilation.lastEP, 2, 2));
     }
   },
   methods: {
@@ -59,7 +62,7 @@ export default {
       {{ message }}
     </div>
     <template #confirm-text>
-      Enter
+      {{ t("pres.enterDilation.confirm", "Enter") }}
     </template>
   </ModalWrapperChoice>
 </template>

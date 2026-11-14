@@ -3,6 +3,8 @@ import GlyphComponent from "@/components/GlyphComponent";
 import ModalWrapperChoice from "@/components/modals/ModalWrapperChoice";
 import PrimaryButton from "@/components/PrimaryButton";
 
+import { enumerate } from "@/core/i18n";
+
 export default {
   name: "RealityModal",
   components: {
@@ -31,28 +33,32 @@ export default {
   },
   computed: {
     firstRealityText() {
-      return `Reality will reset everything except Challenge records and anything under the General header on the
-        Statistics tab. The first ${formatInt(13)} rows of Achievements are also reset,
+      return this.t("pres.reality.firstReality",
+        `Reality will reset everything except Challenge records and anything under the General header on the
+        Statistics tab. The first {0} rows of Achievements are also reset,
         but you will automatically get one Achievement back every
-        ${timeDisplayNoDecimals(30 * 60000)}. You will also gain Reality Machines based on your Eternity Points, a
+        {1}. You will also gain Reality Machines based on your Eternity Points, a
         Glyph with a level based on your Eternity Points, Replicanti, and Dilated Time, a Perk Point to spend
-        on quality of life upgrades, and unlock various upgrades.`;
+        on quality of life upgrades, and unlock various upgrades.`,
+        formatInt(13), timeDisplayNoDecimals(30 * 60000));
     },
     canSacrifice() {
       return RealityUpgrade(19).isEffectActive;
     },
     warnText() {
       if (!this.hasChoice) {
-        return `You currently only have a single option for new Glyphs every
+        return this.t("pres.reality.warnNoChoice",
+          `You currently only have a single option for new Glyphs every
           Reality. You can unlock the ability to choose from multiple Glyphs by canceling out of this modal and
-          purchasing the START Perk.`;
+          purchasing the START Perk.`);
       }
 
       if (this.hasFilter && this.selectedGlyph === undefined) {
-        return `If you do not choose a Glyph, one will be automatically selected using your Glyph filter.`;
+        return this.t("pres.reality.warnFilter",
+          "If you do not choose a Glyph, one will be automatically selected using your Glyph filter.");
       }
       return this.selectedGlyph === undefined
-        ? `You must select a Glyph in order to continue.`
+        ? this.t("pres.reality.warnSelect", "You must select a Glyph in order to continue.")
         : null;
     },
     gained() {
@@ -63,14 +69,23 @@ export default {
       if (this.effarigUnlocked) {
         gainedResources.push(`${quantify("Relic Shard", this.shardsGained, 2)}`);
       }
-      return `You will gain ${makeEnumeration(gainedResources)}`;
+      return this.t("pres.reality.gained", "You will gain {0}", enumerate(gainedResources));
     },
     levelStats() {
       // Bit annoying to read due to needing >, <, and =, with = needing a different format.
-      return `You will get a level ${formatInt(this.level)} Glyph on Reality, which is
-        ${this.level === this.bestLevel ? "equal to" : `
-        ${quantifyInt("level", this.levelDifference)}
-        ${this.level > this.bestLevel ? "higher" : "lower"} than`} your best.`;
+      let comparison;
+      if (this.level === this.bestLevel) {
+        comparison = this.t("pres.reality.levelEqual", "equal to");
+      } else if (this.level > this.bestLevel) {
+        comparison = this.t("pres.reality.levelHigher", "{0} higher than",
+          quantifyInt("level", this.levelDifference), formatInt(this.levelDifference));
+      } else {
+        comparison = this.t("pres.reality.levelLower", "{0} lower than",
+          quantifyInt("level", this.levelDifference), formatInt(this.levelDifference));
+      }
+      return this.t("pres.reality.levelStats",
+        `You will get a level {0} Glyph on Reality, which is
+        {1} your best.`, formatInt(this.level), comparison);
     },
     confirmationToDisable() {
       return ConfirmationTypes.glyphSelection.isUnlocked() ? "glyphSelection" : undefined;
@@ -141,7 +156,7 @@ export default {
     @confirm="confirmModal(false)"
   >
     <template #header>
-      You are about to Reality
+      {{ t("pres.reality.header", "You are about to Reality") }}
     </template>
     <div
       v-if="firstReality"
@@ -177,33 +192,40 @@ export default {
     </div>
     <div v-if="simRealities > 1">
       <br>
-      After choosing this Glyph the game will simulate the rest of your Realities,
+      {{ t("pres.reality.simulateLine1",
+           "After choosing this Glyph the game will simulate the rest of your Realities,") }}
       <br>
-      automatically choosing another {{ quantifyInt("Glyph", simRealities - 1) }}
-      based on your Glyph filter settings.
+      {{ t("pres.reality.simulateLine2",
+           "automatically choosing another {0} based on your Glyph filter settings.",
+           quantifyInt("Glyph", simRealities - 1)) }}
     </div>
     <div v-if="willAutoPurge">
       <br>
-      Auto-purge is currently enabled; your selected Glyph
+      {{ t("pres.reality.autoPurgeLine1", "Auto-purge is currently enabled; your selected Glyph") }}
       <br>
-      may not appear in your inventory after it triggers.
+      {{ t("pres.reality.autoPurgeLine2", "may not appear in your inventory after it triggers.") }}
     </div>
     <div
       v-if="!hasSpace"
       class="o-warning"
     >
       <span v-if="simRealities > 1">
-        You will be simulating more Realities than you have open inventory space for;
-        this may result in some Glyphs being Sacrificed.
+        {{ t("pres.reality.noSpaceMany",
+             "You will be simulating more Realities than you have open inventory space for; " +
+               "this may result in some Glyphs being Sacrificed.") }}
       </span>
       <span v-else>
-        You do not have any free inventory space - your selected Glyph will be automatically
-        {{ canSacrifice ? "Sacrificed" : "deleted" }}!
+        {{ t("pres.reality.noSpaceOne",
+             "You do not have any free inventory space - your selected Glyph will be automatically {0}!",
+             canSacrifice
+               ? t("pres.reality.sacrificed", "Sacrificed")
+               : t("pres.reality.deleted", "deleted")) }}
       </span>
     </div>
     <div v-if="confirmationToDisable">
       <br>
-      You can force this modal to appear (even if disabled) by Shift-clicking the Reality button.
+      {{ t("pres.reality.shiftClick",
+           "You can force this modal to appear (even if disabled) by Shift-clicking the Reality button.") }}
     </div>
     <template
       v-if="canSacrifice && canConfirm"
@@ -213,7 +235,7 @@ export default {
         class="o-primary-btn--width-medium c-modal-message__okay-btn"
         @click="confirmModal(true)"
       >
-        Sacrifice
+        {{ t("pres.reality.sacrificeButton", "Sacrifice") }}
       </PrimaryButton>
     </template>
   </ModalWrapperChoice>

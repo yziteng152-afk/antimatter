@@ -147,7 +147,7 @@ export default {
       v-else
       class="c-unavailable-warning"
     >
-      Preview Unavailable
+      {{ t("glyph.studyString.previewUnavailable", "Preview Unavailable") }}
     </span>
   </div>
 </template>

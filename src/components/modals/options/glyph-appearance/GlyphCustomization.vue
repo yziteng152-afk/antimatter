@@ -105,35 +105,35 @@ export default {
 
 <template>
   <div class="c-glyph-customization-group">
-    <b>Custom Glyph Appearance</b>
+    <b>{{ t("glyph.custom.title", "Custom Glyph Appearance") }}</b>
     <PrimaryToggleButton
       v-model="enabled"
       class="o-primary-btn--subtab-option"
-      on="Enabled"
-      off="Disabled"
+      :on="t('glyph.custom.enabled', 'Enabled')"
+      :off="t('glyph.custom.disabled', 'Disabled')"
     />
     <br>
     <div v-if="hasCustomSets">
-      Reset Appearances to Default:
+      {{ t("glyph.custom.resetToDefault", "Reset Appearances to Default:") }}
       <PrimaryButton
         class="o-primary-btn--subtab-option"
         :class="{ 'o-primary-btn--disabled' : !enabled }"
         @click="resetAll"
       >
-        All Types
+        {{ t("glyph.custom.allTypes", "All Types") }}
       </PrimaryButton>
       <PrimaryButton
         class="o-primary-btn--subtab-option"
         :class="{ 'o-primary-btn--disabled' : !enabled }"
         @click="resetSingle"
       >
-        This Type
+        {{ t("glyph.custom.thisType", "This Type") }}
       </PrimaryButton>
       <br>
-      <i>This will not reset any individually-modified Glyphs.</i>
+      <i>{{ t("glyph.custom.resetNote", "This will not reset any individually-modified Glyphs.") }}</i>
       <br>
       <br>
-      Glyph Type:
+      {{ t("glyph.custom.glyphType", "Glyph Type:") }}
       <br>
       <div class="c-type-selection">
         <div
@@ -153,25 +153,31 @@ export default {
         :key="selectedIndex + enabled + defaultKeySwap"
         :type="cosmeticTypes[selectedIndex]"
       />
-      Note: Some options may cause very poor color contrast or readability on certain themes with certain Glyph types.
+      {{ t("glyph.custom.contrastNote",
+           "Note: Some options may cause very poor color contrast or readability on certain themes with " +
+             "certain Glyph types.") }}
     </div>
     <div v-else>
-      You currently have no available options for changing the default appearance of your Glyphs. To unlock some, visit
-      the Shop Tab or beat the game.
+      {{ t("glyph.custom.noOptions",
+           "You currently have no available options for changing the default appearance of your Glyphs. " +
+             "To unlock some, visit the Shop Tab or beat the game.") }}
       <br>
       <br>
       <span v-if="hasSpecialTypes">
-        Enabling this setting will allow you to change individual Glyphs to special cosmetic types you have unlocked.
+        {{ t("glyph.custom.specialTypesAvailable",
+             "Enabling this setting will allow you to change individual Glyphs to special cosmetic types " +
+               "you have unlocked.") }}
       </span>
       <span v-else>
-        Enabling or disabling this option will currently do nothing.
+        {{ t("glyph.custom.nothingHappens",
+             "Enabling or disabling this option will currently do nothing.") }}
       </span>
     </div>
     <PrimaryButton
       class="o-primary-btn--subtab-option"
       @click="resetIndividual"
     >
-      Reset all individual Glyph cosmetics
+      {{ t("glyph.custom.resetIndividual", "Reset all individual Glyph cosmetics") }}
     </PrimaryButton>
   </div>
 </template>

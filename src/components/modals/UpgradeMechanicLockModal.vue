@@ -23,7 +23,9 @@ export default {
   },
   computed: {
     upgradeStr() {
-      return this.isImaginary ? "Imaginary Upgrade" : "Reality Upgrade";
+      return this.isImaginary
+        ? this.t("save.upgradeLock.imaginary", "Imaginary Upgrade")
+        : this.t("save.upgradeLock.reality", "Reality Upgrade");
     },
     lockEvent() {
       return this.specialLockText ?? this.upgrade.lockEvent;
@@ -42,26 +44,32 @@ export default {
     @confirm="disableLock"
   >
     <template #header>
-      {{ upgradeStr }} Condition Lock
+      {{ t("save.upgradeLock.title", "{0} Condition Lock", upgradeStr) }}
     </template>
     <div class="c-modal-message__text">
-      Are you sure you wish to {{ lockEvent }}? Doing this right now will cause you to
+      {{ t("save.upgradeLock.confirmPrefix", "Are you sure you wish to") }}
+      {{ lockEvent }}?
+      {{ t("save.upgradeLock.failPrefix", "Doing this right now will cause you to") }}
       <span class="l-emphasis">
-        fail the requirement for the {{ upgradeStr }} "{{ upgrade.name }}"
+        {{ t("save.upgradeLock.failRequirement", "fail the requirement for the {0} \"{1}\"",
+             upgradeStr, tr(upgrade.name)) }}
       </span>
       <span :ach-tooltip="upgrade.requirement">
         <i class="fas fa-question-circle" />
       </span>
       <br>
       <br>
-      Selecting "Cancel" will close this modal with no effect, while selecting "Disable Lock" will disable the
-      requirement check for this upgrade and prevent this message from reappearing unless you turn it back on.
+      {{ t("save.upgradeLock.explain",
+           "Selecting \"Cancel\" will close this modal with no effect, while selecting \"Disable Lock\" will " +
+             "disable the requirement check for this upgrade and prevent this message from reappearing unless you " +
+             "turn it back on.") }}
       <br>
       <br>
-      Neither of these options will perform the action you just attempted, so you will need to try again.
+      {{ t("save.upgradeLock.noAction",
+           "Neither of these options will perform the action you just attempted, so you will need to try again.") }}
     </div>
     <template #confirm-text>
-      Disable Lock
+      {{ t("save.upgradeLock.disable", "Disable Lock") }}
     </template>
   </ModalWrapperChoice>
 </template>

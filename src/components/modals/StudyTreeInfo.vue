@@ -24,19 +24,20 @@ export default {
       v-if="treeStatus.firstPaths"
       class="l-modal-import-tree__tree-info-line"
     >
-      Dimension Split: {{ treeStatus.firstPaths }}
+      {{ t("glyph.treeInfo.dimensionSplit", "Dimension Split: {0}", treeStatus.firstPaths) }}
     </div>
     <div
       v-if="treeStatus.secondPaths"
       class="l-modal-import-tree__tree-info-line"
     >
-      Pace Split: {{ treeStatus.secondPaths }}
+      {{ t("glyph.treeInfo.paceSplit", "Pace Split: {0}", treeStatus.secondPaths) }}
     </div>
     <div
       v-if="treeStatus.ec > 0"
       class="l-modal-import-tree__tree-info-line"
     >
-      Eternity Challenge: {{ treeStatus.ec }} {{ treeStatus.startEC ? "(will start)" : "" }}
+      {{ t("glyph.treeInfo.eternityChallenge", "Eternity Challenge: {0}", treeStatus.ec) }}
+      {{ treeStatus.startEC ? t("glyph.treeInfo.willStart", "(will start)") : "" }}
     </div>
   </div>
 </template>

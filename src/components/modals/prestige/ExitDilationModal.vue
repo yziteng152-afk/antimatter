@@ -16,14 +16,17 @@ export default {
   },
   computed: {
     gainText() {
-      if (this.tachyonGain.lte(0)) return `not gain anything`;
-      return `gain ${quantify("Tachyon Particle", this.tachyonGain, 2, 1)}`;
+      if (this.tachyonGain.lte(0)) return this.t("pres.exitDilation.noGain", "not gain anything");
+      return this.t("pres.exitDilation.gain", "gain {0}",
+        quantify("Tachyon Particle", this.tachyonGain, 2, 1));
     },
     isInEC() {
       return Player.anyChallenge instanceof EternityChallengeState;
     },
     confirmText() {
-      return this.isDoomed ? "Okay" : "Exit";
+      return this.isDoomed
+        ? this.t("pres.exitDilation.confirmOkay", "Okay")
+        : this.t("pres.exitDilation.confirmExit", "Exit");
     }
   },
   methods: {
@@ -54,24 +57,25 @@ export default {
   >
     <template #header>
       <span v-if="isDoomed">
-        You cannot exit Dilation while Doomed
+        {{ t("pres.exitDilation.doomedHeader", "You cannot exit Dilation while Doomed") }}
       </span>
       <span v-else>
-        You are about to exit Dilation
+        {{ t("pres.exitDilation.header", "You are about to exit Dilation") }}
       </span>
     </template>
     <div class="c-modal-message__text">
       <span v-if="isDoomed">
-        Dilation is permanent. You will {{ gainText }} and reset your current Eternity.
+        {{ t("pres.exitDilation.doomedBody",
+             "Dilation is permanent. You will {0} and reset your current Eternity.", gainText) }}
       </span>
       <span v-else>
-        If you exit Dilation now, you will {{ gainText }}.
+        {{ t("pres.exitDilation.body", "If you exit Dilation now, you will {0}.", gainText) }}
       </span>
       <div v-if="isInEC">
-        You will also exit your current Eternity Challenge as well.
+        {{ t("pres.exitDilation.ecExit", "You will also exit your current Eternity Challenge as well.") }}
       </div>
       <br>
-      Are you sure you want to proceed?
+      {{ t("pres.exitDilation.areYouSure", "Are you sure you want to proceed?") }}
     </div>
     <template #confirm-text>
       {{ confirmText }}

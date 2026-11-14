@@ -13,24 +13,35 @@ export default {
   },
   computed: {
     refiningOrSacrificing() {
-      if (this.isRefining) return `Refine`;
-      return `Sacrifice`;
+      if (this.isRefining) return this.t("glyph.common.refine", "Refine");
+      return this.t("glyph.common.sacrifice", "Sacrifice");
     },
     topLabel() {
-      return `You are about to ${this.refiningOrSacrificing} all rejected Glyphs`;
+      return this.t("glyph.purgeRejected.topLabel",
+        "You are about to {0} all rejected Glyphs",
+        this.refiningOrSacrificing);
     },
     message() {
       const negativeWarning = AutoGlyphProcessor.hasNegativeEffectScore()
-        ? ` Note that some of your Effect Filter scores are negative, which may cause you to lose some Glyphs
-          you normally want to keep.`
+        ? this.t("glyph.purgeRejected.negativeWarning",
+          " Note that some of your Effect Filter scores are negative, which may cause you to lose some Glyphs " +
+          "you normally want to keep.")
         : "";
-      return `Are you sure you want to ${this.refiningOrSacrificing} all rejected Glyphs? This will remove
-        all Glyphs that would be rejected by your current Glyph Filter settings.${negativeWarning}`;
+      return this.t("glyph.purgeRejected.message",
+        "Are you sure you want to {0} all rejected Glyphs? This will remove all Glyphs that would be rejected " +
+        "by your current Glyph Filter settings.{1}",
+        this.refiningOrSacrificing, negativeWarning);
     },
     extraMessage() {
-      if (this.glyphsDeleted === 0) return `This will remove no Glyphs.`;
-      if (this.glyphsDeleted === this.glyphsTotal) return `This will remove all your Glyphs.`;
-      return `This process will remove ${this.glyphsDeleted}/${this.glyphsTotal} Glyphs.`;
+      if (this.glyphsDeleted === 0) {
+        return this.t("glyph.purgeRejected.extraNone", "This will remove no Glyphs.");
+      }
+      if (this.glyphsDeleted === this.glyphsTotal) {
+        return this.t("glyph.purgeRejected.extraAll", "This will remove all your Glyphs.");
+      }
+      return this.t("glyph.purgeRejected.extraSome",
+        "This process will remove {0}/{1} Glyphs.",
+        this.glyphsDeleted, this.glyphsTotal);
     },
 
     // These two don't need to be reactive since the modal force-closes itself whenever glyphs change

@@ -29,22 +29,28 @@ export default {
     @confirm="handleYesClick"
   >
     <template #header>
-      You are about to respec your Shop Purchases
+      {{ t("save.respecIAP.title", "You are about to respec your Shop Purchases") }}
     </template>
     <div class="c-modal-message__text">
-      Are you sure you want to respec your Shop Purchases? This will not cost anything and
-      return the {{ returnedSTDCount() }}
+      {{ t("save.respecIAP.confirm",
+           "Are you sure you want to respec your Shop Purchases? This will not cost anything and return the {0}",
+           returnedSTDCount()) }}
       <img
         src="images/std_coin.png"
         class="o-shop-button-button__img"
-      > you spent on all purchases which give permanent multipliers.
+      >{{ t("save.respecIAP.refundSuffix",
+            " you spent on all purchases which give permanent multipliers.") }}
       <br>
       <br>
-      Anything spent on offline progress and Glyph cosmetics will not be refunded. Glyph cosmetic sets are
-      permanent and will not be lost or respeced once purchased.
+      {{ t("save.respecIAP.noRefund",
+           "Anything spent on offline progress and Glyph cosmetics will not be refunded. Glyph cosmetic sets are " +
+             "permanent and will not be lost or respeced once purchased.") }}
       <br>
       <br>
-      <b class="o-warning">You will not be able to respec again unless you purchase more STD coins.</b>
+      <b class="o-warning">
+        {{ t("save.respecIAP.warning",
+             "You will not be able to respec again unless you purchase more STD coins.") }}
+      </b>
     </div>
   </ModalWrapperChoice>
 </template>

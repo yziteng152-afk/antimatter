@@ -14,7 +14,7 @@ export default {
 <template>
   <ModalWrapperOptions>
     <template #header>
-      Save Selection
+      {{ t("save.load.title", "Save Selection") }}
     </template>
     <LoadGameEntry
       v-for="id in 3"

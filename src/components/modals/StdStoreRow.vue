@@ -1,7 +1,7 @@
 <script>
+import Payments from "@/core/payments";
 import { STEAM } from "@/env";
 import { SteamRuntime } from "@/steam";
-import Payments from "@/core/payments";
 
 export default {
   name: "StdStoreRow",
@@ -31,7 +31,7 @@ export default {
 <template>
   <div class="c-modal-store-btn-container">
     <div class="o-modal-store-label">
-      {{ amount }} STDs
+      {{ t("save.store.amount", "{0} STDs", amount) }}
     </div>
     <button
       class="o-modal-store-btn"

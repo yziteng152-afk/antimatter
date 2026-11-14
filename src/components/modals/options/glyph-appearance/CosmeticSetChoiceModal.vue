@@ -26,15 +26,21 @@ export default {
       return CosmeticGlyphTypes.list.filter(t => t.isCosmetic && t.isUnlocked).map(t => t.id);
     },
     setName() {
-      return this.currentSet?.name ?? "None Selected";
+      return this.currentSet?.name ?? this.t("glyph.cosmetic.noneSelected", "None Selected");
     },
     setContents() {
       const contents = [];
-      // We explicitly pass in x => x as the formatting function in order to override END formatting; if we don't,
-      // this modal will show END symbols/colors when opened at game completion
-      if (this.symbols) contents.push(quantify("symbol", this.symbols.length, 0, 0, x => x));
-      if (this.colors) contents.push(quantify("color scheme", this.colors.length, 0, 0, x => x));
-      return contents.join(" and ");
+      if (this.symbols) {
+        contents.push(this.symbols.length === 1
+          ? this.t("glyph.cosmetic.symbolCountOne", "1 symbol")
+          : this.t("glyph.cosmetic.symbolCount", "{0} symbols", this.symbols.length));
+      }
+      if (this.colors) {
+        contents.push(this.colors.length === 1
+          ? this.t("glyph.cosmetic.colorSchemeCountOne", "1 color scheme")
+          : this.t("glyph.cosmetic.colorSchemeCount", "{0} color schemes", this.colors.length));
+      }
+      return contents.join(this.t("glyph.cosmetic.contentsAnd", " and "));
     },
     symbols() {
       return this.currentSet.symbol;
@@ -83,7 +89,7 @@ export default {
     @confirm="chooseSet"
   >
     <template #header>
-      Choose a Glyph Cosmetic Set
+      {{ t("glyph.cosmetic.header", "Choose a Glyph Cosmetic Set") }}
     </template>
     <div class="c-center">
       <ExpandingControlBox
@@ -91,7 +97,7 @@ export default {
       >
         <template #header>
           <div class="c-dropdown-header">
-            ▼ Available Sets ▼
+            {{ t("glyph.cosmetic.availableSets", "▼ Available Sets ▼") }}
             <br>
             {{ setName }}
           </div>
@@ -101,7 +107,8 @@ export default {
         </template>
       </ExpandingControlBox>
       <div v-if="currentSet">
-        The "{{ currentSet.name }}" Set contains the following {{ setContents }}:
+        {{ t("glyph.cosmetic.contains",
+             'The "{0}" Set contains the following {1}:', currentSet.name, setContents) }}
         <br>
         <span
           v-for="symbol of symbols"

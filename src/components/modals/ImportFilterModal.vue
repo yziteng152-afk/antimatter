@@ -55,22 +55,23 @@ export default {
     },
     selectStr() {
       return this.changedValue(this.parsedSettings.select, this.currentSettings.select,
-        x => AutoGlyphProcessor.filterModeName(x));
+        x => this.filterModeText(x));
     },
     basicCountStr() {
       return this.changedValue(this.parsedSettings.simple, this.currentSettings.simple, formatInt);
     },
     trashStr() {
       return this.changedValue(this.parsedSettings.trash, this.currentSettings.trash,
-        x => AutoGlyphProcessor.trashModeDesc(x));
+        x => this.trashModeText(x));
     },
     // Hide effarig if it hasn't been unlocked yet
     availableTypes() {
       return ALCHEMY_BASIC_GLYPH_TYPES.filter(t => !GlyphTypes.locked.map(e => e.id).includes(t));
     },
     settingTooltipText() {
-      return `Mouseover each box for more details. ✔ and ✘ symbols denote an effect
-        selected/unselected for Specified Effect mode.`;
+      return this.t("save.filter.tooltip",
+        "Mouseover each box for more details. ✔ and ✘ symbols denote an effect selected/unselected for " +
+        "Specified Effect mode.");
     }
   },
   mounted() {
@@ -80,8 +81,14 @@ export default {
     update() {
       this.currentSettings = JSON.parse(JSON.stringify(player.reality.glyphs.filter));
     },
+    filterModeText(id) {
+      return this.t(`save.filter.mode.${id}`, AutoGlyphProcessor.filterModeName(id));
+    },
+    trashModeText(id) {
+      return this.t(`save.filter.trashMode.${id}`, AutoGlyphProcessor.trashModeDesc(id));
+    },
     changedValue(oldVal, newVal, applyFn) {
-      if (oldVal === newVal) return "(No change)";
+      if (oldVal === newVal) return this.t("save.filter.noChange", "(No change)");
       return `${applyFn(oldVal)} ➜ ${applyFn(newVal)}`;
     },
     importFilter() {
@@ -99,11 +106,11 @@ export default {
     :show-confirm="false"
   >
     <template #header>
-      Import Glyph filter settings
+      {{ t("save.filter.title", "Import Glyph filter settings") }}
     </template>
-    Note: Importing Glyph filter options will overwrite settings
-    <br>
-    in all filter modes, not just the currently-selected one.
+    {{ t("save.filter.note",
+         "Note: Importing Glyph filter options will overwrite settings in all filter modes, not just the " +
+           "currently-selected one.") }}
     <input
       ref="input"
       v-model="input"
@@ -115,13 +122,14 @@ export default {
     <div class="c-modal-import__save-info">
       <div v-if="!input" />
       <div v-else-if="inputIsValid">
-        <b>Selection mode:</b> {{ selectStr }}
+        <b>{{ t("save.filter.selectionMode", "Selection mode:") }}</b> {{ selectStr }}
         <br>
-        <b>Effect Count ("Number of Effects"):</b> {{ basicCountStr }}
+        <b>{{ t("save.filter.effectCount", "Effect Count (\"Number of Effects\"):") }}</b> {{ basicCountStr }}
         <br>
-        <b>Rejected Glyphs:</b> {{ trashStr }}
+        <b>{{ t("save.filter.rejectedGlyphs", "Rejected Glyphs:") }}</b> {{ trashStr }}
         <br>
-        <u><b>Type-specific Settings</b></u> <span :ach-tooltip="settingTooltipText">
+        <u><b>{{ t("save.filter.typeSpecific", "Type-specific Settings") }}</b></u>
+        <span :ach-tooltip="settingTooltipText">
           <i class="fas fa-question-circle" />
         </span>
         <br>
@@ -135,7 +143,7 @@ export default {
         />
       </div>
       <div v-else>
-        Not a valid Glyph filter string
+        {{ t("save.filter.invalid", "Not a valid Glyph filter string") }}
       </div>
     </div>
 
@@ -144,7 +152,7 @@ export default {
       class="o-primary-btn--width-medium c-modal-message__okay-btn c-modal__confirm-btn"
       @click="importFilter"
     >
-      Import
+      {{ t("save.common.import", "Import") }}
     </PrimaryButton>
   </ModalWrapperChoice>
 </template>

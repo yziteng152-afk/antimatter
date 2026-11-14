@@ -23,7 +23,10 @@ export default {
       };
     },
     tooltipText() {
-      return `${this.setting ? "Disable" : "Reenable"} the ${this.confirmation.name} confirmation`;
+      const name = this.t(`modal.confirm.${this.confirmation.name}`, this.confirmation.name);
+      return this.setting
+        ? this.t("modal.disableConfirm", "Disable the {0} confirmation", name)
+        : this.t("modal.reenableConfirm", "Reenable the {0} confirmation", name);
     },
   },
   created() {
@@ -53,7 +56,7 @@ export default {
       </div>
     </div>
     <span class="c-modal__confirmation-toggle__text">
-      Don't show this message again
+      {{ t("modal.hideConfirmation", "Don't show this message again") }}
     </span>
   </div>
 </template>

@@ -3,8 +3,12 @@
 
 import { zhAutobuyers } from "./i18n-zh-autobuyers";
 import { zhAutomator } from "./i18n-zh-automator";
+import { zhModalGlyph } from "./i18n-zh-modal-glyph";
+import { zhModalMisc } from "./i18n-zh-modal-misc";
+import { zhModalPrestige } from "./i18n-zh-modal-prestige";
 import { zhModals } from "./i18n-zh-modals";
 import { zhModals2 } from "./i18n-zh-modals2";
+import { zhModalSave } from "./i18n-zh-modal-save";
 import { zhStats } from "./i18n-zh-stats";
 //
 // Rules for this file:
@@ -545,6 +549,66 @@ const base = {
   "ach.bhMult": "黑洞强度：{0}",
   "ach.ttMult": "时间定理产出：{0}",
 
+  // ---------------------------------------------------------------- quantified units (quantify/quantifyInt)
+  "unit.Alchemy Resource": "个炼金资源",
+  "unit.Antimatter": "反物质",
+  "unit.Antimatter Galaxy": "个反物质星系",
+  "unit.Blobflake": "片雪花",
+  "unit.Boost": "次提升",
+  "unit.Dimension Boost": "次维度提升",
+  "unit.EC completion": "次永恒挑战完成",
+  "unit.Eternity": "次永恒",
+  "unit.Eternity Point": "永恒点数",
+  "unit.Galaxy": "个星系",
+  "unit.Glyph": "个符文",
+  "unit.Imaginary Machine": "台幻想机器",
+  "unit.Infinity": "次无限",
+  "unit.Infinity Point": "无限点数",
+  "unit.Infinity Upgrade": "项无限升级",
+  "unit.Memory": "份记忆",
+  "unit.Memory Chunk": "块记忆碎片",
+  "unit.Music Glyph": "个音乐符文",
+  "unit.NaN player property": "个 NaN 存档属性",
+  "unit.Perk Point": "特权点数",
+  "unit.Purchased Upgrade": "次已购升级",
+  "unit.Reality": "次现实",
+  "unit.Reality Machine": "现实机器",
+  "unit.Reality Shard": "个现实碎片",
+  "unit.Relic Shard": "个遗物碎片",
+  "unit.Remnant": "份残余",
+  "unit.Replicanti Galaxy": "个复制人星系",
+  "unit.Singularity": "个奇点",
+  "unit.Space Theorem": "个空间定理",
+  "unit.Tachyon Particle": "超光速粒子",
+  "unit.Time Study": "项时间研究",
+  "unit.Time Theorem": "时间定理",
+  "unit.Triad Study": "项三重研究",
+  "unit.V-Achievement": "个 V 成就",
+  "unit.completion": "次完成",
+  "unit.extra Replicanti Galaxy": "个额外复制人星系",
+  "unit.in-game second": "游戏内秒",
+  "unit.invalid input": "个无效输入",
+  "unit.level": "级",
+  "unit.line": "行",
+  "unit.more active cycle": "个活跃周期",
+  "unit.paperclip": "个回形针",
+  "unit.purchase": "次购买",
+  "unit.row": "行",
+  "unit.second": "秒",
+  "unit.set": "套",
+  "unit.speedrun": "次速通",
+  "unit.study": "项研究",
+  "unit.thing": "个东西",
+  "unit.time": "次",
+  "unit.total Time Theorem": "时间定理",
+  "unit.year": "年",
+
+  "common.cancel": "取消",
+  "common.confirm": "确认",
+  "modal.disableConfirm": "禁用「{0}」确认",
+  "modal.reenableConfirm": "重新启用「{0}」确认",
+  "modal.hideConfirmation": "不再显示此提示",
+
   // ---------------------------------------------------------------- content summary (catchup)
   "catchup.titleSummary": "内容概要",
   "catchup.titleCatchup": "内容回顾",
@@ -708,6 +772,6 @@ for (const [name, entry] of Object.entries(h2pEntries)) {
   h2pFlat[`h2p.${name}.body`] = entry.body;
 }
 
-export const zh = { ...base, ...zhStats, ...zhModals, ...zhModals2, ...zhAutobuyers, ...zhAutomator, ...h2pFlat };
+export const zh = { ...base, ...zhStats, ...zhModals, ...zhModals2, ...zhModalPrestige, ...zhModalSave, ...zhModalGlyph, ...zhModalMisc, ...zhAutobuyers, ...zhAutomator, ...h2pFlat };
 
 export const h2pZh = h2pEntries;

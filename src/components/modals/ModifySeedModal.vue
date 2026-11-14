@@ -76,48 +76,56 @@ export default {
 <template>
   <ModalWrapper>
     <template #header>
-      Modifying Glyph RNG Seed
+      {{ t("save.seed.title", "Modifying Glyph RNG Seed") }}
     </template>
     <div>
-      All Glyph options beyond the first Reality for an entire playthrough are randomly determined from the very
-      beginning, based on the value of an initial seed number. The role of this seed is that it chooses a single,
-      <i>particular</i> set of Glyph options for your playthrough. If you or anyone else chooses the same seed
-      in a different run, you will get the same options for Glyphs.
+      {{ t("save.seed.intro1",
+           "All Glyph options beyond the first Reality for an entire playthrough are randomly determined from the " +
+             "very beginning, based on the value of an initial seed number. The role of this seed is that it " +
+             "chooses a single,") }}
+      <i>{{ t("save.seed.introParticular", "particular") }}</i>
+      {{ t("save.seed.intro2",
+           "set of Glyph options for your playthrough. If you or anyone else chooses the same seed in a different " +
+             "run, you will get the same options for Glyphs.") }}
       <br>
       <br>
-      You can switch between these three options any point before you generate your first Glyph.
+      {{ t("save.seed.switch",
+           "You can switch between these three options any point before you generate your first Glyph.") }}
       <br>
-      Current Setting: <b>{{ seedText }}</b>
+      {{ t("save.seed.currentSetting", "Current Setting:") }} <b>{{ seedText }}</b>
       <br>
       <br>
       <PrimaryButton
         :class="buttonClass(choiceEnum.FIXED)"
         @click="setMode(choiceEnum.FIXED)"
       >
-        Official Preset Seed
+        {{ t("save.seed.officialButton", "Official Preset Seed") }}
       </PrimaryButton>
       <br>
-      This is the default option which chooses the seed <b>{{ officialSeed }}</b>. Anyone who
-      chooses to not modify the seed at all will get these Glyph options.
+      {{ t("save.seed.officialDesc", "This is the default option which chooses the seed") }}
+      <b>{{ officialSeed }}</b>{{ t("save.seed.officialDescSuffix",
+                                    ". Anyone who chooses to not modify the seed at all will get these " +
+                                      "Glyph options.") }}
       <br>
       <br>
       <PrimaryButton
         :class="buttonClass(choiceEnum.RANDOM)"
         @click="setMode(choiceEnum.RANDOM)"
       >
-        Randomized Seed
+        {{ t("save.seed.randomButton", "Randomized Seed") }}
       </PrimaryButton>
       <br>
-      This selects a completely randomized seed value, producing Glyph options which are very likely to be
-      different from anyone else's playthrough unless they intentionally choose the same value.
+      {{ t("save.seed.randomDesc",
+           "This selects a completely randomized seed value, producing Glyph options which are very likely to be " +
+             "different from anyone else's playthrough unless they intentionally choose the same value.") }}
       <br>
       <br>
       <PrimaryButton
-        v-tooltip="seedValue === 0 ? 'Input seed cannot be zero!' : ''"
+        v-tooltip="seedValue === 0 ? t('save.seed.zeroTooltip', 'Input seed cannot be zero!') : ''"
         :class="buttonClass(choiceEnum.PLAYER)"
         @click="setMode(choiceEnum.PLAYER, seedValue)"
       >
-        Player-selected Seed:
+        {{ t("save.seed.playerButton", "Player-selected Seed:") }}
       </PrimaryButton>
       <input
         ref="inputSeed"
@@ -127,17 +135,21 @@ export default {
         @input="handleSeedInput()"
       >
       <br>
-      This option sets your seed to the value you type into the text box.
+      {{ t("save.seed.playerDesc", "This option sets your seed to the value you type into the text box.") }}
       <br>
       <span v-if="seedValue !== 0">
-        Your current input will be {{ convertedInput ? "converted to" : "used as" }} the number <b>{{ seedValue }}</b>.
+        {{ t("save.seed.currentInputWillBe", "Your current input will be") }}
+        {{ convertedInput ? t("save.seed.convertedTo", "converted to") : t("save.seed.usedAs", "used as") }}
+        {{ t("save.seed.theNumber", "the number") }} <b>{{ seedValue }}</b>.
       </span>
       <span v-else>
-        Your current input {{ convertedInput ? "converts to" : "is equal to" }} <b>0</b>;
-        the seed will default to Official Preset.
+        {{ t("save.seed.currentInput", "Your current input") }}
+        {{ convertedInput ? t("save.seed.convertsTo", "converts to") : t("save.seed.isEqualTo", "is equal to") }}
+        <b>0</b>{{ t("save.seed.zeroSuffix", "; the seed will default to Official Preset.") }}
       </span>
       <br>
-      For technical reasons, this value must be must be non-zero to be accepted.
+      {{ t("save.seed.nonZero",
+           "For technical reasons, this value must be must be non-zero to be accepted.") }}
     </div>
   </ModalWrapper>
 </template>

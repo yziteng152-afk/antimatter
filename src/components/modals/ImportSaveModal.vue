@@ -63,8 +63,10 @@ export default {
     lastOpened() {
       const ms = Date.now() - this.player.lastUpdate;
       return this.isFromFuture
-        ? `This save is from ${TimeSpan.fromMilliseconds(-ms).toString()} in the future.`
-        : `This save was last opened ${TimeSpan.fromMilliseconds(ms).toString()} ago.`;
+        ? this.t("save.import.future", "This save is from {0} in the future.",
+          TimeSpan.fromMilliseconds(-ms).toString())
+        : this.t("save.import.lastOpened", "This save was last opened {0} ago.",
+          TimeSpan.fromMilliseconds(ms).toString());
     },
     offlineType() {
       // We update here in the computed method instead of elsewhere because otherwise it initializes the text
@@ -73,26 +75,33 @@ export default {
 
       switch (this.offlineImport) {
         case OFFLINE_PROGRESS_TYPE.IMPORTED:
-          return "Using imported save settings";
+          return this.t("save.import.offlineImported", "Using imported save settings");
         case OFFLINE_PROGRESS_TYPE.LOCAL:
-          return "Using existing save settings";
+          return this.t("save.import.offlineLocal", "Using existing save settings");
         case OFFLINE_PROGRESS_TYPE.IGNORED:
-          return "Will not simulate offline time";
+          return this.t("save.import.offlineIgnored", "Will not simulate offline time");
         default:
           throw new Error("Unrecognized offline progress setting for importing");
       }
     },
     offlineDetails() {
       if (this.offlineImport === OFFLINE_PROGRESS_TYPE.IGNORED) {
-        return `Save will be imported without offline progress.`;
+        return this.t("save.import.offlineNone", "Save will be imported without offline progress.");
       }
-      if (!GameStorage.offlineEnabled) return "This setting will not apply any offline progress after importing.";
-      if (this.isFromFuture) return "Offline progress cannot be simulated due to an inconsistent system clock time.";
+      if (!GameStorage.offlineEnabled) {
+        return this.t("save.import.offlineDisabled",
+          "This setting will not apply any offline progress after importing.");
+      }
+      if (this.isFromFuture) {
+        return this.t("save.import.offlineClock",
+          "Offline progress cannot be simulated due to an inconsistent system clock time.");
+      }
 
       const durationInMs = Date.now() - this.player.lastUpdate;
       const ticks = GameStorage.maxOfflineTicks(durationInMs);
-      return `After importing, will simulate ${formatInt(ticks)} ticks of duration
-        ${TimeSpan.fromMilliseconds(durationInMs / ticks).toStringShort()} each.`;
+      return this.t("save.import.offlineTicks",
+        "After importing, will simulate {0} ticks of duration {1} each.",
+        formatInt(ticks), TimeSpan.fromMilliseconds(durationInMs / ticks).toStringShort());
     },
     willLoseCosmetics() {
       const currSets = player.reality.glyphs.cosmetics.unlockedFromNG;
@@ -147,7 +156,7 @@ export default {
     :show-confirm="false"
   >
     <template #header>
-      Input your save
+      {{ t("save.import.title", "Input your save") }}
     </template>
     <input
       ref="input"
@@ -163,23 +172,24 @@ export default {
       </div>
       <template v-else-if="inputIsValidSave">
         <div v-if="fileName">
-          File name: {{ fileName }}
+          {{ t("save.common.fileName", "File name: {0}", fileName) }}
         </div>
-        <div>Antimatter: {{ formatPostBreak(antimatter, 2, 1) }}</div>
+        <div>{{ t("save.common.antimatter", "Antimatter: {0}", formatPostBreak(antimatter, 2, 1)) }}</div>
         <div v-if="progress.isInfinityUnlocked">
-          Infinities: {{ formatPostBreak(infinities, 2) }}
+          {{ t("save.import.infinities", "Infinities: {0}", formatPostBreak(infinities, 2)) }}
         </div>
         <div v-if="progress.isEternityUnlocked">
-          Eternities: {{ formatPostBreak(player.eternities, 2) }}
+          {{ t("save.import.eternities", "Eternities: {0}", formatPostBreak(player.eternities, 2)) }}
         </div>
         <div v-if="progress.isRealityUnlocked">
-          Realities: {{ formatPostBreak(player.realities, 2) }}
+          {{ t("save.import.realities", "Realities: {0}", formatPostBreak(player.realities, 2)) }}
         </div>
         <div v-if="progress.hasFullCompletion">
-          Full game completions: {{ formatInt(player.records.fullGameCompletions) }}
+          {{ t("save.import.fullCompletions", "Full game completions: {0}",
+               formatInt(player.records.fullGameCompletions)) }}
         </div>
         <div class="c-modal-import__warning">
-          (Your current save file will be overwritten!)
+          {{ t("save.import.overwriteWarning", "(Your current save file will be overwritten!)") }}
         </div>
         <br>
         <div>
@@ -188,13 +198,13 @@ export default {
             class="o-primary-btn"
             @click="changeOfflineSetting"
           >
-            Offline Progress: {{ offlineType }}
+            {{ t("save.common.offlineProgress", "Offline Progress: {0}", offlineType) }}
           </div>
           <span v-html="offlineDetails" />
         </div>
       </template>
       <div v-else-if="hasInput">
-        Not a valid save:
+        {{ t("save.import.invalid", "Not a valid save:") }}
         <br>
         {{ saveCheckString }}
       </div>
@@ -204,13 +214,15 @@ export default {
       >
         <div v-if="willLoseCosmetics">
           <br>
-          Glyph cosmetic sets from completing the game are tied to your save.
+          {{ t("save.import.cosmeticsTied",
+               "Glyph cosmetic sets from completing the game are tied to your save.") }}
           <br>
-          Importing this save will cause you to lose some sets.
+          {{ t("save.import.cosmeticsLose", "Importing this save will cause you to lose some sets.") }}
         </div>
         <div v-if="willLoseSpeedrun">
           <br>
-          You will lose the ability to do a Speedrun, as this save does not have it unlocked.
+          {{ t("save.import.speedrunLose",
+               "You will lose the ability to do a Speedrun, as this save does not have it unlocked.") }}
         </div>
       </div>
     </div>
@@ -220,7 +232,7 @@ export default {
       class="o-primary-btn--width-medium c-modal-message__okay-btn c-modal__confirm-btn"
       @click="importSave"
     >
-      Import
+      {{ t("save.common.import", "Import") }}
     </PrimaryButton>
   </ModalWrapperChoice>
 </template>

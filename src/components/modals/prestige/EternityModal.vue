@@ -17,30 +17,36 @@ export default {
   computed: {
     message() {
       return PlayerProgress.eternityUnlocked()
-        ? `Eternity will reset everything except Achievements, Challenge records, and anything under the General header
-          on the Statistics tab.`
-        : `Eternity will reset everything except Achievements, Challenge records, and anything under the General header
-          on the Statistics tab. You will also gain an Eternity Point and unlock various upgrades.`;
+        ? this.t("pres.eternity.message",
+          `Eternity will reset everything except Achievements, Challenge records, and anything under the General header
+          on the Statistics tab.`)
+        : this.t("pres.eternity.messageFirst",
+          `Eternity will reset everything except Achievements, Challenge records, and anything under the General header
+          on the Statistics tab. You will also gain an Eternity Point and unlock various upgrades.`);
     },
     gainedEPOnEternity() {
-      return `You will gain ${quantify("Eternity", this.gainedEternities, 2)} 
-      and ${quantify("Eternity Point", this.gainedEternityPoints, 2)} on Eternity.`;
+      return this.t("pres.eternity.gained",
+        `You will gain {0}
+        and {1} on Eternity.`,
+        quantify("Eternity", this.gainedEternities, 2), quantify("Eternity Point", this.gainedEternityPoints, 2));
     },
     startWithIP() {
       return this.startingIP.gt(0)
-        ? `You will start your next Eternity with ${quantify("Infinity Point", this.startingIP, 2)}.`
+        ? this.t("pres.eternity.startIP", "You will start your next Eternity with {0}.",
+          quantify("Infinity Point", this.startingIP, 2))
         : ``;
     },
     eternityChallenge() {
       const ec = EternityChallenge.current;
       if (ec.isFullyCompleted) {
-        return `Eternity Challenge ${ec.id} is already fully completed.`;
+        return this.t("pres.eternity.ecComplete", "Eternity Challenge {0} is already fully completed.", ec.id);
       }
       if (!Perk.studyECBulk.isBought) {
-        return `You will gain one completion of Eternity Challenge ${ec.id}.`;
+        return this.t("pres.eternity.ecGain", "You will gain one completion of Eternity Challenge {0}.", ec.id);
       }
       const gainedCompletions = ec.gainedCompletionStatus.gainedCompletions;
-      return `You will gain ${quantifyInt("completion", gainedCompletions)} for Eternity Challenge ${ec.id}.`;
+      return this.t("pres.eternity.ecCompletions", "You will gain {0} for Eternity Challenge {1}.",
+        quantifyInt("completion", gainedCompletions), ec.id);
     }
   },
   methods: {
@@ -60,7 +66,9 @@ export default {
 
 <template>
   <ResetModal
-    :header="exitingEC ? 'Complete Eternity Challenge' : 'You are about to Eternity'"
+    :header="exitingEC
+      ? t('pres.eternity.ecHeader', 'Complete Eternity Challenge')
+      : t('pres.eternity.header', 'You are about to Eternity')"
     :message="message"
     :gained-resources="gainedEPOnEternity"
     :starting-resources="startWithIP"

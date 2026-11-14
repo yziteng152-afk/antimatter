@@ -30,16 +30,16 @@ export default {
   },
   computed: {
     infoLabel() {
-      return GlyphInfo.labels[this.glyphInfoType];
+      return this.t(`glyph.display.info.${this.glyphInfoType}`, GlyphInfo.labels[this.glyphInfoType]);
     },
     glyphBGStr() {
       switch (this.glyphBG) {
         case GLYPH_BG_SETTING.AUTO:
-          return "Auto";
+          return this.t("glyph.display.bgAuto", "Auto");
         case GLYPH_BG_SETTING.LIGHT:
-          return "Light";
+          return this.t("glyph.display.bgLight", "Light");
         case GLYPH_BG_SETTING.DARK:
-          return "Dark";
+          return this.t("glyph.display.bgDark", "Dark");
         default:
           throw new Error("Unrecognized Glyph BG setting");
       }
@@ -105,51 +105,51 @@ export default {
 <template>
   <ModalWrapperOptions class="c-modal-options__glyph">
     <template #header>
-      Glyph Display Options
+      {{ t("glyph.display.header", "Glyph Display Options") }}
     </template>
     <div class="c-glyph-visual-options c-modal--short">
       <div class="c-modal-options__button-container">
         <ModalOptionsToggleButton
           v-model="newGlyphs"
-          text="New Glyph identifier:"
+          :text="t('glyph.display.newGlyph', 'New Glyph identifier:')"
         />
         <ModalOptionsToggleButton
           v-model="showUnequippedGlyphIcon"
-          text="Unequipped Glyph identifier:"
+          :text="t('glyph.display.unequippedGlyph', 'Unequipped Glyph identifier:')"
         />
         <ModalOptionsToggleButton
           v-model="glyphEffectDots"
-          text="Always show Glyph effect dots:"
+          :text="t('glyph.display.effectDots', 'Always show Glyph effect dots:')"
         />
         <ModalOptionsToggleButton
           v-model="glyphBorders"
-          text="Fancy Glyph borders:"
+          :text="t('glyph.display.fancyBorders', 'Fancy Glyph borders:')"
         />
         <button
           class="o-primary-btn o-primary-btn--modal-option"
           @click="cycleBG()"
         >
-          Glyph BG color: {{ glyphBGStr }}
+          {{ t("glyph.display.bgColor", "Glyph BG color: {0}", glyphBGStr) }}
         </button>
         <ModalOptionsToggleButton
           v-model="showGlyphInfoByDefault"
           :style="noEffectStyle()"
-          text="Always show Glyph Info:"
+          :text="t('glyph.display.alwaysShowInfo', 'Always show Glyph Info:')"
         />
         <ModalOptionsToggleButton
           v-model="highContrastRarity"
-          text="High-contrast rarity colors:"
+          :text="t('glyph.display.highContrastRarity', 'High-contrast rarity colors:')"
         />
         <ModalOptionsToggleButton
           v-model="swapGlyphColors"
-          text="Swap border and symbol colors:"
+          :text="t('glyph.display.swapColors', 'Swap border and symbol colors:')"
         />
         <ExpandingControlBox
           class="o-primary-btn c-dropdown-btn"
         >
           <template #header>
             <div class="c-dropdown-header">
-              ▼ Additional Glyph Info: ▼
+              {{ t("glyph.display.additionalInfo", "▼ Additional Glyph Info: ▼") }}
               <br>
               {{ infoLabel }}
             </div>

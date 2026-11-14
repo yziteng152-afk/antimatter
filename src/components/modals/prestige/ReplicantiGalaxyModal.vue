@@ -15,17 +15,21 @@ export default {
   },
   computed: {
     topLabel() {
-      return `You are about to purchase ${quantifyInt("Replicanti Galaxy", this.canBeBought)}`;
+      return this.t("pres.replicantiGalaxy.header", "You are about to purchase {0}",
+        quantifyInt("Replicanti Galaxy", this.canBeBought));
     },
     message() {
       const reductionString = this.divideReplicanti
-        ? `divide your Replicanti by ${format(Number.MAX_VALUE, 2, 2)} for each Replicanti Galaxy purchased
-          (${format(this.replicanti, 2, 2)} to
-          ${format(this.replicanti.divide(Decimal.NUMBER_MAX_VALUE.pow(this.canBeBought)), 2, 2)})`
-        : `reset your Replicanti to ${formatInt(1)}`;
-      return `A Replicanti Galaxy boosts Tickspeed the same way an Antimatter Galaxy does. However, it does not
+        ? this.t("pres.replicantiGalaxy.divide",
+          `divide your Replicanti by {0} for each Replicanti Galaxy purchased
+          ({1} to {2})`,
+          format(Number.MAX_VALUE, 2, 2), format(this.replicanti, 2, 2),
+          format(this.replicanti.divide(Decimal.NUMBER_MAX_VALUE.pow(this.canBeBought)), 2, 2))
+        : this.t("pres.replicantiGalaxy.reset", "reset your Replicanti to {0}", formatInt(1));
+      return this.t("pres.replicantiGalaxy.message",
+        `A Replicanti Galaxy boosts Tickspeed the same way an Antimatter Galaxy does. However, it does not
         increase the cost of Antimatter Galaxies, nor is it affected by multipliers to Antimatter Galaxies specifically.
-        It will ${reductionString}.`;
+        It will {0}.`, reductionString);
     }
   },
   methods: {

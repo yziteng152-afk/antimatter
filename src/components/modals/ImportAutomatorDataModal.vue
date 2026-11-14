@@ -77,10 +77,14 @@ export default {
       return this.constantCountAfterImport - this.maxConstantCount;
     },
     presetButtonText() {
-      return this.ignorePresets ? "Will Ignore Presets" : "Will Import Presets";
+      return this.ignorePresets
+        ? this.t("save.automator.ignorePresets", "Will Ignore Presets")
+        : this.t("save.automator.importPresets", "Will Import Presets");
     },
     constantButtonText() {
-      return this.ignoreConstants ? "Will Ignore Constants" : "Will Import Constants";
+      return this.ignoreConstants
+        ? this.t("save.automator.ignoreConstants", "Will Ignore Constants")
+        : this.t("save.automator.importConstants", "Will Import Constants");
     }
   },
   mounted() {
@@ -134,10 +138,12 @@ export default {
     @confirm="importSave"
   >
     <template #header>
-      Import Automator Script Data
+      {{ t("save.automator.title", "Import Automator Script Data") }}
     </template>
-    This will create a new Automator script at the end of your list.
-    <span v-if="isImportingExtraData">This will also import additional data related to the script.</span>
+    {{ t("save.automator.newScript", "This will create a new Automator script at the end of your list.") }}
+    <span v-if="isImportingExtraData">
+      {{ t("save.automator.extraData", "This will also import additional data related to the script.") }}
+    </span>
     <input
       ref="input"
       v-model="input"
@@ -147,26 +153,29 @@ export default {
       @keyup.esc="emitClose"
     >
     <div v-if="isValid">
-      Script name: {{ scriptName }}
+      {{ t("save.automator.scriptName", "Script name: {0}", scriptName) }}
       <br>
-      Line count: {{ lineCount }}
+      {{ t("save.automator.lineCount", "Line count: {0}", lineCount) }}
       <div v-if="hasPresets">
         <br>
-        Study Presets:
+        {{ t("save.automator.studyPresets", "Study Presets:") }}
         <span
           v-for="(preset, id) in importedPresets"
           :key="id"
           class="c-import-data-name"
         >
-          <span v-if="preset.name">"{{ preset.name }}" (slot {{ preset.id + 1 }})</span>
-          <span v-else>Preset slot #{{ preset.id + 1 }}</span>
+          <span v-if="preset.name">
+            {{ t("save.automator.namedPreset", "\"{0}\" (slot {1})", preset.name, preset.id + 1) }}
+          </span>
+          <span v-else>{{ t("save.automator.presetSlot", "Preset slot #{0}", preset.id + 1) }}</span>
         </span>
         <div
           v-if="!ignorePresets && overwrittenPresetCount > 0"
           class="l-has-errors"
         >
-          {{ formatInt(overwrittenPresetCount) }} of your existing presets
-          will be overwritten by imported presets!
+          {{ t("save.automator.overwritePresets",
+               "{0} of your existing presets will be overwritten by imported presets!",
+               formatInt(overwrittenPresetCount)) }}
         </div>
         <br>
         <button
@@ -178,7 +187,7 @@ export default {
       </div>
       <div v-if="hasConstants">
         <br>
-        Constants:
+        {{ t("save.automator.constants", "Constants:") }}
         <span
           v-for="(constant, id) in importedConstants"
           :key="id + 10"
@@ -190,11 +199,18 @@ export default {
           v-if="!ignoreConstants && (willOverwriteConstant || extraConstants > 0)"
           class="l-has-errors"
         >
-          <span v-if="willOverwriteConstant">Some of your existing constants will be overwritten!</span>
+          <span v-if="willOverwriteConstant">
+            {{ t("save.automator.overwriteConstants", "Some of your existing constants will be overwritten!") }}
+          </span>
           <br v-if="willOverwriteConstant && extraConstants > 0">
           <span v-if="extraConstants > 0">
-            {{ quantifyInt("constant", extraConstants) }} will not be imported due to the
-            {{ maxConstantCount }} constant limit.
+            {{ extraConstants === 1
+              ? t("save.automator.constantLimitOne",
+                  "{0} constant will not be imported due to the {1} constant limit.",
+                  formatInt(extraConstants), maxConstantCount)
+              : t("save.automator.constantLimitMany",
+                  "{0} constants will not be imported due to the {1} constant limit.",
+                  formatInt(extraConstants), maxConstantCount) }}
           </span>
         </div>
         <br>
@@ -210,17 +226,20 @@ export default {
         v-if="hasErrors"
         class="l-has-errors"
       >
-        This script has errors which need to be fixed before it can be run!
+        {{ t("save.automator.errors", "This script has errors which need to be fixed before it can be run!") }}
       </div>
       <div v-if="hasErrors && isImportingExtraData">
-        <i>Some errors may be fixed with the additional data being imported.</i>
+        <i>
+          {{ t("save.automator.extraErrors",
+               "Some errors may be fixed with the additional data being imported.") }}
+        </i>
       </div>
     </div>
     <div v-else-if="input.length !== 0">
-      Invalid Automator data string
+      {{ t("save.automator.invalid", "Invalid Automator data string") }}
     </div>
     <template #confirm-text>
-      Import
+      {{ t("save.common.import", "Import") }}
     </template>
   </ModalWrapperChoice>
 </template>
