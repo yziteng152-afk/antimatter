@@ -1,4 +1,5 @@
 import { BitUpgradeState, RebuyableMechanicState } from "../game-mechanics";
+import { t } from "../i18n";
 import { GameDatabase } from "../secret-formula/game-database";
 
 import { Quotes } from "./quotes";
@@ -100,17 +101,18 @@ class PerkShopUpgradeState extends RebuyableMechanicState {
       if (GameCache.glyphInventorySpace.value === 0) {
         // Refund the perk point if they didn't actually get a glyph
         Currency.perkPoints.add(1);
-        GameUI.notify.error("You have no empty inventory space!");
+        GameUI.notify.error(t("notify.celestial.musicGlyphInventoryFull", "You have no empty inventory space!"));
       } else {
         Glyphs.addToInventory(GlyphGenerator.musicGlyph());
-        GameUI.notify.success("Created a Music Glyph");
+        GameUI.notify.success(t("notify.celestial.musicGlyphCreated", "Created a Music Glyph"));
       }
     }
     // Fill the inventory with music glyphs
     if (this.id === 5 && !Pelle.isDoomed) {
       const toCreate = GameCache.glyphInventorySpace.value;
       for (let count = 0; count < toCreate; count++) Glyphs.addToInventory(GlyphGenerator.musicGlyph());
-      GameUI.notify.success(`Created ${quantifyInt("Music Glyph", toCreate)}`);
+      GameUI.notify.success(t("notify.celestial.musicGlyphsCreated", "Created {0}",
+        quantifyInt("Music Glyph", toCreate)));
     }
   }
 }

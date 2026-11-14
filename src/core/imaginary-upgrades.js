@@ -1,4 +1,5 @@
 import { BitPurchasableMechanicState, RebuyableMechanicState } from "./game-mechanics";
+import { t } from "./i18n";
 import { DC } from "./constants";
 
 class ImaginaryUpgradeState extends BitPurchasableMechanicState {
@@ -83,7 +84,8 @@ class ImaginaryUpgradeState extends BitPurchasableMechanicState {
   tryUnlock() {
     if (!MachineHandler.isIMUnlocked || this.isAvailableForPurchase || !this.config.checkRequirement()) return;
     player.reality.imaginaryUpgReqs |= (1 << this.id);
-    GameUI.notify.reality(`You've unlocked an Imaginary Upgrade: ${this.config.name}`);
+    GameUI.notify.reality(t("notify.imaginary.upgradeUnlocked", "You've unlocked an Imaginary Upgrade: {0}",
+      this.config.name));
     this.hasPlayerLock = false;
   }
 

@@ -1,3 +1,4 @@
+import { t } from "@/core/i18n";
 import { MAC } from "@/env";
 import { openExternalLink } from "@/utility/open-external-link";
 import * as PlayFab from "./bindings/playfab";
@@ -65,7 +66,7 @@ async function validatePurchase(orderId) {
   const stdsBought = Number(purchaseName.replace("STD", ""));
   pendingValidations = pendingValidations.filter(item => item !== orderId);
   await PlayFab.AddUserVirtualCurrency(stdsBought, "ST");
-  GameUI.notify.info(`${stdsBought} STDs Obtained!`);
+  GameUI.notify.info(t("notify.shop.stdsObtained", "{0} STDs Obtained!", stdsBought));
   syncIAP();
 }
 

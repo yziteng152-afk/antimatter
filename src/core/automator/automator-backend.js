@@ -1,3 +1,5 @@
+import { t } from "../i18n";
+
 import { compile } from "./compiler";
 
 export const AUTOMATOR_COMMAND_STATUS = Object.freeze({
@@ -191,7 +193,7 @@ export const AutomatorData = {
   },
   createNewScript(content, name) {
     const newScript = AutomatorScript.create(name, content);
-    GameUI.notify.automator(`Imported Script "${name}"`);
+    GameUI.notify.automator(t("notify.automator.imported", 'Imported Script "{0}"', name));
     player.reality.automator.state.editorScript = newScript.id;
     AutomatorData.clearUndoData();
     EventHub.dispatch(GAME_EVENT.AUTOMATOR_SAVE_CHANGED);
@@ -782,7 +784,7 @@ export const AutomatorBackend = {
     // and input 3000 comments in a row. If hasJustCompleted is true, then we actually broke out because the end of
     // the script has no-ops and we just looped through them, and therefore shouldn't show these messages
     if (!this.hasJustCompleted) {
-      GameUI.notify.error("Automator halted - too many consecutive no-ops detected");
+      GameUI.notify.error(t("notify.automator.halted", "Automator halted - too many consecutive no-ops detected"));
       AutomatorData.logCommandEvent("Automator halted due to excessive no-op commands", this.currentLineNumber);
     }
 
@@ -964,7 +966,7 @@ export const AutomatorBackend = {
     this.state.mode = AUTOMATOR_MODE.PAUSE;
   },
 
-  start(scriptID = this.state.topLevelScript, initialMode = AUTOMATOR_MODE.RUN, compile = true) {
+  start(scriptID = this.state.topLevelScript, initialMode = AUTOMATOR_MODE.RUN, shouldCompile = true) {
     // Automator execution behaves oddly across new games, so we explicitly stop it from running if not unlocked
     if (!Player.automatorUnlocked) return;
     this.hasJustCompleted = false;
@@ -972,7 +974,7 @@ export const AutomatorBackend = {
     player.reality.automator.execTimer = 0;
     const scriptObject = this.findScript(scriptID);
     if (!scriptObject) return;
-    if (compile) scriptObject.compile();
+    if (shouldCompile) scriptObject.compile();
     if (scriptObject.commands) {
       this.reset(scriptObject.commands);
       this.state.mode = initialMode;

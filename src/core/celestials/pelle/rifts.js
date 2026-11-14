@@ -1,3 +1,4 @@
+import { t } from "../../i18n";
 import { GameMechanicState } from "../../utils";
 
 class RiftMilestoneState extends GameMechanicState {
@@ -137,8 +138,9 @@ class RiftState extends GameMechanicState {
 
   toggle() {
     const active = PelleRifts.all.filter(r => r.isActive).length;
-    if (!this.isActive && active === 2) GameUI.notify.error(`You can only have 2 rifts active at the same time!`);
-    else this.rift.active = !this.rift.active;
+    if (!this.isActive && active === 2) {
+      GameUI.notify.error(t("notify.celestial.riftLimit", "You can only have 2 rifts active at the same time!"));
+    } else this.rift.active = !this.rift.active;
   }
 
   checkMilestoneStates() {

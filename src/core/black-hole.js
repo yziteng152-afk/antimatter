@@ -1,5 +1,5 @@
 import { DC } from "./constants";
-import { SpeedrunMilestones } from "./speedrun";
+import { t } from "./i18n";
 
 class BlackHoleUpgradeState {
   constructor(config) {
@@ -361,14 +361,19 @@ export const BlackHoles = {
     if (player.blackHolePause) player.requirementChecks.reality.slowestBH = 1;
     player.blackHolePause = !player.blackHolePause;
     player.blackHolePauseTime = player.records.realTimePlayed;
-    const blackHoleString = RealityUpgrade(20).isBought ? "Black Holes" : "Black Hole";
+    const isPlural = RealityUpgrade(20).isBought;
+    const blackHoleString = isPlural
+      ? t("notify.blackHole.plural", "Black Holes")
+      : t("notify.blackHole.singular", "Black Hole");
     // If black holes are going unpaused -> paused, use "inverted" or "paused" depending o
     // whether the player's using negative BH (i.e. BH inversion); if going paused -> unpaused,
     // use "unpaused".
     // eslint-disable-next-line no-nested-ternary
     const pauseType = player.blackHolePause ? (BlackHoles.areNegative ? "inverted" : "paused") : "unpaused";
-    const automaticString = automatic ? "automatically " : "";
-    GameUI.notify.blackHole(`${blackHoleString} ${automaticString}${pauseType}`);
+    const pauseText = t(`notify.blackHole.${pauseType}`, pauseType);
+    GameUI.notify.blackHole(automatic
+      ? t("notify.blackHole.toggledAutomatically", "{0} automatically {1}", blackHoleString, pauseText)
+      : t("notify.blackHole.toggled", "{0} {1}", blackHoleString, pauseText));
   },
 
   get unpauseAccelerationFactor() {
@@ -568,12 +573,13 @@ export const BlackHoles = {
         return null;
       }
       // Find the time until next activation.
-      const t = (bh.isCharged ? bh.duration : 0) + bh.interval - bh.phase;
+      const timeUntilNext = (bh.isCharged ? bh.duration : 0) + bh.interval - bh.phase;
       // If the time until next activation is less than the acceleration time,
       // we have to wait until the activation after that;
       // otherwise, we can just use the next activation.
-      return (t < BlackHoles.ACCELERATION_TIME)
-        ? t + bh.duration + bh.interval - BlackHoles.ACCELERATION_TIME : t - BlackHoles.ACCELERATION_TIME;
+      return (timeUntilNext < BlackHoles.ACCELERATION_TIME)
+        ? timeUntilNext + bh.duration + bh.interval - BlackHoles.ACCELERATION_TIME
+        : timeUntilNext - BlackHoles.ACCELERATION_TIME;
     }
     // Look at the next 100 black hole transitions.
     // This is called every tick if BH pause setting is set to BH2, so we try to optimize it.

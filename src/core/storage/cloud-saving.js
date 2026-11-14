@@ -14,6 +14,8 @@ import { get, getDatabase, ref, set } from "firebase/database";
 import { initializeApp } from "firebase/app";
 import { sha512_256 } from "js-sha512";
 
+import { t } from "../i18n";
+
 import { STEAM } from "@/env";
 
 import { decodeBase64Binary } from "./base64-binary";
@@ -55,11 +57,14 @@ export const Cloud = {
     try {
       await signInWithPopup(this.auth, this.provider);
       ShopPurchaseData.syncSTD();
-      if (player.options.hideGoogleName) GameUI.notify.success(`Successfully logged in to Google Account`);
-      else GameUI.notify.success(`Successfully logged in as ${this.user.displayName}`);
+      if (player.options.hideGoogleName) {
+        GameUI.notify.success(t("notify.cloud.loggedIn", "Successfully logged in to Google Account"));
+      } else {
+        GameUI.notify.success(t("notify.cloud.loggedInAs", "Successfully logged in as {0}", this.user.displayName));
+      }
       if (ShopPurchaseData.isIAPEnabled) Speedrun.setSTDUse(true);
     } catch (e) {
-      GameUI.notify.error("Google Account login failed");
+      GameUI.notify.error(t("notify.cloud.loginFailed", "Google Account login failed"));
     }
   },
 
@@ -97,7 +102,7 @@ export const Cloud = {
     if (snapshot.exists) {
       const encoded = snapshot.val();
       const uintArray = decodeBase64Binary(encoded.replace(/-/gu, "+").replace(/_/gu, "/"));
-      const save = pako.ungzip(uintArray, { to: "string" });
+      pako.ungzip(uintArray, { to: "string" });
     }
   },
 
@@ -175,12 +180,17 @@ export const Cloud = {
     // since the hiding motivation was identifying info, and Steam usernames are generally more publicly
     // visible than Google info. Also affects the visibility of the button in the Options/Saving subtab
     if (STEAM) {
-      GameUI.notify.info(`Game saved (slot ${slot + 1}) to cloud as user ${this.user.displayName}`);
+      GameUI.notify.info(t("notify.cloud.savedAsUser", "Game saved (slot {0}) to cloud as user {1}",
+        slot + 1, this.user.displayName));
       return;
     }
 
-    if (player.options.hideGoogleName) GameUI.notify.info(`Game saved (slot ${slot + 1}) to cloud`);
-    else GameUI.notify.info(`Game saved (slot ${slot + 1}) to cloud as user ${this.user.displayName}`);
+    if (player.options.hideGoogleName) {
+      GameUI.notify.info(t("notify.cloud.saved", "Game saved (slot {0}) to cloud", slot + 1));
+    } else {
+      GameUI.notify.info(t("notify.cloud.savedAsUser", "Game saved (slot {0}) to cloud as user {1}",
+        slot + 1, this.user.displayName));
+    }
   },
 
   async loadCheck() {
@@ -190,8 +200,11 @@ export const Cloud = {
 
     const save = await this.load();
     if (save === null) {
-      if (player.options.hideGoogleName) GameUI.notify.info(`No cloud save for current Google Account`);
-      else GameUI.notify.info(`No cloud save for user ${this.user.displayName}`);
+      if (player.options.hideGoogleName) {
+        GameUI.notify.info(t("notify.cloud.noSave", "No cloud save for current Google Account"));
+      } else {
+        GameUI.notify.info(t("notify.cloud.noSaveForUser", "No cloud save for user {0}", this.user.displayName));
+      }
     } else {
       const cloudSave = save;
       const saveId = GameStorage.currentSlot;
@@ -203,12 +216,16 @@ export const Cloud = {
         GameStorage.overwriteSlot(saveId, cloudSave);
 
         if (STEAM) {
-          GameUI.notify.info(`Cloud save loaded`);
+          GameUI.notify.info(t("notify.cloud.loaded", "Cloud save loaded"));
           return;
         }
 
-        if (player.options.hideGoogleName) GameUI.notify.info(`Cloud save (slot ${saveId + 1}) loaded`);
-        else GameUI.notify.info(`Cloud save (slot ${saveId + 1}) loaded for user ${this.user.displayName}`);
+        if (player.options.hideGoogleName) {
+          GameUI.notify.info(t("notify.cloud.slotLoaded", "Cloud save (slot {0}) loaded", saveId + 1));
+        } else {
+          GameUI.notify.info(t("notify.cloud.slotLoadedForUser", "Cloud save (slot {0}) loaded for user {1}",
+            saveId + 1, this.user.displayName));
+        }
       };
 
       // If the comparison fails, we assume the cloud data is corrupted and show the relevant modal

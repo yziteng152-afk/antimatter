@@ -1,4 +1,5 @@
 import { BitUpgradeState } from "../game-mechanics";
+import { t } from "../i18n";
 import { GameDatabase } from "../secret-formula/game-database";
 
 import { Quotes } from "./quotes";
@@ -159,7 +160,8 @@ export const Enslaved = {
     AutomatorData.recalculateErrors();
     if (AutomatorBackend.state.mode === AUTOMATOR_MODE.RUN && AutomatorData.currentErrors().length) {
       AutomatorBackend.stop();
-      GameUI.notify.error("This Reality forbids Black Holes! (Automator stopped)");
+      GameUI.notify.error(t("notify.celestial.enslavedNoBlackHoles",
+        "This Reality forbids Black Holes! (Automator stopped)"));
     }
 
     this.quotes.startRun.show();
@@ -255,7 +257,8 @@ class EnslavedProgressState extends BitUpgradeState {
     // Bump the last hint time appropriately if the player found the hint
     if (this.hasHint && !this.hasProgress) {
       player.celestials.enslaved.zeroHintTime -= Math.log(2) / Math.log(3) * TimeSpan.fromDays(1).totalMilliseconds;
-      GameUI.notify.success("You found a crack in The Nameless Ones' Reality!", 10000);
+      GameUI.notify.success(t("notify.celestial.enslavedCrack",
+        "You found a crack in The Nameless Ones' Reality!"), 10000);
     }
     player.celestials.enslaved.progressBits |= (1 << this.id);
   }

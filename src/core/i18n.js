@@ -133,6 +133,7 @@ window.i18n = {
   setLanguage,
   t,
   tr,
+  trNorm,
   zh,
   zhText,
   h2pZh,

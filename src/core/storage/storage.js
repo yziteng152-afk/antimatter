@@ -1,5 +1,7 @@
 import * as ADNotations from "@antimatter-dimensions/notations";
 
+import { t } from "../i18n";
+
 import { DEV } from "@/env";
 import { devMigrations } from "./dev-migrations";
 import { migrations } from "./migrations";
@@ -144,10 +146,10 @@ export const GameStorage = {
     this.loadPlayerObject(this.saves[slot] ?? Player.defaultStart);
     this.loadBackupTimes();
     this.backupOfflineSlots();
-    Tabs.all.find(t => t.id === player.options.lastOpenTab).show(false);
+    Tabs.all.find(tab => tab.id === player.options.lastOpenTab).show(false);
     Modal.hideAll();
     Cloud.resetTempState();
-    GameUI.notify.info("Game loaded");
+    GameUI.notify.info(t("notify.save.loaded", "Game loaded"));
     Achievements.updateSteamStatus();
   },
 
@@ -176,7 +178,7 @@ export const GameStorage = {
     // You can doom your reality even if you haven't unlocked infinity yet if you import while the Pelle tab
     // is showing
     Tab.options.subtabs[0].show();
-    GameUI.notify.info("Game imported");
+    GameUI.notify.info(t("notify.save.imported", "Game imported"));
     Achievements.updateSteamStatus();
   },
 
@@ -260,7 +262,7 @@ export const GameStorage = {
       saves: this.saves
     };
     localStorage.setItem(this.localStorageKey, GameSaveSerializer.serialize(root));
-    if (!silent) GameUI.notify.info("Game saved");
+    if (!silent) GameUI.notify.info(t("notify.save.saved", "Game saved"));
   },
 
   // Saves a backup, updates save timers (this is called before nextBackup is updated), and then saves the timers too.
@@ -335,7 +337,7 @@ export const GameStorage = {
   // Set the next backup time, but make sure to skip forward an appropriate amount if a load or import happened,
   // since these may cause the backup timer to be significantly behind
   resetBackupTimer() {
-    const latestBackupTime = Object.values(this.lastBackupTimes).map(t => t && t.backupTimer).max();
+    const latestBackupTime = Object.values(this.lastBackupTimes).map(entry => entry && entry.backupTimer).max();
     player.backupTimer = Math.max(this.oldBackupTimer, player.backupTimer, latestBackupTime);
   },
 
@@ -347,7 +349,7 @@ export const GameStorage = {
 
   export() {
     copyToClipboard(this.exportModifiedSave());
-    GameUI.notify.info("Exported current savefile to your clipboard");
+    GameUI.notify.info(t("notify.save.exported", "Exported current savefile to your clipboard"));
   },
 
   get exportDateString() {
@@ -367,7 +369,7 @@ export const GameStorage = {
     download(
       `AD Save, Slot ${GameStorage.currentSlot + 1}${saveFileName} #${player.options.exportedFileCount} \
 (${this.exportDateString}).txt`, save);
-    GameUI.notify.info("Successfully downloaded current save file to your computer");
+    GameUI.notify.info(t("notify.save.downloaded", "Successfully downloaded current save file to your computer"));
   },
 
   exportBackupsAsFile() {
@@ -381,7 +383,8 @@ export const GameStorage = {
     download(
       `AD Save Backups, Slot ${GameStorage.currentSlot + 1} #${player.options.exportedFileCount} \
 (${this.exportDateString}).txt`, GameSaveSerializer.serialize(backupData));
-    GameUI.notify.info("Successfully downloaded save file backups to your computer");
+    GameUI.notify.info(t("notify.save.backupsDownloaded",
+      "Successfully downloaded save file backups to your computer"));
   },
 
   importBackupsFromFile(importText) {
@@ -398,7 +401,7 @@ export const GameStorage = {
       };
     }
     this.resetBackupTimer();
-    GameUI.notify.info("Successfully imported save file backups from file");
+    GameUI.notify.info(t("notify.save.backupsImported", "Successfully imported save file backups from file"));
   },
 
   // There are a couple props which may need to export with different values, so we handle that here

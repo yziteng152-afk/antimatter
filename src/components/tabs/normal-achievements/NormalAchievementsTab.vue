@@ -170,17 +170,20 @@ export default {
       class="c-achievements-tab__header"
     >
       <div v-if="achCountdown > 0">
-        Automatically gain the next missing Achievement in
-        {{ timeDisplayNoDecimals(achCountdown) }}<span v-if="!isAutoAchieveActive"> once Auto is turned on</span>.
-        (left-to-right, top-to-bottom)
+        {{ t("ach.autoNextIn", "Automatically gain the next missing Achievement in {0}{1}.",
+             timeDisplayNoDecimals(achCountdown),
+             isAutoAchieveActive ? "" : t("ach.onceAutoOn", " once Auto is turned on")) }}
+        {{ t("ach.orderHint", "(left-to-right, top-to-bottom)") }}
       </div>
       <div v-else-if="missingAchievements !== 0">
-        Automatically gain the next missing Achievement as soon as you enable Auto Achievements.
-        (left-to-right, top-to-bottom)
+        {{ t("ach.autoAsSoon", "Automatically gain the next missing Achievement as soon as you " +
+          "enable Auto Achievements.") }}
+        {{ t("ach.orderHint", "(left-to-right, top-to-bottom)") }}
       </div>
       <div v-if="totalCountdown > 0">
-        You will regain all remaining achievements after {{ timeDisplayNoDecimals(totalCountdown) }} if Auto
-        Achievement <span v-if="isAutoAchieveActive">stays enabled</span><span v-else>is turned on</span>.
+        {{ t("ach.regainAfter", "You will regain all remaining achievements after {0} if Auto Achievement {1}.",
+             timeDisplayNoDecimals(totalCountdown),
+             isAutoAchieveActive ? t("ach.staysEnabled", "stays enabled") : t("ach.isTurnedOn", "is turned on")) }}
       </div>
       <br>
     </div>

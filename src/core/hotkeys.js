@@ -2,6 +2,7 @@ import Mousetrap from "mousetrap";
 
 import { ElectronRuntime } from "@/steam";
 
+import { t } from "./i18n";
 import { GameKeyboard } from "./keyboard";
 
 // Add your hotkeys and combinations here
@@ -107,7 +108,8 @@ export const shortcuts = [
     type: "bindHotkey",
     function: () => {
       player.respec = !player.respec;
-      GameUI.notify.info(`Time Study respec is now ${player.respec ? "active" : "inactive"}`);
+      GameUI.notify.info(t("notify.hotkey.timeStudyRespec", "Time Study respec is now {0}",
+        player.respec ? t("notify.hotkey.active", "active") : t("notify.hotkey.inactive", "inactive")));
     },
     visible: () => PlayerProgress.eternityUnlocked()
   }, {
@@ -128,7 +130,8 @@ export const shortcuts = [
     type: "bindHotkey",
     function: () => {
       player.reality.respec = !player.reality.respec;
-      GameUI.notify.info(`Glyph respec is now ${player.reality.respec ? "active" : "inactive"}`);
+      GameUI.notify.info(t("notify.hotkey.glyphRespec", "Glyph respec is now {0}",
+        player.reality.respec ? t("notify.hotkey.active", "active") : t("notify.hotkey.inactive", "inactive")));
     },
     visible: () => PlayerProgress.realityUnlocked()
   }, {
@@ -180,7 +183,8 @@ export const shortcuts = [
     function: () => {
       if (!Pelle.isDoomed) return;
       player.reality.respec = !player.reality.respec;
-      GameUI.notify.info(`Glyph respec is now ${player.reality.respec ? "active" : "inactive"}`);
+      GameUI.notify.info(t("notify.hotkey.glyphRespec", "Glyph respec is now {0}",
+        player.reality.respec ? t("notify.hotkey.active", "active") : t("notify.hotkey.inactive", "inactive")));
     },
     visible: () => Pelle.isDoomed
   }, {
@@ -251,7 +255,7 @@ export const shortcuts = [
     keys: ["f"],
     type: "bindRepeatable",
     function: () => {
-      GameUI.notify.info("Paying respects");
+      GameUI.notify.info(t("notify.hotkey.payingRespects", "Paying respects"));
       SecretAchievement(13).unlock();
     },
     visible: false
@@ -309,7 +313,7 @@ export const shortcuts = [
     name: "Fullscreen",
     keys: ["F10"],
     type: "bind",
-    function: () => {},
+    function: () => undefined,
     visible: () => false
   },
   {
@@ -395,21 +399,29 @@ function toggleAutobuyer(buyer) {
   // Autobuyer.tickspeed.isUnlocked is false without NC9, but we still want the simpler one to be togglable via hotkey
   const isSimpleTickspeed = buyer === Autobuyer.tickspeed && buyer.isBought;
   if (buyer.disabledByContinuum) {
-    GameUI.notify.info("Continuum is enabled, you cannot alter this autobuyer");
+    GameUI.notify.info(t("notify.hotkey.continuumLocked", "Continuum is enabled, you cannot alter this autobuyer"));
   } else if (buyer.isUnlocked || isSimpleTickspeed) {
     buyer.toggle();
-    GameUI.notify.info(`${buyer.name} Autobuyer toggled ${(buyer.isActive) ? "on" : "off"}`);
+    GameUI.notify.info(t("notify.hotkey.autobuyerToggled", "{0} Autobuyer toggled {1}",
+      t(`auto.name.${buyer.name}`, buyer.name), buyer.isActive ? t("notify.hotkey.on", "on")
+        : t("notify.hotkey.off", "off")));
   }
   return false;
 }
 
 function toggleBuySingles(buyer) {
   if (buyer.disabledByContinuum) {
-    GameUI.notify.info("Continuum is enabled, you cannot alter this autobuyer");
+    GameUI.notify.info(t("notify.hotkey.continuumLocked", "Continuum is enabled, you cannot alter this autobuyer"));
   } else if (buyer.isUnlocked && buyer.toggleMode !== null) {
     buyer.toggleMode();
     const bulkName = (buyer.name === "Tickspeed" || buyer.hasUnlimitedBulk) ? "max" : "10";
-    GameUI.notify.info(`${buyer.name} Autobuyer set to buy ${(buyer.mode === 1) ? "singles" : bulkName}`);
+    const buyerName = t(`auto.name.${buyer.name}`, buyer.name);
+    const bulkText = bulkName === "max"
+      ? t("notify.hotkey.bulkMax", "max")
+      : t("notify.hotkey.bulkAmount", "{0}", bulkName);
+    GameUI.notify.info(buyer.mode === 1
+      ? t("notify.hotkey.autobuyerBuySingles", "{0} Autobuyer set to buy singles", buyerName)
+      : t("notify.hotkey.autobuyerBuyBulk", "{0} Autobuyer set to buy {1}", buyerName, bulkText));
   }
   return false;
 }
@@ -417,7 +429,8 @@ function toggleBuySingles(buyer) {
 function keyboardToggleAutobuyers() {
   if (Tab.automation.isUnlocked) {
     Autobuyers.toggle();
-    GameUI.notify.info(`Autobuyers ${player.auto.autobuyersOn ? "resumed" : "paused"}`);
+    GameUI.notify.info(t("notify.hotkey.autobuyersToggled", "Autobuyers {0}",
+      player.auto.autobuyersOn ? t("notify.hotkey.resumed", "resumed") : t("notify.hotkey.paused", "paused")));
   }
 }
 
@@ -430,7 +443,8 @@ function keyboardToggleContinuum() {
   // This is a toggle despite the lack of !, because player.auto.disableContinuum
   // is negated compared to whether continuum is on.
   Laitela.setContinuum(player.auto.disableContinuum);
-  GameUI.notify.info(`${(player.auto.disableContinuum) ? "Disabled" : "Enabled"} Continuum`);
+  GameUI.notify.info(t("notify.hotkey.continuumToggled", "{0} Continuum",
+    player.auto.disableContinuum ? t("notify.hotkey.disabled", "Disabled") : t("notify.hotkey.enabled", "Enabled")));
 }
 
 function keyboardAutomatorToggle() {
@@ -446,22 +460,30 @@ function keyboardAutomatorToggle() {
       AutomatorBackend.restart();
       AutomatorBackend.start(visibleIndex);
       if (AutomatorData.currentErrors().length === 0) {
-        GameUI.notify.automator(`Starting script "${AutomatorBackend.scriptName}"`);
+        GameUI.notify.automator(t("notify.automator.startingScript", 'Starting script "{0}"',
+          AutomatorBackend.scriptName));
       } else {
-        GameUI.notify.error(`Cannot start script "${AutomatorBackend.scriptName}" (has errors)`);
+        GameUI.notify.error(t("notify.automator.cannotStart", 'Cannot start script "{0}" (has errors)',
+          AutomatorBackend.scriptName));
       }
       return;
     }
-    const action = AutomatorBackend.isRunning ? "Resuming" : "Pausing";
+    const action = AutomatorBackend.isRunning
+      ? t("notify.automator.resuming", "Resuming")
+      : t("notify.automator.pausing", "Pausing");
     const linenum = AutomatorBackend.currentLineNumber;
-    GameUI.notify.automator(`${action} script "${AutomatorBackend.scriptName}" at line ${linenum}`);
+    GameUI.notify.automator(t("notify.automator.scriptAtLine", '{0} script "{1}" at line {2}',
+      action, AutomatorBackend.scriptName, linenum));
   }
 }
 
 function keyboardAutomatorRestart() {
   if (Player.automatorUnlocked) {
-    const action = AutomatorBackend.isOn ? "Restarting" : "Starting";
-    GameUI.notify.automator(`${action} script "${AutomatorBackend.scriptName}"`);
+    const action = AutomatorBackend.isOn
+      ? t("notify.automator.restarting", "Restarting")
+      : t("notify.automator.starting", "Starting");
+    GameUI.notify.automator(t("notify.automator.script", '{0} script "{1}"',
+      action, AutomatorBackend.scriptName));
 
     AutomatorBackend.restart();
     AutomatorBackend.start();

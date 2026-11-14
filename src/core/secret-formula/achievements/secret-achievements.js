@@ -1,3 +1,5 @@
+import { t } from "../../i18n";
+
 export const secretAchievements = [
   {
     id: 11,
@@ -7,7 +9,11 @@ export const secretAchievements = [
   {
     id: 12,
     name: "Just in case",
-    get description() { return `Save ${formatInt(100)} times without refreshing.`; }
+    get description() {
+      return t("ach.secret.desc.12",
+        `Save {0} times without refreshing.`,
+        formatInt(100));
+    }
   },
   {
     id: 13,
@@ -28,8 +34,9 @@ export const secretAchievements = [
     id: 16,
     name: "Do you enjoy pain?",
     get description() {
-      return `Use a "painful" notation for ${formatInt(10)} real-time minutes
-      after doing an Eternity.`;
+      return t("ach.secret.desc.16", `Use a "painful" notation for {0} real-time minutes
+      after doing an Eternity.`,
+      formatInt(10));
     },
     checkRequirement: () => AchievementTimers.pain
       .check(PlayerProgress.eternityUnlocked() && Notations.current.isPainful, 600),
@@ -44,7 +51,9 @@ export const secretAchievements = [
     id: 18,
     name: "Do you feel lucky? Well do ya punk?",
     get description() {
-      return `You have a ${formatInt(1)}/${formatInt(1e5)} chance of getting this achievement every second.`;
+      return t("ach.secret.desc.18", `You have a {0}/{1} chance of getting this achievement every second.`,
+        formatInt(1),
+        formatInt(1e5));
     }
   },
   {
@@ -55,7 +64,11 @@ export const secretAchievements = [
   {
     id: 22,
     name: "Deep fried",
-    get description() { return `Buy ${formatInt(1e5)} Antimatter Galaxies in total while using emoji notation.`; },
+    get description() {
+      return t("ach.secret.desc.22",
+        `Buy {0} Antimatter Galaxies in total while using emoji notation.`,
+        formatInt(1e5));
+    },
     checkRequirement: () => player.requirementChecks.permanent.emojiGalaxies >= 1e5,
     checkEvent: GAME_EVENT.GALAXY_RESET_AFTER
   },
@@ -78,8 +91,9 @@ export const secretAchievements = [
     id: 26,
     name: "You're a failure",
     get description() {
-      return `Fail Eternity Challenges ${formatInt(10)} times without refreshing.
-      What are you doing with your life...`;
+      return t("ach.secret.desc.26", `Fail Eternity Challenges {0} times without refreshing.
+      What are you doing with your life...`,
+      formatInt(10));
     },
     checkRequirement: (function() {
       let count = 0;
@@ -102,13 +116,18 @@ export const secretAchievements = [
   {
     id: 31,
     name: "You should download some more RAM",
-    get description() { return `Set your update rate to ${formatInt(200)}ms.`; }
+    get description() {
+      return t("ach.secret.desc.31",
+        `Set your update rate to {0}ms.`,
+        formatInt(200));
+    }
   },
   {
     id: 32,
     name: "Less than or equal to 0.001",
     get description() {
-      return `Get a fastest infinity or eternity time of less than or equal to ${format(0.001, 3, 3)} seconds.`;
+      return t("ach.secret.desc.32", `Get a fastest infinity or eternity time of less than or equal to {0} seconds.`,
+        format(0.001, 3, 3));
     },
     checkRequirement: () =>
       Time.bestInfinity.totalMilliseconds <= 1 ||
@@ -128,7 +147,11 @@ export const secretAchievements = [
   {
     id: 35,
     name: "Should we tell them about buy max...",
-    get description() { return `Buy single Tickspeed upgrades ${formatInt(1e5)} times.`; },
+    get description() {
+      return t("ach.secret.desc.35",
+        `Buy single Tickspeed upgrades {0} times.`,
+        formatInt(1e5));
+    },
     checkRequirement: () => player.requirementChecks.permanent.singleTickspeed >= 1e5,
     checkEvent: GAME_EVENT.GAME_TICK_AFTER
   },
@@ -167,7 +190,11 @@ export const secretAchievements = [
   {
     id: 44,
     name: "Are you statisfied now?",
-    get description() { return `Stare intently at the statistics tab for ${formatInt(15)} real-time minutes.`; },
+    get description() {
+      return t("ach.secret.desc.44",
+        `Stare intently at the statistics tab for {0} real-time minutes.`,
+        formatInt(15));
+    },
     checkRequirement: () => AchievementTimers.stats.check(Tab.statistics.isOpen, 900),
     checkEvent: GAME_EVENT.GAME_TICK_AFTER
   },

@@ -1,5 +1,7 @@
 import { sha512_256 } from "js-sha512";
 
+import { t } from "./i18n";
+
 export const Theme = function Theme(name, config) {
   this.name = name;
 
@@ -114,7 +116,7 @@ Theme.tryUnlock = function(name) {
   Theme.set(prefix);
   SecretAchievement(25).unlock();
   if (!isAlreadyUnlocked) {
-    GameUI.notify.success(`You have unlocked the ${name.capitalize()} theme!`, 5000);
+    GameUI.notify.success(t("notify.theme.unlocked", "You have unlocked the {0} theme!", name.capitalize()), 5000);
     if (Theme.current().isAnimated) {
       setTimeout(Modal.message.show(`This secret theme has animations. If they are giving you performance issues,
         you can turn them off in the Options/Visual tab to reduce lag.`), 100);

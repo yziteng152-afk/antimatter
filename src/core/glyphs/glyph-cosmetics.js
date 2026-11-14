@@ -1,3 +1,5 @@
+import { t } from "../i18n";
+
 class CosmeticGlyphType {
   constructor(setup, isCosmetic) {
     this.id = setup.id;
@@ -242,7 +244,8 @@ export const GlyphAppearanceHandler = {
 
     player.reality.glyphs.cosmetics.unlockedFromNG.push(unlocked);
     const entry = GameDatabase.reality.glyphCosmeticSets[unlocked];
-    GameUI.notify.info(`You have unlocked the "${entry.name}" Set for Glyph cosmetics!`, 10000);
+    GameUI.notify.info(t("notify.glyph.cosmeticSetUnlocked", 'You have unlocked the "{0}" Set for Glyph cosmetics!',
+      entry.name), 10000);
     GlyphAppearanceHandler.chosenFromModal = null;
     this.applyNotification();
   },

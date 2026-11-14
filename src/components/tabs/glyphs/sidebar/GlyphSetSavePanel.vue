@@ -120,10 +120,11 @@ export default {
         }
       }
       if (missingGlyphs > 0) {
-        GameUI.notify.error(`Could not find or equip ${missingGlyphs} ${pluralize("Glyph", missingGlyphs)} from
-          ${this.setName(id)}.`);
+        GameUI.notify.error(this.t("notify.glyph.couldNotLoad",
+          "Could not find or equip {0} from\n          {1}.",
+          this.quantifyInt("Glyph", missingGlyphs), this.setName(id)));
       } else {
-        GameUI.notify.success(`Successfully loaded ${this.setName(id)}.`);
+        GameUI.notify.success(this.t("notify.glyph.setLoaded", "Successfully loaded {0}.", this.setName(id)));
       }
     },
     // Given a list of options for suitable matches to those glyphs and a maximum glyph count to match, returns the

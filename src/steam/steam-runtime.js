@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import { t } from "@/core/i18n";
 import { RichPresenceInfo } from "@/core/discord-parser";
 
 import {
@@ -96,7 +97,7 @@ export const SteamRuntime = {
 
   async purchaseShopItem(key, cost, cosmeticId) {
     if (!this.isActive) {
-      GameUI.notify.error("Shop purchases are not available.");
+      GameUI.notify.error(t("notify.steam.shopUnavailable", "Shop purchases are not available."));
       return false;
     }
 
@@ -123,9 +124,9 @@ async function loginPlayFab(steamId) {
     const screenName = steamId.screenName;
     const ticket = await Greenworks.getAuthSessionTicket();
     await loginPlayFabWithSteam(ticket.ticket.toString("hex"), screenName);
-    GameUI.notify.info("Logged in to PlayFab Cloud");
+    GameUI.notify.info(t("notify.steam.playfabLoggedIn", "Logged in to PlayFab Cloud"));
   } catch (error) {
-    GameUI.notify.error("Couldn't log in to PlayFab Cloud.");
+    GameUI.notify.error(t("notify.steam.playfabLoginFailed", "Couldn't log in to PlayFab Cloud."));
     throw error;
   }
 }

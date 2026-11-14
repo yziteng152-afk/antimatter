@@ -1,3 +1,5 @@
+import { t } from "@/core/i18n";
+
 import * as Electron from "./bindings/electron";
 
 const MIN_ZOOM = 0.5;
@@ -26,7 +28,7 @@ export const ElectronRuntime = {
     }
 
     if (zoomFactor > MAX_ZOOM) {
-      GameUI.notify.info("Zoom Level is at Maximum");
+      GameUI.notify.info(t("notify.steam.zoomMax", "Zoom Level is at Maximum"));
       return;
     }
 
@@ -39,7 +41,7 @@ export const ElectronRuntime = {
     }
 
     if (zoomFactor < MIN_ZOOM) {
-      GameUI.notify.info("Zoom Level is at Minimum");
+      GameUI.notify.info(t("notify.steam.zoomMin", "Zoom Level is at Minimum"));
       return;
     }
 
@@ -62,7 +64,7 @@ export const ElectronRuntime = {
     zoomFactor = value;
     localStorage.setItem("Zoom", zoomFactor.toString());
     this.updateZoom();
-    GameUI.notify.info(`Size changed to ${Math.round(zoomFactor * 100)}%`);
+    GameUI.notify.info(t("notify.steam.sizeChanged", "Size changed to {0}%", Math.round(zoomFactor * 100)));
   },
 
   updateZoom() {

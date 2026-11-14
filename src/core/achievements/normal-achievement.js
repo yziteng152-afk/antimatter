@@ -1,4 +1,5 @@
 import { GameMechanicState } from "../game-mechanics";
+import { t, tr } from "../i18n";
 
 import { SteamRuntime } from "@/steam";
 
@@ -69,9 +70,9 @@ class AchievementState extends GameMechanicState {
       GameCache.staticGlyphWeights.invalidate();
     }
     if (auto) {
-      GameUI.notify.reality(`Automatically unlocked: ${this.name}`);
+      GameUI.notify.reality(t("notify.achievement.autoUnlocked", "Automatically unlocked: {0}", tr(this.name)));
     } else {
-      GameUI.notify.success(`Achievement: ${this.name}`);
+      GameUI.notify.success(t("notify.achievement.unlocked", "Achievement: {0}", tr(this.name)));
       SteamRuntime.activateAchievement(this.id);
     }
     if (player.speedrun.isActive && !player.speedrun.achievementTimes[this.id]) {

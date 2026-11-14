@@ -1,3 +1,5 @@
+import { t } from "../i18n";
+
 import { standardizeAutomatorValues, tokenMap as T } from "./lexer";
 
 /**
@@ -346,7 +348,7 @@ export const AutomatorCommands = [
     compile: ctx => {
       const notifyText = ctx.StringLiteral || ctx.StringLiteralSingleQuote;
       return () => {
-        GameUI.notify.automator(`Automator: ${notifyText[0].image}`);
+        GameUI.notify.automator(t("notify.automator.custom", "Automator: {0}", notifyText[0].image));
         AutomatorData.logCommandEvent(`NOTIFY call: ${notifyText[0].image}`, ctx.startLine);
         return AUTOMATOR_COMMAND_STATUS.NEXT_INSTRUCTION;
       };

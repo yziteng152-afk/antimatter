@@ -5,6 +5,7 @@ import { ElectronRuntime } from "@/steam";
 import { DEV } from "@/env";
 
 import FullScreenAnimationHandler from "./full-screen-animation-handler";
+import { t } from "./i18n";
 
 export class GameOptions {
 
@@ -84,7 +85,7 @@ export function tryImportSecret(data) {
       return true;
     case 3:
       if (player.records.fullGameCompletions > 0 || DEV) Speedrun.unlock();
-      else GameUI.notify.error("Complete the game at least once first!", 15000);
+      else GameUI.notify.error(t("notify.option.completeGameFirst", "Complete the game at least once first!"), 15000);
       return true;
     default:
       return false;

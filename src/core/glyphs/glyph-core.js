@@ -1,4 +1,5 @@
 import { GameMechanicState } from "../game-mechanics";
+import { t } from "../i18n";
 
 export const orderedEffectList = ["powerpow", "infinitypow", "replicationpow", "timepow",
   "dilationpow", "timeshardpow", "powermult", "powerdimboost", "powerbuy10",
@@ -486,16 +487,16 @@ export const Glyphs = {
     const byType = sortOrder.mapToObject(g => g, () => ({ glyphs: [], padding: 0 }));
     for (const g of glyphsToSort) byType[g.type].glyphs.push(g);
     let totalDesiredPadding = 0;
-    for (const t of Object.values(byType)) {
-      t.glyphs.sort(sortFunction);
-      t.padding = Math.ceil(t.glyphs.length / 10) * 10 - t.glyphs.length;
-      totalDesiredPadding += t.padding;
+    for (const glyphType of Object.values(byType)) {
+      glyphType.glyphs.sort(sortFunction);
+      glyphType.padding = Math.ceil(glyphType.glyphs.length / 10) * 10 - glyphType.glyphs.length;
+      totalDesiredPadding += glyphType.padding;
     }
     // If we want more padding than we actually have available, trim it down until it fits
     while (totalDesiredPadding > freeSpace) {
       let biggestPadding = sortOrder[0];
-      for (const t of sortOrder) {
-        if (byType[t].padding > byType[biggestPadding].padding) biggestPadding = t;
+      for (const glyphType of sortOrder) {
+        if (byType[glyphType].padding > byType[biggestPadding].padding) biggestPadding = glyphType;
       }
       // Try to remove padding 5 at a time if possible
       const delta = byType[biggestPadding].padding > 5 ? 5 : 1;
@@ -503,13 +504,13 @@ export const Glyphs = {
       byType[biggestPadding].padding -= delta;
     }
     let outIndex = this.protectedSlots;
-    for (const t of Object.values(byType)) {
-      for (const g of t.glyphs) {
+    for (const glyphType of Object.values(byType)) {
+      for (const g of glyphType.glyphs) {
         if (this.inventory[outIndex]) this.swap(this.inventory[outIndex], g);
         else this.moveToEmpty(g, outIndex);
         ++outIndex;
       }
-      outIndex += t.padding;
+      outIndex += glyphType.padding;
     }
     if (player.reality.autoCollapse) this.collapseEmptySlots();
   },
@@ -787,10 +788,10 @@ export const Glyphs = {
     }
     const cursedCount = this.allGlyphs.filter(g => g !== null && g.type === "cursed").length;
     if (cursedCount >= 5) {
-      GameUI.notify.error(`You don't need more than ${format(5)} Cursed Glyphs!`);
+      GameUI.notify.error(t("notify.glyph.cursedMax", "You don't need more than {0} Cursed Glyphs!", format(5)));
     } else {
       this.addToInventory(GlyphGenerator.cursedGlyph());
-      GameUI.notify.error("Created a Cursed Glyph");
+      GameUI.notify.error(t("notify.glyph.cursedCreated", "Created a Cursed Glyph"));
     }
   }
 };

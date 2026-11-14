@@ -1,3 +1,4 @@
+import { t } from "./i18n";
 import { GameDatabase } from "./secret-formula/game-database";
 import { GameMechanicState } from "./game-mechanics";
 
@@ -148,7 +149,7 @@ class SpeedrunMilestone extends GameMechanicState {
     if (this.isReached || !player.speedrun.isActive) return;
     // Rounding slightly reduces filesize by removing weird float rounding
     player.speedrun.records[this.config.id] = Math.round(player.records.realTimePlayed);
-    GameUI.notify.success(`Speedrun Milestone Reached: ${this.name}`);
+    GameUI.notify.success(t("notify.speedrun.milestone", "Speedrun Milestone Reached: {0}", this.name));
   }
 }
 

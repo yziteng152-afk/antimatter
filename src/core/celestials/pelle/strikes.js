@@ -1,3 +1,4 @@
+import { t } from "../../i18n";
 import { BitUpgradeState } from "../../utils";
 
 class PelleStrikeState extends BitUpgradeState {
@@ -35,7 +36,7 @@ class PelleStrikeState extends BitUpgradeState {
   }
 
   onUnlock() {
-    GameUI.notify.strike(`You encountered a Pelle Strike: ${this.requirement}`);
+    GameUI.notify.strike(t("notify.celestial.pelleStrike", "You encountered a Pelle Strike: {0}", this.requirement));
     player.celestials.pelle.collapsed.rifts = false;
 
     // If it's paradox, reset the records

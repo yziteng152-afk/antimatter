@@ -1,6 +1,8 @@
 /* eslint-disable max-len */
 // Chinese (Simplified) dictionary.
 
+import { zhAchievements2 } from "./i18n-zh-achievements2";
+import { zhNotify } from "./i18n-zh-notify";
 import { zhAutobuyers } from "./i18n-zh-autobuyers";
 import { zhAutomator } from "./i18n-zh-automator";
 import { zhModalGlyph } from "./i18n-zh-modal-glyph";
@@ -678,6 +680,13 @@ const base = {
   "away.realityShards": "现实碎片",
 
   // ---------------------------------------------------------------- achievements tab chrome
+  "ach.autoNextIn": "将在 {0}{1} 后自动获得下一个未解锁的成就。",
+  "ach.onceAutoOn": "（开启自动后）",
+  "ach.orderHint": "（从左到右、从上到下）",
+  "ach.autoAsSoon": "启用「自动成就」后，会立即自动获得下一个未解锁的成就。",
+  "ach.regainAfter": "若自动成就{1}，你将在 {0} 后重新获得剩余的全部成就。",
+  "ach.staysEnabled": "保持开启",
+  "ach.isTurnedOn": "被开启",
   "ach.hideCompleted": "隐藏已完成的行：",
   "ach.autoLabel": "自动成就：",
   "ach.disabled": "所有成就倍率已被禁用",
@@ -772,6 +781,6 @@ for (const [name, entry] of Object.entries(h2pEntries)) {
   h2pFlat[`h2p.${name}.body`] = entry.body;
 }
 
-export const zh = { ...base, ...zhStats, ...zhModals, ...zhModals2, ...zhModalPrestige, ...zhModalSave, ...zhModalGlyph, ...zhModalMisc, ...zhAutobuyers, ...zhAutomator, ...h2pFlat };
+export const zh = { ...base, ...zhStats, ...zhModals, ...zhModals2, ...zhModalPrestige, ...zhModalSave, ...zhModalGlyph, ...zhModalMisc, ...zhAutobuyers, ...zhAutomator, ...zhAchievements2, ...zhNotify, ...h2pFlat };
 
 export const h2pZh = h2pEntries;

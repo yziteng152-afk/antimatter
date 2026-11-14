@@ -52,8 +52,11 @@ export default {
     save() {
       this.hideContextMenu();
       this.preset.studies = GameCache.currentStudyTree.value.exportString;
-      const presetName = this.name ? `Study preset "${this.name}"` : "Study preset";
-      GameUI.notify.eternity(`${presetName} saved in slot ${this.saveslot}`);
+      const presetName = this.name
+        ? this.t("glyph.studyString.presetNamed", 'Study preset "{0}"', this.name)
+        : this.t("glyph.studyString.presetUnnamed", "Study preset");
+      GameUI.notify.eternity(this.t("notify.timeStudy.presetSaved", "{0} saved in slot {1}",
+        presetName, this.saveslot));
     },
     load() {
       this.hideContextMenu();
@@ -65,8 +68,11 @@ export default {
         combinedTree.attemptBuyArray(combinedTree.parseStudyImport(this.preset.studies), true);
         TimeStudyTree.commitToGameState(combinedTree.purchasedStudies, false, combinedTree.startEC);
 
-        const presetName = this.name ? `Study preset "${this.name}"` : "Study preset";
-        GameUI.notify.eternity(`${presetName} loaded from slot ${this.saveslot}`);
+        const presetName = this.name
+          ? this.t("glyph.studyString.presetNamed", 'Study preset "{0}"', this.name)
+          : this.t("glyph.studyString.presetUnnamed", "Study preset");
+        GameUI.notify.eternity(this.t("notify.timeStudy.presetLoaded", "{0} loaded from slot {1}",
+          presetName, this.saveslot));
       } else {
         Modal.message.show("This Time Study list currently contains no Time Studies.");
       }
@@ -87,8 +93,11 @@ export default {
     handleExport() {
       this.hideContextMenu();
       copyToClipboard(this.preset.studies);
-      const presetName = this.name ? `Study preset "${this.name}"` : "Study preset";
-      GameUI.notify.eternity(`${presetName} exported from slot ${this.saveslot} to your clipboard`);
+      const presetName = this.name
+        ? this.t("glyph.studyString.presetNamed", 'Study preset "{0}"', this.name)
+        : this.t("glyph.studyString.presetUnnamed", "Study preset");
+      GameUI.notify.eternity(this.t("notify.timeStudy.presetExported",
+        "{0} exported from slot {1} to your clipboard", presetName, this.saveslot));
     },
     edit() {
       Modal.studyString.show({ id: this.saveslot - 1 });

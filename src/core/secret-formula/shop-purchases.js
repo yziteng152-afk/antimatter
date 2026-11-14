@@ -1,4 +1,7 @@
+import { t } from "../i18n";
+
 import { STEAM } from "@/env";
+
 
 // NOTE: IF ANY COSTS ARE CHANGED HERE, THEY ALSO NEED TO BE CHANGED ON THE BACKEND TOO
 export const shopPurchases = {
@@ -91,9 +94,8 @@ export const shopPurchases = {
     instantPurchase: true,
     onPurchase: () => {
       // The actual unlocks are handled in the ShopPurchaseData object, so we just show notifications here
-      GameUI.notify.info(
-        `You have purchased the "${GlyphAppearanceHandler.chosenFromModal.name}" Set for Glyph cosmetics!`,
-        10000);
+      GameUI.notify.info(t("notify.shop.cosmeticSetPurchased",
+        'You have purchased the "{0}" Set for Glyph cosmetics!', GlyphAppearanceHandler.chosenFromModal.name), 10000);
       GlyphAppearanceHandler.chosenFromModal = null;
       GlyphAppearanceHandler.applyNotification();
     },
@@ -116,7 +118,7 @@ export const shopPurchases = {
     instantPurchase: true,
     onPurchase: () => {
       // The actual unlocks are handled in the ShopPurchaseData object, so we just show notifications here
-      GameUI.notify.info(`You have unlocked all sets for Glyph cosmetics!`, 15000);
+      GameUI.notify.info(t("notify.shop.allCosmeticSets", "You have unlocked all sets for Glyph cosmetics!"), 15000);
       GlyphAppearanceHandler.applyNotification();
     },
     isUnlocked: () => PlayerProgress.realityUnlocked(),

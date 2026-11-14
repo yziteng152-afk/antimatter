@@ -1,4 +1,5 @@
 import { BitUpgradeState, GameMechanicState } from "../game-mechanics";
+import { t, tr } from "../i18n";
 import { GameDatabase } from "../secret-formula/game-database";
 
 import { SpeedrunMilestones } from "../speedrun";
@@ -82,8 +83,8 @@ class VRunUnlockState extends GameMechanicState {
     Decimal.gte(playerData.runRecords[this.id], this.conditionValue)) {
       if (!V.isFlipped && this.config.isHard) continue;
       this.completions++;
-      GameUI.notify.success(`You have unlocked V-Achievement
-        '${this.config.name}' tier ${formatInt(this.completions)}`);
+      GameUI.notify.success(t("notify.celestial.vAchievementUnlocked",
+        "You have unlocked V-Achievement\n        '{0}' tier {1}", tr(this.config.name), formatInt(this.completions)));
 
       V.updateTotalRunUnlocks();
 
@@ -178,7 +179,8 @@ export const V = {
   },
   unlockCelestial() {
     player.celestials.v.unlockBits |= (1 << VUnlocks.vAchievementUnlock.id);
-    GameUI.notify.success("You have unlocked V, The Celestial Of Achievements!", 10000);
+    GameUI.notify.success(t("notify.celestial.vUnlocked",
+      "You have unlocked V, The Celestial Of Achievements!"), 10000);
     V.quotes.unlock.show();
   },
   initializeRun() {

@@ -1,4 +1,5 @@
 import { GameMechanicState } from "../../game-mechanics";
+import { t } from "../../i18n";
 
 import { deepmergeAll } from "@/utility/deepmerge";
 
@@ -281,7 +282,11 @@ EventHub.logic.on(GAME_EVENT.GAME_LOAD, () => SingularityMilestones.lastNotified
 EventHub.logic.on(GAME_EVENT.SINGULARITY_RESET_AFTER, () => {
   const newMilestones = SingularityMilestones.unnotifiedMilestones.length;
   if (newMilestones === 0) return;
-  if (newMilestones === 1) GameUI.notify.blackHole(`You reached a Singularity milestone!`);
-  else GameUI.notify.blackHole(`You reached ${formatInt(newMilestones)} Singularity milestones!`);
+  if (newMilestones === 1) {
+    GameUI.notify.blackHole(t("notify.celestial.singularityMilestone", "You reached a Singularity milestone!"));
+  } else {
+    GameUI.notify.blackHole(t("notify.celestial.singularityMilestones", "You reached {0} Singularity milestones!",
+      formatInt(newMilestones)));
+  }
   SingularityMilestones.lastNotified = Currency.singularities.value;
 });
