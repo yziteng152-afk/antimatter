@@ -8,6 +8,7 @@
 // identifiers, so a hit or miss can only ever change what the player reads.
 import { zhAchievements } from "./i18n-zh-achievements";
 import { zhAutomatorDocs } from "./i18n-zh-automator-docs";
+import { zhQuotes } from "./i18n-zh-quotes";
 import { zhCatchup } from "./i18n-zh-catchup";
 import { zhCatchup2 } from "./i18n-zh-catchup2";
 import { zhChallenges } from "./i18n-zh-challenges";
@@ -20,6 +21,7 @@ export const zhText = {
   ...zhCatchup,
   ...zhCatchup2,
   ...zhAutomatorDocs,
+  ...zhQuotes,
   ...zhUpgrades,
   ...zhLate,
 };

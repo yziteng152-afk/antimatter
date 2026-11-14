@@ -1,0 +1,63 @@
+/* eslint-disable max-len */
+// 天界台词译文：特蕾莎、埃法里格、无名者。
+// key 为英文原文，必须与游戏内渲染文本逐字符一致；$1 等占位符原样保留。
+export const zhQuotes1 = {
+  // ── Teresa · 特蕾莎（现实天界）：冷静、威严、简短，如宣判。 ──
+  "We have been observing you.": "我们一直在注视着你。",
+  "You have shown promise with your bending of Reality.": "你在扭曲现实上，已显露出几分资质。",
+  "We are the Celestials, and we want you to join us.": "我们是天界，我们要你加入我们。",
+  "My name is Teresa, the Celestial Of Reality.": "我名特蕾莎，司掌现实的天界。",
+  "Prove your worth.": "证明你的价值。",
+  "I will let you inside my Reality, mortal. Do not get crushed by it.": "凡人，我会放你进入我的现实。莫要被它碾碎。",
+  "Why are you still here... you were supposed to fail.": "你为何还在这里……你本应失败的。",
+  "You are still no match for us.": "你依然远不是我们的对手。",
+  "I hope the others succeed where I have failed.": "我希望其他人能在我失败之处成功。",
+
+  // ── Effarig · 埃法里格（符文天界）：老匠人，礼貌而自得，爱自嘲与反问。 ──
+  "Welcome to my humble abode.": "欢迎光临寒舍。",
+  "I am Effarig, and I govern Glyphs.": "我是埃法里格，司掌符文。",
+  "I am different from Teresa; not as simplistic as you think.": "我与特蕾莎不同；我并不是你想象的那般浅薄。",
+  "I use the shards of Glyphs to enforce my will.": "我以符文的碎片，贯彻我的意志。",
+  "I collect them for the bounty of this realm.": "我收集它们，是为了此界的丰饶。",
+  "What are you waiting for? Get started.": "你还等什么？动手吧。",
+  "Do you like my little shop? It is not much, but it is mine.": "你喜欢我这家小店吗？算不上什么，可它是我的。",
+  "This purchase will help you out.": "这笔买卖会帮上你的忙。",
+  "Is that too much? I think it is too much.": "是不是太贵了？我也觉得太贵了。",
+  "You bought out my entire stock... well, at least I am rich now.": "你把我的存货全买光了……也罢，至少我现在有钱了。",
+  "The heart of my Reality is suffering. Each Layer is harder than the last.": "我的现实，其核心乃是苦难。每一层都比前一层更难。",
+  "I hope you never complete it.": "我希望你永远完不成它。",
+  "This is the first threshold. It only gets worse from here.": "这只是第一道门槛。从这里往后，只会越来越糟。",
+  "None but me know enough about my domain to get further.": "除了我，再没有人对我的领域了解得足够深，能更进一步。",
+  "This is the limit. I do not want you to proceed past this point.": "这里便是极限。我不希望你越过这一点。",
+  "You will not finish this in your lifetime.": "你有生之年，也完不成它。",
+  "I will just wait here until you give up.": "我就在这里等着，等你放弃。",
+  "So this is the diabolical power... what frightened the others...": "原来，这就是那股邪恶的力量……令其他人畏惧的东西……",
+  "Do you think this was worth it? Trampling on what I have done?": "你觉得这值得吗？把我毕生所做踩在脚下？",
+  "And for what purpose? You could have joined, we could have cooperated.": "又是为了什么？你本可以加入，我们本可以合作。",
+  "But no. It is over. Leave while I cling onto what is left.": "可是没有。都结束了。走吧，让我守着所剩无几的一切。",
+  // 清单中的模板键在抽取时于撇号处被截断；游戏实际渲染的是下面三句完整文本，故一并收录。
+  "You have completed Effarig": "你已完成埃法里格",
+  "You have completed Effarig's Infinity.": "你已完成埃法里格的无限。",
+  "You have completed Effarig's Eternity.": "你已完成埃法里格的永恒。",
+  "You have completed Effarig's Reality.": "你已完成埃法里格的现实。",
+
+  // ── The Nameless Ones · 无名者（时间天界）：破碎、缓慢、断续，悲怆而疲惫。 ──
+  "A visitor? We have not had one... eons.": "访客？我们已经……万古未见来客了。",
+  "We... had a name. It has been lost... to this place.": "我们……曾有过名字。它已遗失……在这地方。",
+  "The others... will not let us rest. We do their work with time...": "其他人……不让我们安息。我们用时间替他们做事……",
+  "Place time... into places... that need it...": "把时间……放进……需要它的地方……",
+  "Watch ourselves grow... pass and die.": "看着我们自己生长……逝去，死去。",
+  "Perhaps you... will break these chains... we will wait.": "也许你……会打破这些锁链……我们会等。",
+  "The others... used us. They will use... or destroy you.": "其他人……利用过我们。他们也会利用……或者毁掉你。",
+  "End our suffering... power will be yours...": "结束我们的苦难……力量将归你所有……",
+  "So little space... but no... prison... is perfect.": "空间如此狭小……可是……没有哪座牢笼……是完美的。",
+  "They squeezed... this Reality... too tightly. Cracks appeared.": "他们把……这个现实……挤得太紧了。裂痕出现了。",
+  "Search... everywhere. We will help... where we can.": "去搜寻……每一个角落。我们会帮忙……在能帮上的地方。",
+  "... you need... to look harder...": "……你需要……看得更仔细些……",
+  "We think... we can help...": "我们认为……我们能帮上忙……",
+  "... did not... underestimate you...": "……我们……没有低估你……",
+  "All... fragments... clones... freed.": "所有……碎片……克隆……都自由了。",
+  "We have given... tools... of our imprisoning. Use them...": "我们交给你……工具……囚禁我们的工具。用它们吧……",
+  "Freedom from torture... is torture itself.": "免于折磨的自由……本身就是折磨。",
+  "You have unlocked help from The Nameless Ones.": "你已获得无名者的帮助。",
+};

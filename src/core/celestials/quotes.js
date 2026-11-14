@@ -1,3 +1,5 @@
+import { tr } from "../i18n";
+
 import { BitUpgradeState } from "../game-mechanics";
 import wordShift from "../word-shift";
 
@@ -83,10 +85,13 @@ class QuoteLine {
 
     const replacementMatch = /\$(\d+)/gu;
 
+    // Quotes are display-only, so they are translated through the exact-text dictionary;
+    // `$1`-style placeholders are preserved and their word arrays are translated word by word.
     this._line = typeof line === "string"
-      ? line
+      ? () => tr(line)
       // This matches each digit after a $ and replaces it with the wordCycle of an array with the digit it matched.
-      : () => line.text.replaceAll(replacementMatch, (_, i) => wordShift.wordCycle(line[i]));
+      : () => tr(line.text).replaceAll(replacementMatch,
+        (_, i) => wordShift.wordCycle(line[i].map(word => tr(word))));
   }
 
   get line() {
@@ -106,7 +111,7 @@ class QuoteLine {
   }
 
   get celestialName() {
-    return Celestials[this._parent.celestial].displayName;
+    return tr(Celestials[this._parent.celestial].displayName);
   }
 }
 
