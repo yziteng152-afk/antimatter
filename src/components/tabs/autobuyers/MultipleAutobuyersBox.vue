@@ -81,7 +81,7 @@ export default {
       @click="toggleGroup"
     />
     <div class="l-autobuyer-box__title">
-      {{ name }}<br>Autobuyers
+      {{ t(`auto.group.${name}`, name) }}<br>{{ t("auto.autobuyers", "Autobuyers") }}
       <!-- If we're showing as a group, then all attributes are the same and we can arbitrarily take the first one -->
       <AutobuyerIntervalLabel
         v-if="displayLabelAsGroup"
@@ -111,9 +111,11 @@ export default {
     v-else-if="isADBox && continuumActive"
     class="c-autobuyer-box-row"
   >
-    Continuum replaces your Antimatter Dimension and Tickspeed Autobuyers, as your production multipliers
+    <!-- eslint-disable-next-line max-len -->
+    {{ t("auto.continuumReplaces1", "Continuum replaces your Antimatter Dimension and Tickspeed Autobuyers, as your production multipliers") }}
     <br>
-    now automatically and continuously scale based on how many purchases you would have had otherwise.
+    <!-- eslint-disable-next-line max-len -->
+    {{ t("auto.continuumReplaces2", "now automatically and continuously scale based on how many purchases you would have had otherwise.") }}
   </span>
 </template>
 

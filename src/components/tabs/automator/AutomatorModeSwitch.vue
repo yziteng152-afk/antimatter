@@ -27,8 +27,8 @@ export default {
       return this.automatorType === AUTOMATOR_TYPE.TEXT;
     },
     automatorModeTooltip() {
-      if (this.automatorType === AUTOMATOR_TYPE.BLOCK) return "Switch to the text editor";
-      return "Switch to the block editor";
+      if (this.automatorType === AUTOMATOR_TYPE.BLOCK) return this.t("automator.modeSwitch.toText", "Switch to the text editor");
+      return this.t("automator.modeSwitch.toBlock", "Switch to the block editor");
     },
     tutorialClass() {
       return {
@@ -59,7 +59,8 @@ export default {
       }
       if (BlockAutomator.hasUnparsableCommands(this.currentScript) &&
         player.reality.automator.type === AUTOMATOR_TYPE.BLOCK) {
-        Modal.message.show(`Some script commands were unrecognizable - defaulting to text editor.`);
+        Modal.message.show(this.t("automator.common.scriptFallback",
+          "Some script commands were unrecognizable - defaulting to text editor."));
         AutomatorBackend.changeModes(this.currentScriptID);
       }
       this.$nextTick(() => BlockAutomator.updateEditor(this.currentScript));

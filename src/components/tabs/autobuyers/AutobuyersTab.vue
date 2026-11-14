@@ -39,7 +39,7 @@ export default {
       return PlayerProgress.seenAlteredSpeed();
     },
     gameTickLength() {
-      return `${formatInt(player.options.updateRate)} ms`;
+      return this.t("auto.gameTickLength", "{0} ms", formatInt(player.options.updateRate));
     }
   },
   methods: {
@@ -69,20 +69,24 @@ export default {
     <AutobuyerToggles />
     <OpenModalHotkeysButton />
     <div v-if="hasSeenGamespeedAlteringEffects">
-      Autobuyer intervals and time-based settings are always <b>real time</b> and therefore
+      {{ t("auto.realTimePrefix", "Autobuyer intervals and time-based settings are always") }}
+      <b>{{ t("auto.realTime", "real time") }}</b>
+      {{ t("auto.realTimeTherefore", "and therefore") }}
       <br>
-      unaffected by anything which may alter how fast the game itself is running.
+      {{ t("auto.realTimeSuffix", "unaffected by anything which may alter how fast the game itself is running.") }}
       <br>
       <br>
     </div>
     <div v-if="!hasInfinity">
-      Challenges for upgrading autobuyers are unlocked by reaching Infinity.
+      {{ t("auto.unlockChallenges", "Challenges for upgrading autobuyers are unlocked by reaching Infinity.") }}
     </div>
-    <b>Autobuyers with no displayed bulk have unlimited bulk by default.</b>
+    <b>{{ t("auto.unlimitedBulkNote", "Autobuyers with no displayed bulk have unlimited bulk by default.") }}</b>
     <b>
-      Antimatter Dimension Autobuyers can have their bulk upgraded once interval is below {{ formatInt(100) }} ms.
+      <!-- eslint-disable-next-line max-len -->
+      {{ t("auto.bulkUpgradeNote", "Antimatter Dimension Autobuyers can have their bulk upgraded once interval is below {0} ms.", formatInt(100)) }}
     </b>
-    <b v-if="hasInstant">Autobuyers with "Instant" interval will trigger every game tick ({{ gameTickLength }}).</b>
+    <!-- eslint-disable-next-line max-len -->
+    <b v-if="hasInstant">{{ t("auto.instantIntervalNote", "Autobuyers with \"Instant\" interval will trigger every game tick ({0}).", gameTickLength) }}</b>
     <RealityAutobuyerBox class="c-reality-pos" />
     <EternityAutobuyerBox class="c-eternity-pos" />
     <BigCrunchAutobuyerBox class="c-infinity-pos" />

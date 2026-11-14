@@ -147,6 +147,8 @@ export default {
         X
       </div>
     </div>
+    <!-- vuedraggable mutates the nested block array in place, which is intentional here -->
+    <!-- eslint-disable vue/no-mutating-props -->
     <draggable
       v-if="block.nested"
       v-model="block.nest"
@@ -161,6 +163,7 @@ export default {
         :delete-block="deleteBlockFromNest"
       />
     </draggable>
+    <!-- eslint-enable vue/no-mutating-props -->
   </div>
 </template>
 

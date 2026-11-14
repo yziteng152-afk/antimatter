@@ -48,20 +48,20 @@ export default {
   >
     <AutobuyerSingleToggleLabel :autobuyer="autobuyer" />
     <div>
-      {{ name }}
+      {{ t(`auto.name.${name}`, name) }}
       <AutobuyerIntervalLabel :autobuyer="autobuyer" />
 
       <b
         v-if="isHiddenSacrifice"
         class="c-autobuyer-box__small-text"
       >
-        Automatic (Achievement 118)
+        {{ t("auto.automaticAchievement118", "Automatic (Achievement 118)") }}
       </b>
       <span
         v-else-if="autobuyer.hasInput"
         class="c-autobuyer-box__small-text"
       >
-        Multiplier:
+        {{ t("auto.multiplier", "Multiplier:") }}
         <AutobuyerInput
           class="c-small-autobuyer-input"
           :autobuyer="autobuyer"

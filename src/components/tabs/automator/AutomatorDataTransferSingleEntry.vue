@@ -24,6 +24,18 @@ export default {
     hasConstants() {
       return (this.constants?.length ?? 0) !== 0;
     },
+    presetCountText() {
+      return this.presets.length === 1
+        ? this.t("automator.dataTransfer.presetRefOne", "References 1 recognized study preset")
+        : this.t("automator.dataTransfer.presetRefMany",
+          "References {0} recognized study presets", formatInt(this.presets.length));
+    },
+    constantCountText() {
+      return this.constants.length === 1
+        ? this.t("automator.dataTransfer.constantRefOne", "References 1 defined constant")
+        : this.t("automator.dataTransfer.constantRefMany",
+          "References {0} defined constants", formatInt(this.constants.length));
+    },
   },
   methods: {
     update() {
@@ -37,9 +49,11 @@ export default {
       const toExport = AutomatorBackend.exportFullScriptData(id);
       if (toExport) {
         copyToClipboard(toExport);
-        GameUI.notify.automator(`Exported all data associated with "${this.script.name}" to your clipboard`, 6000);
+        GameUI.notify.automator(this.t("automator.dataTransfer.exportNotify",
+          "Exported all data associated with \"{0}\" to your clipboard", this.script.name), 6000);
       } else {
-        GameUI.notify.error("Could not export data from blank Automator script!");
+        GameUI.notify.error(this.t("automator.dataTransfer.exportBlank",
+          "Could not export data from blank Automator script!"));
       }
     }
   }
@@ -49,35 +63,35 @@ export default {
 <template>
   <div class="l-entry-padding">
     <button
-      v-tooltip="'Export Full Script Data'"
+      v-tooltip="t('automator.dataTransfer.exportTooltip', 'Export Full Script Data')"
       class="l-button-margin fas fa-file-export"
       @click="exportData(script.id)"
     />
-    <b>Script name: {{ script.name }}</b>
+    <b>{{ t("automator.dataTransfer.scriptName", "Script name: {0}", script.name) }}</b>
     <br>
     <span v-if="hasPresets">
       <span
         :class="iconClass(hidePresets)"
         @click="hidePresets = !hidePresets"
       />
-      References {{ quantifyInt("recognized study preset", presets.length) }}
+      {{ presetCountText }}
       <span v-if="!hidePresets">
         <div
           v-for="id in presets"
           :key="id"
         >
-          <span v-if="presetData[id].name">"{{ presetData[id].name }}" (slot {{ id + 1 }}):</span>
-          <span v-else>Preset slot {{ id + 1 }}:</span>
+          <span v-if="presetData[id].name">{{ t("automator.dataTransfer.presetSlotNamed", "\"{0}\" (slot {1}):", presetData[id].name, id + 1) }}</span>
+          <span v-else>{{ t("automator.dataTransfer.presetSlot", "Preset slot {0}:", id + 1) }}</span>
           <br>
           <div class="l-value-padding">
             <span v-if="presetData[id].studies">{{ presetData[id].studies }}</span>
-            <i v-else>Empty Study Preset</i>
+            <i v-else>{{ t("automator.dataTransfer.emptyPreset", "Empty Study Preset") }}</i>
           </div>
         </div>
       </span>
     </span>
     <span v-else>
-      Does not reference any study presets.
+      {{ t("automator.dataTransfer.noPresets", "Does not reference any study presets.") }}
     </span>
     <br>
     <span v-if="hasConstants">
@@ -85,7 +99,7 @@ export default {
         :class="iconClass(hideConstants)"
         @click="hideConstants = !hideConstants"
       />
-      References {{ quantifyInt("defined constant", constants.length) }}
+      {{ constantCountText }}
       <span v-if="!hideConstants">
         <div
           v-for="name in constants"
@@ -100,7 +114,7 @@ export default {
       </span>
     </span>
     <span v-else>
-      Does not reference any defined constants.
+      {{ t("automator.dataTransfer.noConstants", "Does not reference any defined constants.") }}
     </span>
   </div>
 </template>

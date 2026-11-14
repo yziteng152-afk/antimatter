@@ -95,11 +95,13 @@ export default {
       switch (this.currMode) {
         case AUTO_ETERNITY_MODE.TIME:
           return this.nextTime > 0
-            ? `Will trigger in ${TimeSpan.fromSeconds(this.nextTime).toStringShort()}`
-            : "Will trigger ASAP";
+            ? this.t("auto.willTriggerIn", "Will trigger in {0}",
+              TimeSpan.fromSeconds(this.nextTime).toStringShort())
+            : this.t("auto.willTriggerAsap", "Will trigger ASAP");
         case AUTO_ETERNITY_MODE.X_HIGHEST:
         default:
-          return `Will trigger at ${format(this.nextValue, 2)} ${this.autobuyer.name === "Infinity" ? "IP" : "EP"}`;
+          return this.t("auto.willTriggerAt", "Will trigger at {0} {1}",
+            format(this.nextValue, 2), this.autobuyer.name === "Infinity" ? "IP" : "EP");
       }
     }
   },
@@ -145,7 +147,7 @@ export default {
     :class="autobuyerBoxRowClass"
   >
     <div class="l-autobuyer-box__header">
-      {{ name }}
+      {{ t(`auto.box.${name}`, name) }}
       <AutobuyerIntervalLabel
         v-if="showInterval"
         :autobuyer="autobuyer"
@@ -186,9 +188,15 @@ export default {
     :class="autobuyerBuyBoxClass"
     @click="purchase"
   >
-    {{ name }}
+    {{ t(`auto.box.${name}`, name) }}
     <br>
-    Requirement: {{ format(antimatterCost) }} Total Antimatter {{ showEternity }}
+    <template v-if="showEternity">
+      <!-- eslint-disable-next-line max-len -->
+      {{ t("auto.requirementEternity", "Requirement: {0} Total Antimatter this Eternity", format(antimatterCost)) }}
+    </template>
+    <template v-else>
+      {{ t("auto.requirement", "Requirement: {0} Total Antimatter", format(antimatterCost)) }}
+    </template>
   </div>
 </template>
 

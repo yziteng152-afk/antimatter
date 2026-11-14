@@ -31,17 +31,16 @@ export default {
 <template>
   <div>
     <div class="l-header">
-      You have {{ formatInt(totalPoints) }} / {{ formatInt(pointsForAutomator) }}
-      Automator Points towards unlocking the Automator.
+      {{ t("automator.points.header", "You have {0} / {1} Automator Points towards unlocking the Automator.", formatInt(totalPoints), formatInt(pointsForAutomator)) }}
       <br>
-      You gain Automator Points from the following sources:
+      {{ t("automator.points.sources", "You gain Automator Points from the following sources:") }}
     </div>
     <div class="l-automator-points-list-container">
       <div class="l-automator-points-list-side-col c-automator-points-list-col">
         <span class="c-automator-points-list-symbol fas fa-project-diagram" />
         <span class="c-automator-points-list-ap--large">{{ formatInt(fromPerks) }} AP</span>
         <span class="l-large-text">
-          Perks
+          {{ t("automator.points.perks", "Perks") }}
         </span>
         <div
           v-for="perk in perkSources"
@@ -79,7 +78,7 @@ export default {
         <span class="c-automator-points-list-symbol fas fa-arrow-up" />
         <span class="c-automator-points-list-ap--large">{{ formatInt(fromUpgrades) }} AP</span>
         <span class="l-large-text">
-          Reality Upgrades
+          {{ t("automator.points.realityUpgrades", "Reality Upgrades") }}
         </span>
         <div
           v-for="upgrade in upgradeSources"
@@ -96,14 +95,11 @@ export default {
     </div>
     <br>
     <div>
-      The Automator allows (amongst other things) buying full Time Study Trees, entering Eternity Challenges,
-      or starting Dilation.
+      {{ t("automator.points.description1", "The Automator allows (amongst other things) buying full Time Study Trees, entering Eternity Challenges, or starting Dilation.") }}
       <br>
-      It can also force prestige events on certain conditions independently from your Autobuyers or modify
-      some of your Autobuyer settings.
+      {{ t("automator.points.description2", "It can also force prestige events on certain conditions independently from your Autobuyers or modify some of your Autobuyer settings.") }}
       <br>
-      The speed of the Automator gradually increases as you get more Realities. If unlocked right now,
-      it would run {{ format(1000 / automatorInterval, 2, 2) }} commands per real-time second.
+      {{ t("automator.points.description3", "The speed of the Automator gradually increases as you get more Realities. If unlocked right now, it would run {0} commands per real-time second.", format(1000 / automatorInterval, 2, 2)) }}
     </div>
   </div>
 </template>

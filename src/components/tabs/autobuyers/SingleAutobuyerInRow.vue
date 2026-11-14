@@ -51,7 +51,7 @@ export default {
       :autobuyer="autobuyer"
       :parent-disabled="parentDisabled"
     />
-    {{ name }}
+    {{ t(`auto.name.${name}`, name) }}
     <AutobuyerIntervalLabel
       v-if="showIndividual"
       :autobuyer="autobuyer"

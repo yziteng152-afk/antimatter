@@ -34,12 +34,15 @@ export default {
       return this.fullScreen ? "fa-compress-arrows-alt" : "fa-expand-arrows-alt";
     },
     intervalText() {
-      const speedupText = `Each Reality makes it run ${formatPercents(0.006, 1)} faster, up to a maximum of
-        ${formatInt(1000)} per second.`;
+      const speedupText = this.t("automator.tab.speedup",
+        "Each Reality makes it run {0} faster, up to a maximum of {1} per second.",
+        formatPercents(0.006, 1), formatInt(1000));
       return this.interval === 1
-        ? `The Automator is running at max speed (${formatInt(1000)} commands per real-time second).`
-        : `The Automator is running ${quantify("command", 1000 / this.interval, 2, 2)} per real-time second.
-          ${speedupText}`;
+        ? this.t("automator.tab.maxSpeed",
+          "The Automator is running at max speed ({0} commands per real-time second).", formatInt(1000))
+        : this.t("automator.tab.currentSpeed",
+          "The Automator is running {0} commands per real-time second. {1}",
+          format(1000 / this.interval, 2, 2), speedupText);
     },
     maxScriptChars() {
       return AutomatorData.MAX_ALLOWED_SCRIPT_CHARACTERS;
@@ -70,18 +73,18 @@ export default {
         {{ intervalText }}
       </div>
       <span :class="{ 'c-overlimit': currentChars > maxScriptChars }">
-        This script: {{ formatInt(currentChars) }} / {{ formatInt(maxScriptChars) }}
+        {{ t("automator.tab.scriptChars", "This script: {0} / {1}", formatInt(currentChars), formatInt(maxScriptChars)) }}
       </span>
       |
       <span :class="{ 'c-overlimit': totalChars > maxTotalChars }">
-        Across all scripts: {{ formatInt(totalChars) }} / {{ formatInt(maxTotalChars) }}
+        {{ t("automator.tab.totalChars", "Across all scripts: {0} / {1}", formatInt(totalChars), formatInt(maxTotalChars)) }}
       </span>
       <br>
       <span
         v-if="!withinLimit"
         class="c-overlimit"
       >
-        (Your changes will not be saved due to being over a character limit!)
+        {{ t("automator.tab.overLimit", "(Your changes will not be saved due to being over a character limit!)") }}
       </span>
       <div class="c-automator-split-pane">
         <SplitPane

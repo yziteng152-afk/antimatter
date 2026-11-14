@@ -71,10 +71,10 @@ export default {
     },
     dropdownLabel(script) {
       const labels = [];
-      if (script.id === this.currentScriptID) labels.push("viewing");
+      if (script.id === this.currentScriptID) labels.push(this.t("automator.scriptList.viewing", "viewing"));
       if (script.id === this.runningScriptID) {
-        if (this.isRunning) labels.push("running");
-        else if (this.isPaused) labels.push("paused");
+        if (this.isRunning) labels.push(this.t("automator.scriptList.running", "running"));
+        else if (this.isPaused) labels.push(this.t("automator.scriptList.paused", "paused"));
       }
       const status = labels.length ? `(${labels.join(", ").capitalize()})` : "";
       return `${script.name} ${status}`;
@@ -107,13 +107,13 @@ export default {
       class="l-create-script c-automator-docs-script-select c-script-option-hover-effect"
       @click="createNewScript()"
     >
-      <i>Create a new script (You have {{ formatInt(scriptCount) }} / {{ formatInt(maxScriptCount) }})</i>
+      <i>{{ t("automator.scriptList.create", "Create a new script (You have {0} / {1})", formatInt(scriptCount), formatInt(maxScriptCount)) }}</i>
     </div>
     <div
       v-else
       class="l-create-script c-automator-docs-script-select l-max-scripts"
     >
-      <i>You can only have {{ formatInt(maxScriptCount) }} scripts!</i>
+      <i>{{ t("automator.scriptList.max", "You can only have {0} scripts!", formatInt(maxScriptCount)) }}</i>
     </div>
   </div>
 </template>

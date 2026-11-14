@@ -1,6 +1,8 @@
 /* eslint-disable max-len */
 // Chinese (Simplified) dictionary.
 
+import { zhAutobuyers } from "./i18n-zh-autobuyers";
+import { zhAutomator } from "./i18n-zh-automator";
 import { zhModals } from "./i18n-zh-modals";
 import { zhModals2 } from "./i18n-zh-modals2";
 import { zhStats } from "./i18n-zh-stats";
@@ -706,6 +708,6 @@ for (const [name, entry] of Object.entries(h2pEntries)) {
   h2pFlat[`h2p.${name}.body`] = entry.body;
 }
 
-export const zh = { ...base, ...zhStats, ...zhModals, ...zhModals2, ...h2pFlat };
+export const zh = { ...base, ...zhStats, ...zhModals, ...zhModals2, ...zhAutobuyers, ...zhAutomator, ...h2pFlat };
 
 export const h2pZh = h2pEntries;

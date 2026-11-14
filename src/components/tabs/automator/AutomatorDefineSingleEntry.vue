@@ -48,18 +48,25 @@ export default {
       const shadowsPrototype = ["constructor", "hasOwnProperty", "isPrototypeOf", "propertyIsEnumerable",
         "toLocaleString", "toString", "toValueOf"].some(p => this.aliasString.match(p));
 
-      if (!isValidName) return "Constant name must be alphanumeric without spaces and cannot start with a number";
-      if (alreadyExists) return "You have already defined a constant with this name";
-      if (hasCommandConflict) return "Constant name conflicts with a command key word";
-      if (shadowsPrototype) return "Constant name cannot shadow a built-in Javascript prototype prop";
+      if (!isValidName) {
+        return this.t("automator.define.errorNameFormat", "Constant name must be alphanumeric without spaces and cannot start with a number");
+      }
+      if (alreadyExists) return this.t("automator.define.errorNameExists", "You have already defined a constant with this name");
+      if (hasCommandConflict) return this.t("automator.define.errorNameCommand", "Constant name conflicts with a command key word");
+      if (shadowsPrototype) {
+        return this.t("automator.define.errorNamePrototype",
+          "Constant name cannot shadow a built-in Javascript prototype prop");
+      }
 
-      if (!this.valueString) return "Constant value cannot be empty";
+      if (!this.valueString) return this.t("automator.define.errorValueEmpty", "Constant value cannot be empty");
 
       const isNumber = this.valueString.match(/^-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d+)?$/u);
       // Note: Does not do validation for studies existing
       const isStudyString = TimeStudyTree.isValidImportString(this.valueString);
 
-      if (!isNumber && !isStudyString) return "Constant value must either be a number or Time Study string";
+      if (!isNumber && !isStudyString) {
+        return this.t("automator.define.errorValueFormat", "Constant value must either be a number or Time Study string");
+      }
       return null;
     },
     errorTooltip() {
@@ -105,7 +112,7 @@ export default {
       v-model="aliasString"
       class="c-define-textbox c-alias"
       :class="{ 'l-limit-textbox' : aliasString.length === maxNameLength }"
-      placeholder="New constant..."
+      :placeholder="t('automator.define.newConstant', 'New constant...')"
       :maxlength="maxNameLength"
       @focusin="handleFocus(true)"
       @focusout="handleFocus(false)"
@@ -122,14 +129,14 @@ export default {
       v-model="valueString"
       class="c-define-textbox c-value"
       :class="{ 'l-limit-textbox' : valueString && valueString.length === maxValueLength }"
-      placeholder="Value for constant..."
+      :placeholder="t('automator.define.constantValue', 'Value for constant...')"
       :maxlength="maxValueLength"
       @focusin="handleFocus(true)"
       @focusout="handleFocus(false)"
     >
     <button
       v-if="aliasString"
-      v-tooltip="'Delete this constant'"
+      v-tooltip="t('automator.define.deleteConstant', 'Delete this constant')"
       class="c-delete-button fas fa-eraser"
       @click="deleteConstant"
     />

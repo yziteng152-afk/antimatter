@@ -10,15 +10,23 @@ export default {
   },
   computed: {
     templates: () => GameDatabase.reality.automator.templates.scripts,
+    currentEditorType() {
+      return this.isBlock
+        ? this.t("automator.templates.modeBlock", "Block")
+        : this.t("automator.templates.modeText", "Text");
+    },
     pasteText() {
       return this.isBlock
-        ? `create a special block you can drag into your Automator where you would like it to be placed. It will then
-          automatically fill in all of the individual blocks needed for the template`
-        : `copy the template as text onto your clipboard. You can directly paste the template text into your Automator
-          wherever you would like it`;
+        ? this.t("automator.templates.pasteBlock",
+          "create a special block you can drag into your Automator where you would like it to be placed. It will then automatically fill in all of the individual blocks needed for the template.")
+        : this.t("automator.templates.pasteText",
+          "copy the template as text onto your clipboard. You can directly paste the template text into your Automator wherever you would like it.");
     }
   },
   methods: {
+    templateName(template) {
+      return this.t(`automator.templateName.${template.name}`, template.name);
+    },
     update() {
       this.isBlock = player.reality.automator.type === AUTOMATOR_TYPE.BLOCK;
       this.blockTemplates = AutomatorData.blockTemplates;
@@ -56,19 +64,16 @@ export default {
 
 <template>
   <div>
-    These templates will let you do some more common things within the Automator. They may be slightly slower than
-    manually-written scripts, but don't require you to have any previous programming experience to use. Clicking any
-    of these buttons will open up a prompt with some input fields, which will generate a template you can place into
-    your Automator.
+    {{ t("automator.templates.intro", "These templates will let you do some more common things within the Automator. They may be slightly slower than manually-written scripts, but don't require you to have any previous programming experience to use. Clicking any of these buttons will open up a prompt with some input fields, which will generate a template you can place into your Automator.") }}
     <button
       v-for="template in templates"
       :key="template.name"
       class="o-primary-btn c-automator-docs-template--button l-automator__button"
       @click="showModal(template)"
     >
-      Template: {{ template.name }}
+      {{ t("automator.templates.button", "Template: {0}", templateName(template)) }}
     </button>
-    Since you are currently in the {{ isBlock ? "Block" : "Text" }} editor, this panel will {{ pasteText }}.
+    {{ t("automator.templates.currentEditor1", "Since you are currently in the ") }}{{ currentEditorType }}{{ t("automator.templates.currentEditor2", " editor, this panel will ") }}{{ pasteText }}
     <br>
     <br>
     <draggable
@@ -86,7 +91,7 @@ export default {
         class="o-automator-command o-automator-block-list draggable-blocks"
         @dragstart="setIndex(i)"
       >
-        {{ template.name }}
+        {{ templateName(template) }}
       </div>
     </draggable>
   </div>

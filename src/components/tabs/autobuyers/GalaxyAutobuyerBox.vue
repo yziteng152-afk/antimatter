@@ -64,7 +64,7 @@ export default {
       #intervalSlot
     >
       <div class="c-autobuyer-box__small-text">
-        Activates every X seconds:
+        {{ t("auto.activatesEveryX", "Activates every X seconds:") }}
       </div>
       <AutobuyerInput
         :autobuyer="autobuyer"
@@ -81,7 +81,7 @@ export default {
           type="checkbox"
           class="o-clickable"
         >
-        Limit Antimatter Galaxies to:
+        {{ t("auto.limitGalaxies", "Limit Antimatter Galaxies to:") }}
       </label>
       <AutobuyerInput
         :autobuyer="autobuyer"

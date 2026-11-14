@@ -7,6 +7,7 @@
 // Lookup is done by tr() in i18n.js; the game only calls tr() on display text, never on
 // identifiers, so a hit or miss can only ever change what the player reads.
 import { zhAchievements } from "./i18n-zh-achievements";
+import { zhAutomatorDocs } from "./i18n-zh-automator-docs";
 import { zhCatchup } from "./i18n-zh-catchup";
 import { zhCatchup2 } from "./i18n-zh-catchup2";
 import { zhChallenges } from "./i18n-zh-challenges";
@@ -18,6 +19,7 @@ export const zhText = {
   ...zhChallenges,
   ...zhCatchup,
   ...zhCatchup2,
+  ...zhAutomatorDocs,
   ...zhUpgrades,
   ...zhLate,
 };

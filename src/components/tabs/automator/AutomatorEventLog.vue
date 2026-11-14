@@ -14,7 +14,7 @@ export default {
   },
   computed: {
     events() {
-      // eslint-disable-next-line no-nested-ternary
+      // eslint-disable-next-line no-nested-ternary, vue/no-side-effects-in-computed-properties
       const sorted = this.unsortedEvents.sort((a, b) => (a.timestamp === b.timestamp
         ? (a.thisReality === b.thisReality
           ? a.line - b.line
@@ -23,7 +23,7 @@ export default {
       return this.newestFirst ? sorted.reverse() : sorted;
     },
     clearTooltip() {
-      return `Clear all entries (Max. ${this.maxEntries})`;
+      return this.t("automator.eventLog.clearTooltip", "Clear all entries (Max. {0})", this.maxEntries);
     },
     buttonClassObject() {
       return "c-automator-docs--button fas";
@@ -86,14 +86,19 @@ export default {
         case AUTOMATOR_EVENT_TIMESTAMP_MODE.DISABLED:
           return "";
         case AUTOMATOR_EVENT_TIMESTAMP_MODE.THIS_REALITY:
-          return `, ${TimeSpan.fromSeconds(entry.thisReality).toStringShort()} (real-time) in Reality`;
+          return this.t("automator.eventLog.suffixThisReality", ", {0} (real-time) in Reality",
+            TimeSpan.fromSeconds(entry.thisReality).toStringShort());
         case AUTOMATOR_EVENT_TIMESTAMP_MODE.RELATIVE_NOW:
-          return `, ${TimeSpan.fromMilliseconds(this.currentTime - entry.timestamp).toStringShort()} ago`;
+          return this.t("automator.eventLog.suffixAgo", ", {0} ago",
+            TimeSpan.fromMilliseconds(this.currentTime - entry.timestamp).toStringShort());
         case AUTOMATOR_EVENT_TIMESTAMP_MODE.RELATIVE_PREV:
-          if (entry.timegap === entry.timestamp) return `, first logged event`;
-          return `, ${TimeSpan.fromMilliseconds(entry.timegap).toStringShort()} after previous event`;
+          if (entry.timegap === entry.timestamp) {
+            return this.t("automator.eventLog.suffixFirst", ", first logged event");
+          }
+          return this.t("automator.eventLog.suffixAfterPrevious", ", {0} after previous event",
+            TimeSpan.fromMilliseconds(entry.timegap).toStringShort());
         case AUTOMATOR_EVENT_TIMESTAMP_MODE.DATE_TIME:
-          return `, ${Time.toDateTimeString(entry.timestamp)}`;
+          return this.t("automator.eventLog.suffixDateTime", ", {0}", Time.toDateTimeString(entry.timestamp));
         default:
           throw Error("Unrecognized timestamp mode in Automator event log");
       }
@@ -117,24 +122,22 @@ const AUTOMATOR_EVENT_TIMESTAMP_MODE = {
 <template>
   <div class="c-automator-docs-page">
     <div>
-      This panel keeps a running event log of all the commands which the automator has recently executed, with a little
-      extra info on some of the commands. It may be useful to help you find problems if you find your automator is
-      getting stuck in certain spots.
+      {{ t("automator.eventLog.intro1", "This panel keeps a running event log of all the commands which the automator has recently executed, with a little extra info on some of the commands. It may be useful to help you find problems if you find your automator is getting stuck in certain spots.") }}
       <br>
       <br>
-      While your settings are kept within your savefile, the actual events are not and will disappear on refresh.
+      {{ t("automator.eventLog.intro2", "While your settings are kept within your savefile, the actual events are not and will disappear on refresh.") }}
       <br>
       <br>
-      <b>Entry Sorting:</b>
+      <b>{{ t("automator.eventLog.sortTitle", "Entry Sorting:") }}</b>
       <button
-        v-tooltip="'Oldest results first'"
+        v-tooltip="t('automator.eventLog.oldestFirst', 'Oldest results first')"
         :style="sortStyle(!newestFirst)"
         :class="buttonClassObject"
         class="fa-angle-down"
         @click="newestFirst = false"
       />
       <button
-        v-tooltip="'Newest results first'"
+        v-tooltip="t('automator.eventLog.newestFirst', 'Newest results first')"
         :style="sortStyle(newestFirst)"
         :class="buttonClassObject"
         class="fa-angle-up"
@@ -147,14 +150,14 @@ const AUTOMATOR_EVENT_TIMESTAMP_MODE = {
         @click="clearLog"
       />
       <button
-        v-tooltip="'Clear event log every Reality'"
+        v-tooltip="t('automator.eventLog.clearOnReality', 'Clear event log every Reality')"
         :style="clearRealityStyle()"
         :class="buttonClassObject"
         class="fa-eraser"
         @click="clearOnReality = !clearOnReality"
       />
       <button
-        v-tooltip="'Clear event log on script restart'"
+        v-tooltip="t('automator.eventLog.clearOnRestart', 'Clear event log on script restart')"
         :style="clearRestartStyle()"
         :class="buttonClassObject"
         class="fa-backspace"
@@ -162,37 +165,37 @@ const AUTOMATOR_EVENT_TIMESTAMP_MODE = {
       />
     </div>
     <div>
-      <b>Timestamp style:</b>
+      <b>{{ t("automator.eventLog.timestampTitle", "Timestamp style:") }}</b>
       <button
-        v-tooltip="'No timestamps'"
+        v-tooltip="t('automator.eventLog.tsDisabled', 'No timestamps')"
         :style="timestampStyle('DISABLED')"
         :class="buttonClassObject"
         class="fa-ban"
         @click="setTimestampMode('DISABLED')"
       />
       <button
-        v-tooltip="'Current time this Reality'"
+        v-tooltip="t('automator.eventLog.tsThisReality', 'Current time this Reality')"
         :style="timestampStyle('THIS_REALITY')"
         :class="buttonClassObject"
         class="fa-stopwatch"
         @click="setTimestampMode('THIS_REALITY')"
       />
       <button
-        v-tooltip="'Time elapsed since event'"
+        v-tooltip="t('automator.eventLog.tsRelativeNow', 'Time elapsed since event')"
         :style="timestampStyle('RELATIVE_NOW')"
         :class="buttonClassObject"
         class="fa-clock"
         @click="setTimestampMode('RELATIVE_NOW')"
       />
       <button
-        v-tooltip="'Time since last event'"
+        v-tooltip="t('automator.eventLog.tsRelativePrev', 'Time since last event')"
         :style="timestampStyle('RELATIVE_PREV')"
         :class="buttonClassObject"
         class="fa-arrow-left"
         @click="setTimestampMode('RELATIVE_PREV')"
       />
       <button
-        v-tooltip="'Date and time'"
+        v-tooltip="t('automator.eventLog.tsDateTime', 'Date and time')"
         :style="timestampStyle('DATE_TIME')"
         :class="buttonClassObject"
         class="fa-user-clock"
@@ -203,9 +206,9 @@ const AUTOMATOR_EVENT_TIMESTAMP_MODE = {
       v-for="(event, id) in events"
       :key="id"
     >
-      <b>Line {{ event.line }}{{ timestamp(event) }}:</b>
+      <b>{{ t("automator.eventLog.line", "Line {0}{1}:", event.line, timestamp(event)) }}</b>
       <button
-        v-tooltip="'Jump to line'"
+        v-tooltip="t('automator.common.jumpToLine', 'Jump to line')"
         :class="buttonClassObject"
         class="fa-arrow-circle-right"
         @click="scrollToLine(event.line)"

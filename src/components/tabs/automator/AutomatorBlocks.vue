@@ -197,20 +197,22 @@ export const automatorBlocksMap = automatorBlocks.mapToObject(b => b.cmd, b => b
     draggable=".draggable-blocks"
   >
     <p>
-      Drag and drop these blocks to the area on the left! The blocks have names matching the commands in the reference
-      page, but may change appearance after being placed to describe what they do in a more natural-sounding manner.
-      If a block changes in this way, the alternate text will be shown as a tooltip when going to drag it over.
+      {{ t("automator.blocks.intro", "Drag and drop these blocks to the area on the left! The blocks have names matching the commands in the reference page, but may change appearance after being placed to describe what they do in a more natural-sounding manner. If a block changes in this way, the alternate text will be shown as a tooltip when going to drag it over.") }}
     </p>
     <br>
     <p>
-      Inputs with a <span class="c-automator-input-optional">brown</span> color are optional, while inputs with a
-      <span class="c-automator-input-required">teal</span> color are required.
-      <span class="c-automator-block-row-error">Red</span> inputs are causing errors and must be changed before the
-      script can be run. For more details, check the Scripting Information pane.
+      {{ t("automator.blocks.optional1", "Inputs with a ") }}<span class="c-automator-input-optional">{{
+        t("automator.blocks.optional2", "brown")
+      }}</span>{{ t("automator.blocks.optional3", " color are optional, while inputs with a ") }}<span
+        class="c-automator-input-required"
+      >{{ t("automator.blocks.required1", "teal") }}</span>{{ t("automator.blocks.required2", " color are required. ") }}<span
+        class="c-automator-block-row-error"
+      >{{ t("automator.blocks.red", "Red") }}</span>{{ t("automator.blocks.error", " inputs are causing errors and must be changed before the script can be run. For more details, check the Scripting Information pane.") }}
     </p>
     <p>
-      Options in dropdown menus which start with a * will be replaced with a text box. This can be turned back into a
-      dropdown by clicking the <i class="fa-solid fa-circle-xmark" /> on the right side of the text box.
+      {{ t("automator.blocks.dropdown1", "Options in dropdown menus which start with a * will be replaced with a text box. This can be turned back into a dropdown by clicking the") }}
+      <i class="fa-solid fa-circle-xmark" />
+      {{ t("automator.blocks.dropdown2", "on the right side of the text box.") }}
     </p>
     <draggable
       class="block-container"
@@ -229,7 +231,7 @@ export const automatorBlocksMap = automatorBlocks.mapToObject(b => b.cmd, b => b
       </div>
     </draggable>
     <p>
-      Note: Blocks and their contents count towards the character limits as if the command was typed in text mode.
+      {{ t("automator.blocks.note", "Note: Blocks and their contents count towards the character limits as if the command was typed in text mode.") }}
     </p>
   </draggable>
 </template>

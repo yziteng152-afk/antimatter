@@ -9,6 +9,11 @@ export default {
   data() {
     return {
       selectedCommand: -1,
+      noteText: `Note: In the SYNTAX note on each command, <u>underlined</u> inputs are <i>required</i>
+        inputs which you must fill and inputs in [square brackets] are optional (if used, they should be input
+        <i>without</i> the brackets). Any other parts should be typed in as they appear. Unless otherwise stated,
+        all of the inputs are case-insensitive. Some commands may have more than one valid format, which will
+        appear on separate lines.`,
     };
   },
   computed: {
@@ -30,7 +35,7 @@ export default {
         class="c-automator-docs--button l-return-button fas fa-arrow-left"
         @click="selectedCommand = -1"
       />
-      Return to the Command List
+      {{ tr("Return to the Command List") }}
     </div>
     <AutomatorDocsManPage
       v-if="selectedCommand !== -1"
@@ -40,16 +45,16 @@ export default {
       v-else
       class="c-automator-docs-page"
     >
-      Click on an underlined command to see more details on syntax, usage, and functionality.
+      {{ tr("Click on an underlined command to see more details on syntax, usage, and functionality.") }}
       <br>
       <br>
-      <span>Command List:</span>
+      <span>{{ tr("Command List:") }}</span>
       <br>
       <div
         v-for="(category, i) in categoryNames"
         :key="i"
       >
-        {{ category }} ({{ commandsInCategory(i).length }} commands)
+        {{ tr(category) }} ({{ commandsInCategory(i).length }} {{ tr("commands") }})
         <div
           v-for="command in commandsInCategory(i)"
           :key="command.id"
@@ -62,12 +67,7 @@ export default {
         </div>
       </div>
       <br>
-      <span>
-        Note: In the SYNTAX note on each command, <u>underlined</u> inputs are <i>required</i> inputs which you must
-        fill and inputs in [square brackets] are optional (if used, they should be input <i>without</i> the brackets).
-        Any other parts should be typed in as they appear. Unless otherwise stated, all of the inputs are
-        case-insensitive. Some commands may have more than one valid format, which will appear on separate lines.
-      </span>
+      <span v-html="trNorm(noteText)" />
     </div>
   </div>
 </template>

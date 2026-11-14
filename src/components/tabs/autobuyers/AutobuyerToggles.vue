@@ -59,36 +59,38 @@ export default {
   <div class="c-subtab-option-container">
     <PrimaryToggleButton
       v-model="autobuyersOn"
-      on="Pause autobuyers"
-      off="Resume autobuyers"
+      :on="t('auto.pauseAutobuyers', 'Pause autobuyers')"
+      :off="t('auto.resumeAutobuyers', 'Resume autobuyers')"
       class="o-primary-btn--subtab-option"
     />
     <PrimaryButton
       class="o-primary-btn--subtab-option"
       @click="toggleAllAutobuyers()"
     >
-      {{ allAutobuyersDisabled ? "Enable" : "Disable" }} all autobuyers
+      <!-- eslint-disable-next-line max-len -->
+      {{ allAutobuyersDisabled ? t("auto.enableAll", "Enable all autobuyers") : t("auto.disableAll", "Disable all autobuyers") }}
     </PrimaryButton>
     <PrimaryButton
       class="o-primary-btn--subtab-option"
       @click="toggleAntimatterSingles()"
     >
-      Set AD autobuyers to buy {{ antimatterAutobuyersBuyMax ? "singles" : "max" }}
+      <!-- eslint-disable-next-line max-len -->
+      {{ antimatterAutobuyersBuyMax ? t("auto.setADSingles", "Set AD autobuyers to buy singles") : t("auto.setADMax", "Set AD autobuyers to buy max") }}
     </PrimaryButton>
     <span v-if="isDoomed">
       <PrimaryButton
         v-if="showContinuum"
         class="o-primary-btn--subtab-option"
       >
-        Continuum is disabled
+        {{ t("auto.continuumDisabled", "Continuum is disabled") }}
       </PrimaryButton>
     </span>
     <span v-else>
       <PrimaryToggleButton
         v-if="showContinuum"
         v-model="disableContinuum"
-        on="Enable Continuum"
-        off="Disable Continuum"
+        :on="t('auto.enableContinuum', 'Enable Continuum')"
+        :off="t('auto.disableContinuum', 'Disable Continuum')"
         class="o-primary-btn--subtab-option"
       />
     </span>

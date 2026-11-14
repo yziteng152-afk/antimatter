@@ -54,27 +54,23 @@ export default {
 
 <template>
   <div class="l-panel-padding">
-    This panel allows you to define case-sensitive constant values which can be used in place of numbers or Time Study
-    import strings. These definitions are shared across all of your scripts and are limited to a maximum of
-    {{ maxConstantCount }} defined constants. Additionally, constant names and values are limited to lengths of
-    {{ maxNameLength }} and {{ maxValueLength }} characters respectively. Changes made to constants will not apply
-    until any currently running scripts are restarted.
+    {{ t("automator.define.intro", "This panel allows you to define case-sensitive constant values which can be used in place of numbers or Time Study import strings. These definitions are shared across all of your scripts and are limited to a maximum of {0} defined constants. Additionally, constant names and values are limited to lengths of {1} and {2} characters respectively. Changes made to constants will not apply until any currently running scripts are restarted.", maxConstantCount, maxNameLength, maxValueLength) }}
     <br>
     <br>
-    As a usage example, defining
+    {{ t("automator.define.example1", "As a usage example, defining") }}
     <b>first 🠈 11,21,22,31,32,33</b>
-    allows you to use
+    {{ t("automator.define.example2", "allows you to use") }}
     <b>studies purchase first</b>
-    in order to purchase all of the studies in the first three rows.
+    {{ t("automator.define.example3", "in order to purchase all of the studies in the first three rows.") }}
     <br>
     <br>
     <PrimaryButton
-      v-tooltip="hasConstants ? null : 'You have no valid constants to delete!'"
+      v-tooltip="hasConstants ? null : t('automator.define.noConstantsTooltip', 'You have no valid constants to delete!')"
       class="c-delete-margin o-primary-btn--subtab-option"
       :class="{ 'o-primary-btn--disabled' : !hasConstants }"
       @click="deleteAllConstants"
     >
-      Delete all constants
+      {{ t("automator.define.deleteAll", "Delete all constants") }}
     </PrimaryButton>
     <br>
     <br>
@@ -82,7 +78,7 @@ export default {
       class="c-delete-margin o-primary-btn--subtab-option"
       @click="importPresets"
     >
-      Import Time Study Presets
+      {{ t("automator.define.importPresets", "Import Time Study Presets") }}
     </PrimaryButton>
     <div
       :key="count + refreshConstants"

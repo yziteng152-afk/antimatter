@@ -18,40 +18,40 @@ export default {
 
 <template>
   <div class="c-automator-docs-page">
-    <b>NAME</b>
+    <b>{{ tr("NAME") }}</b>
     <div
       class="c-automator-docs-page__indented"
       v-html="command.keyword"
     />
-    <b>SYNTAX</b>
+    <b>{{ tr("SYNTAX") }}</b>
     <div
       class="c-automator-docs-page__indented"
       v-html="command.syntax"
     />
     <template v-if="command.description">
-      <b>DESCRIPTION</b>
+      <b>{{ tr("DESCRIPTION") }}</b>
       <div
         class="c-automator-docs-page__indented"
-        v-html="description"
+        v-html="trNorm(description)"
       />
     </template>
     <template v-for="section in command.sections">
-      <b :key="section.name">{{ section.name }}</b>
+      <b :key="section.name">{{ trNorm(section.name) }}</b>
       <template v-for="item in section.items">
         <div
           :key="item.header"
           class="c-automator-docs-page__indented"
         >
-          <div v-html="item.header" />
+          <div v-html="trNorm(item.header)" />
           <div
             class="c-automator-docs-page__indented"
-            v-html="item.description"
+            v-html="trNorm(item.description)"
           />
         </div>
       </template>
     </template>
     <template v-if="command.examples">
-      <b>USAGE EXAMPLES</b>
+      <b>{{ tr("USAGE EXAMPLES") }}</b>
       <div
         v-for="example in command.examples"
         :key="example"

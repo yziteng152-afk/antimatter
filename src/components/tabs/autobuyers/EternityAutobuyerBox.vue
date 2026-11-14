@@ -51,21 +51,21 @@ export default {
     modeProps(mode) {
       switch (mode) {
         case AUTO_ETERNITY_MODE.AMOUNT: return {
-          title: "Eternity at X EP",
+          title: this.t("auto.eternityAmount", "Eternity at X EP"),
           input: {
             property: "amount",
             type: "decimal"
           },
         };
         case AUTO_ETERNITY_MODE.TIME: return {
-          title: "Seconds between Eternities",
+          title: this.t("auto.eternityTime", "Seconds between Eternities"),
           input: {
             property: "time",
             type: "float"
           },
         };
         case AUTO_ETERNITY_MODE.X_HIGHEST: return {
-          title: "X times highest EP",
+          title: this.t("auto.eternityXHighest", "X times highest EP"),
           input: {
             property: "xHighest",
             type: "decimal"
@@ -94,7 +94,7 @@ export default {
       >
         <template #header>
           <div class="o-primary-btn c-autobuyer-box__mode-select c-autobuyer-box__mode-select-header">
-            ▼ Current Setting: ▼
+            {{ t("auto.currentSetting", "▼ Current Setting: ▼") }}
             <br>
             {{ modeName(mode) }}
           </div>
@@ -128,7 +128,7 @@ export default {
           type="checkbox"
           class="o-clickable"
         >
-        Dynamic amount
+        {{ t("auto.dynamicAmount", "Dynamic amount") }}
       </label>
     </template>
   </AutobuyerBox>

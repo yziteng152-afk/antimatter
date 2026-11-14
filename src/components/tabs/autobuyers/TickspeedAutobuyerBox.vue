@@ -18,8 +18,8 @@ export default {
     autobuyer: () => Autobuyer.tickspeed,
     modeDisplay() {
       switch (this.mode) {
-        case AUTOBUYER_MODE.BUY_SINGLE: return "Buys singles";
-        case AUTOBUYER_MODE.BUY_MAX: return "Buys max";
+        case AUTOBUYER_MODE.BUY_SINGLE: return this.t("auto.buysSingles", "Buys singles");
+        case AUTOBUYER_MODE.BUY_MAX: return this.t("auto.buysMax", "Buys max");
       }
       throw "Unknown tickspeed autobuyer mode";
     }
@@ -58,7 +58,7 @@ export default {
         v-else
         class="o-autobuyer-btn o-autobuyer-btn--unavailable"
       >
-        Complete the challenge to change mode
+        {{ t("auto.completeChallengeMode", "Complete the challenge to change mode") }}
       </button>
     </template>
   </AutobuyerBox>

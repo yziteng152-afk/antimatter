@@ -52,12 +52,12 @@ export default {
     },
     modeName(mode) {
       switch (mode) {
-        case AUTO_REALITY_MODE.RM: return "Reality Machines";
-        case AUTO_REALITY_MODE.GLYPH: return "Glyph level";
-        case AUTO_REALITY_MODE.EITHER: return "RM OR Level";
-        case AUTO_REALITY_MODE.BOTH: return "RM AND Level";
-        case AUTO_REALITY_MODE.TIME: return "Real-time seconds";
-        case AUTO_REALITY_MODE.RELIC_SHARD: return "Relic Shards";
+        case AUTO_REALITY_MODE.RM: return this.t("auto.realityModeRM", "Reality Machines");
+        case AUTO_REALITY_MODE.GLYPH: return this.t("auto.realityModeGlyph", "Glyph level");
+        case AUTO_REALITY_MODE.EITHER: return this.t("auto.realityModeEither", "RM OR Level");
+        case AUTO_REALITY_MODE.BOTH: return this.t("auto.realityModeBoth", "RM AND Level");
+        case AUTO_REALITY_MODE.TIME: return this.t("auto.realityModeTime", "Real-time seconds");
+        case AUTO_REALITY_MODE.RELIC_SHARD: return this.t("auto.realityModeShard", "Relic Shards");
       }
       throw new Error("Unknown Auto Reality mode");
     },
@@ -75,7 +75,7 @@ export default {
       <ExpandingControlBox :auto-close="true">
         <template #header>
           <div class="o-primary-btn c-autobuyer-box__mode-select c-autobuyer-box__mode-select-header">
-            ▼ Current Setting: ▼
+            {{ t("auto.currentSetting", "▼ Current Setting: ▼") }}
             <br>
             {{ modeName(mode) }}
           </div>
@@ -91,10 +91,10 @@ export default {
     </template>
     <template #toggleSlot>
       <div v-if="hasAlternateInputs">
-        Target Time (seconds):
+        {{ t("auto.targetTime", "Target Time (seconds):") }}
       </div>
       <div v-else>
-        Target Reality Machines:
+        {{ t("auto.targetRM", "Target Reality Machines:") }}
       </div>
       <AutobuyerInput
         :autobuyer="autobuyer"
@@ -104,10 +104,10 @@ export default {
     </template>
     <template #checkboxSlot>
       <div v-if="hasAlternateInputs && hasRelicMode">
-        Target Relic Shards:
+        {{ t("auto.targetShards", "Target Relic Shards:") }}
       </div>
       <div v-else>
-        Target Glyph level:
+        {{ t("auto.targetGlyph", "Target Glyph level:") }}
       </div>
       <AutobuyerInput
         :autobuyer="autobuyer"
@@ -115,7 +115,7 @@ export default {
         :property="(hasAlternateInputs && hasRelicMode) ? 'shard' : 'glyph'"
       />
       <div v-if="isOverCap">
-        Autobuyer will trigger at the Glyph level cap of {{ formatInt(levelCap) }}.
+        {{ t("auto.glyphLevelCap", "Autobuyer will trigger at the Glyph level cap of {0}.", formatInt(levelCap)) }}
       </div>
     </template>
   </AutobuyerBox>

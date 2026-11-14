@@ -57,21 +57,21 @@ export default {
     modeProps(mode) {
       switch (mode) {
         case AUTO_CRUNCH_MODE.AMOUNT: return {
-          title: "Big Crunch at X IP",
+          title: this.t("auto.crunchAmount", "Big Crunch at X IP"),
           input: {
             property: "amount",
             type: "decimal"
           },
         };
         case AUTO_CRUNCH_MODE.TIME: return {
-          title: "Seconds between Crunches",
+          title: this.t("auto.crunchTime", "Seconds between Crunches"),
           input: {
             property: "time",
             type: "float"
           },
         };
         case AUTO_CRUNCH_MODE.X_HIGHEST: return {
-          title: "X times highest IP",
+          title: this.t("auto.crunchXHighest", "X times highest IP"),
           input: {
             property: "xHighest",
             type: "decimal"
@@ -110,7 +110,7 @@ export default {
       >
         <template #header>
           <div class="o-primary-btn c-autobuyer-box__mode-select c-autobuyer-box__mode-select-header">
-            ▼ Current Setting: ▼
+            {{ t("auto.currentSetting", "▼ Current Setting: ▼") }}
             <br>
             {{ modeName(mode) }}
           </div>
@@ -149,7 +149,7 @@ export default {
           type="checkbox"
           class="o-clickable"
         >
-        Dynamic amount
+        {{ t("auto.dynamicAmount", "Dynamic amount") }}
       </label>
     </template>
   </AutobuyerBox>
