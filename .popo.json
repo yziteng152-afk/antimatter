@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "deployments": [
+    {
+      "slug": "antimatter-dimensions",
+      "title": "Antimatter Dimensions 反物质维度",
+      "base": "dist",
+      "entry": "index.html",
+      "glob": [
+        "**/*"
+      ],
+      "exclude": [
+        "*.map",
+        "*.cur",
+        "icon.icns",
+        "font_test.html"
+      ],
+      "lastDeployedAt": "2026-11-12T08:19:54.104855+00:00",
+      "workId": 68077,
+      "baseVersionNo": 9
+    }
+  ]
+}
